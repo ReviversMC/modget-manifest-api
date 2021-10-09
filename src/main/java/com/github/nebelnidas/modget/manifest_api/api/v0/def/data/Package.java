@@ -39,8 +39,8 @@ public interface Package {
 	public String getSide();
 	public void setSide(String side);
 
-	public List<ModVersion> getManifestModVersions();
-	public void setManifestModVersions(List<ModVersion> modVersions);
+	public List<ModVersion> getModVersions();
+	public void setModVersions(List<ModVersion> modVersions);
 
 	public ModVersion getLatestCompatibleModVersion();
 	public void setLatestCompatibleModVersion(ModVersion latestCompatibleModVersion);

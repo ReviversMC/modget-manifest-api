@@ -132,12 +132,12 @@ public class PackageImpl implements Package {
 	}
 
 	@Override
-	public List<ModVersion> getManifestModVersions() {
+	public List<ModVersion> getModVersions() {
 		return this.modVersions;
 	}
 
 	@Override
-	public void setManifestModVersions(List<ModVersion> modVersions) {
+	public void setModVersions(List<ModVersion> modVersions) {
 		this.modVersions = modVersions;
 	}
 

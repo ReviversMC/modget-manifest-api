@@ -172,15 +172,12 @@ public class ManifestImpl implements Manifest {
 	@Override
 	@JsonIgnore
 	public void setDownloads(List<ModVersion> downloads) {
-		ManifestApi.logInfo("Now adding ManifestModVersions");
 		this.downloads = downloads;
 	}
 
 	public void setDownloads(ArrayList<ModVersionImpl> downloads) {
 		this.downloads.clear();
-		ManifestApi.logInfo("Now adding ManifestModVersions");
 		for (int i = 0; i < downloads.size(); i++) {
-			ManifestApi.logInfo("Added ManifestModVersion");
 			this.downloads.add(downloads.get(i));
 		}
 	}

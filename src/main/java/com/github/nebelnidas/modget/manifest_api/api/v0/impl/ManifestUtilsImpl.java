@@ -84,7 +84,7 @@ public class ManifestUtilsImpl implements ManifestUtils {
 						p.setSupport(manifest.getSupport());
 						p.setModType(manifest.getModType());
 						p.setSide(manifest.getSide());
-						p.setManifestModVersions(manifest.getDownloads());
+						p.setModVersions(manifest.getDownloads());
 					packages.add(p);
 
 				} catch (Exception e) {
