@@ -42,7 +42,4 @@ public interface Package {
 	public List<ModVersion> getModVersions();
 	public void setModVersions(List<ModVersion> modVersions);
 
-	public ModVersion getLatestCompatibleModVersion();
-	public void setLatestCompatibleModVersion(ModVersion latestCompatibleModVersion);
-
 }

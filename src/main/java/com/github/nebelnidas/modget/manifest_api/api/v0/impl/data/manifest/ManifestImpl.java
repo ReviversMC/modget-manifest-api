@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.nebelnidas.modget.manifest_api.ManifestApi;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manifest;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ThirdPartyIds;

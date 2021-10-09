@@ -19,7 +19,6 @@ public class PackageImpl implements Package {
 	private String modType;
 	private String side;
 	private List<ModVersion> modVersions;
-	private ModVersion latestCompatibleModVersion;
 
 
 	public PackageImpl(LookupTableEntry parentLookupTableEntry) {
@@ -139,16 +138,6 @@ public class PackageImpl implements Package {
 	@Override
 	public void setModVersions(List<ModVersion> modVersions) {
 		this.modVersions = modVersions;
-	}
-
-	@Override
-	public ModVersion getLatestCompatibleModVersion() {
-		return this.latestCompatibleModVersion;
-	}
-
-	@Override
-	public void setLatestCompatibleModVersion(ModVersion latestCompatibleModVersion) {
-		this.latestCompatibleModVersion = latestCompatibleModVersion;
 	}
 
 }
