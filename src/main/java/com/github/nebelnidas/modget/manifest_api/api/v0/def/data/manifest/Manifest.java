@@ -2,7 +2,7 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest;
 
 import java.util.List;
 
-public interface Manifest{
+public interface Manifest {
 
 	public String getManifestSpecVersion();
 	public void setManifestSpecVersion(String manifestSpecVersion);
