@@ -58,7 +58,7 @@ public class ManifestUtilsImpl implements ManifestUtils {
 
 	@Override
 	public List<Package> getAvailablePackages(RecognizedMod mod) {
-		List<Package> packages = new ArrayList<Package>();
+		List<Package> packages = new ArrayList<>();
 
 		// For each repository
 		for (LookupTableEntry entry : mod.getLookupTableEntries()) {

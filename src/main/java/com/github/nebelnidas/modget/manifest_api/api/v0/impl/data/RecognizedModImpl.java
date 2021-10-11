@@ -10,8 +10,8 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.Loo
 public class RecognizedModImpl implements RecognizedMod {
 	private String id;
 	private String currentVersion;
-	private List<LookupTableEntry> lookupTableEntries = new ArrayList<LookupTableEntry>();
-	private List<Package> availablePackages = new ArrayList<Package>();
+	private List<LookupTableEntry> lookupTableEntries = new ArrayList<>();
+	private List<Package> availablePackages = new ArrayList<>();
 	private boolean updateAvailable = false;
 
 

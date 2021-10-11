@@ -1,6 +1,5 @@
 package com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -169,16 +168,8 @@ public class ManifestImpl implements Manifest {
 	}
 
 	@Override
-	@JsonIgnore
 	public void setDownloads(List<ModVersion> downloads) {
 		this.downloads = downloads;
-	}
-
-	public void setDownloads(ArrayList<ModVersionImpl> downloads) {
-		this.downloads.clear();
-		for (int i = 0; i < downloads.size(); i++) {
-			this.downloads.add(downloads.get(i));
-		}
 	}
 
 }
