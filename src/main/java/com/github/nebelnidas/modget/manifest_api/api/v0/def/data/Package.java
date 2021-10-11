@@ -2,9 +2,12 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.def.data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.PackageImpl;
 
+@JsonDeserialize(as = PackageImpl.class)
 public interface Package {
 
 	public LookupTableEntry getParentLookupTableEntry();

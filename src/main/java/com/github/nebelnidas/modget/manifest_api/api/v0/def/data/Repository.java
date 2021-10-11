@@ -1,7 +1,10 @@
 package com.github.nebelnidas.modget.manifest_api.api.v0.def.data;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTable;
+import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.RepositoryImpl;
 
+@JsonDeserialize(as = RepositoryImpl.class)
 public interface Repository {
 
 	public void refresh() throws Exception;

@@ -10,7 +10,7 @@ import com.github.nebelnidas.modget.manifest_api.ManifestApi;
 import com.github.nebelnidas.modget.manifest_api.api.v0.config.ApiV0Config;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.RepositoryUtils;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
-import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.lookuptable.LookupTableEntryImpl;
+import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 
 public class RepositoryUtilsImpl implements RepositoryUtils {
 
@@ -20,7 +20,7 @@ public class RepositoryUtilsImpl implements RepositoryUtils {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		try {
-			mapper.readValue(new URL(String.format("%s/v%s/%s", repo.getUri(), ApiV0Config.MAX_SUPPORTED_MANIFEST_SPEC + 1, "lookup-table.yaml")), LookupTableEntryImpl[].class);
+			mapper.readValue(new URL(String.format("%s/v%s/%s", repo.getUri(), ApiV0Config.MAX_SUPPORTED_MANIFEST_SPEC + 1, "lookup-table.yaml")), LookupTableEntry[].class);
 
 			ManifestApi.logInfo("A new repo version has been detected! Please update modget to use it.");
 			return true;

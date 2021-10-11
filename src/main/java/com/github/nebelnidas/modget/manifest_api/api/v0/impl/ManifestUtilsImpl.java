@@ -17,7 +17,6 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manifest;
 import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.PackageImpl;
-import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest.ManifestImpl;
 
 public class ManifestUtilsImpl implements ManifestUtils {
 
@@ -43,7 +42,7 @@ public class ManifestUtilsImpl implements ManifestUtils {
 		mapper.disable(MapperFeature.USE_GETTERS_AS_SETTERS);
 
 		try {
-			manifest = mapper.readValue(new URL(uri), ManifestImpl.class);
+			manifest = mapper.readValue(new URL(uri), Manifest.class);
 		} catch (Exception e) {
 			if (e instanceof IOException) {
 				ManifestApi.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getMessage());

@@ -2,6 +2,10 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest.ManifestImpl;
+
+@JsonDeserialize(as = ManifestImpl.class)
 public interface Manifest {
 
 	public String getManifestSpecVersion();

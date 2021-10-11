@@ -2,6 +2,10 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest.ModVersionImpl;
+
+@JsonDeserialize(as = ModVersionImpl.class)
 public interface ModVersion {
 
 	public String getVersion();

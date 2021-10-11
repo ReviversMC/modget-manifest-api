@@ -13,7 +13,6 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.config.ApiV0Config;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
-import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.lookuptable.LookupTableEntryImpl;
 import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.lookuptable.LookupTableImpl;
 
 public class RepositoryImpl implements Repository {
@@ -47,7 +46,7 @@ public class RepositoryImpl implements Repository {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		try {
-			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/%s", uriWithSpec, "/lookup-table.yaml")), LookupTableEntryImpl[].class));
+			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/%s", uriWithSpec, "/lookup-table.yaml")), LookupTableEntry[].class));
 
 			LookupTable newLookupTable = new LookupTableImpl(this, entries);
 			for (LookupTableEntry entry : entries) {
