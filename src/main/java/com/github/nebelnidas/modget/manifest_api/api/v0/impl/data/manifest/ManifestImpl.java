@@ -2,7 +2,6 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manifest;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ThirdPartyIds;
@@ -74,12 +73,7 @@ public class ManifestImpl implements Manifest {
 	}
 
 	@Override
-	@JsonIgnore
 	public void setThirdPartyIds(ThirdPartyIds thirdPartyIds) {
-		this.thirdPartyIds = thirdPartyIds;
-	}
-
-	public void setThirdPartyIds(ThirdPartyIdsImpl thirdPartyIds) {
 		this.thirdPartyIds = thirdPartyIds;
 	}
 
@@ -123,6 +117,7 @@ public class ManifestImpl implements Manifest {
 		this.source = source;
 	}
 
+	@Override
 	public String getIssues() {
 		return this.issues;
 	}
@@ -137,6 +132,7 @@ public class ManifestImpl implements Manifest {
 		return this.support;
 	}
 
+	@Override
 	public void setSupport(String support) {
 		this.support = support;
 	}
@@ -162,7 +158,6 @@ public class ManifestImpl implements Manifest {
 	}
 
 	@Override
-	@JsonIgnore
 	public List<ModVersion> getDownloads() {
 		return this.downloads;
 	}
