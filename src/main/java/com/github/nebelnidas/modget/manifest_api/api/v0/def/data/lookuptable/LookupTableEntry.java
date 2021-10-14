@@ -2,6 +2,10 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.lookuptable.LookupTableEntryImpl;
+
+@JsonDeserialize(as = LookupTableEntryImpl.class)
 public interface LookupTableEntry {
 
 	public LookupTable getParentLookupTable();
