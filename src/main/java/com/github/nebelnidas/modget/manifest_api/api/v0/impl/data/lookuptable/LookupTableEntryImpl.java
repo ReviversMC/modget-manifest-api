@@ -2,27 +2,24 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.lookuptable;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 
 public class LookupTableEntryImpl implements LookupTableEntry {
-	private LookupTable parentLookupTable;
+	private final LookupTable parentLookupTable;
 	private String id;
 	private List<String> names;
 	private List<String> packages;
 	private List<String> tags;
 
-	public LookupTableEntryImpl() {
+	public LookupTableEntryImpl(@JacksonInject LookupTable parentLookupTable) {
+		this.parentLookupTable = parentLookupTable;
 	}
 
 	@Override
 	public LookupTable getParentLookupTable() {
 		return this.parentLookupTable;
-	}
-
-	@Override
-	public void setParentLookupTable(LookupTable parentLookupTable) {
-		this.parentLookupTable = parentLookupTable;
 	}
 
 	@Override

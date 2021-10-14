@@ -9,5 +9,6 @@ public interface LookupTable {
 	public Repository getParentRepository();
 
 	public List<LookupTableEntry> getLookupTableEntries();
+	public void setLookupTableEntries(List<LookupTableEntry> lookupTableEntries);
 
 }

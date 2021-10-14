@@ -8,6 +8,10 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest.ModVe
 @JsonDeserialize(as = ModVersionImpl.class)
 public interface ModVersion {
 
+	public Manifest getParentManifest();
+	@Deprecated
+	public void setParentManifest(Manifest parentManifest);
+
 	public String getVersion();
 	public void setVersion(String version);
 

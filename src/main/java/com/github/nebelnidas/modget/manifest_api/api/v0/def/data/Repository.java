@@ -9,8 +9,6 @@ public interface Repository {
 
 	public void refresh() throws Exception;
 
-	public LookupTable downloadLookupTable() throws Exception;
-
 	public int getId();
 	public String getUri();
 	public String getUriWithSpec();

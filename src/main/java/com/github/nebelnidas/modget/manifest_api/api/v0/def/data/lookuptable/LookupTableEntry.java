@@ -5,7 +5,6 @@ import java.util.List;
 public interface LookupTableEntry {
 
 	public LookupTable getParentLookupTable();
-	public void setParentLookupTable(LookupTable parentLookupTable);
 
 	public String getId();
 	public void setId(String id);

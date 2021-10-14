@@ -5,17 +5,22 @@ import java.util.List;
 
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Package;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.RecognizedMod;
-import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
+import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
 
 public class RecognizedModImpl implements RecognizedMod {
-	private String id;
+	private final String id;
 	private String currentVersion;
-	private List<LookupTableEntry> lookupTableEntries = new ArrayList<>();
-	private List<Package> availablePackages = new ArrayList<>();
-	private boolean updateAvailable = false;
+	private List<Package> availablePackages = new ArrayList<>(2);
+	private List<ModVersion> updates = new ArrayList<>(2);
 
 
-	public RecognizedModImpl() {
+	public RecognizedModImpl(String id) {
+		this.id = id;
+	}
+
+	public RecognizedModImpl(String id, String currentVersion) {
+		this.id = id;
+		this.currentVersion = currentVersion;
 	}
 
 	@Override
@@ -24,28 +29,8 @@ public class RecognizedModImpl implements RecognizedMod {
 	}
 
 	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@Override
 	public String getCurrentVersion() {
 		return this.currentVersion;
-	}
-
-	@Override
-	public void setCurrentVersion(String currentVersion) {
-		this.currentVersion = currentVersion;
-	}
-
-	@Override
-	public List<LookupTableEntry> getLookupTableEntries() {
-		return this.lookupTableEntries;
-	}
-
-	@Override
-	public void addLookupTableEntry(LookupTableEntry lookupTableEntry) {
-		this.lookupTableEntries.add(lookupTableEntry);
 	}
 
 	@Override
@@ -59,13 +44,18 @@ public class RecognizedModImpl implements RecognizedMod {
 	}
 
 	@Override
-	public boolean isUpdateAvailable() {
-		return this.updateAvailable;
+	public List<ModVersion> getUpdates() {
+		return this.updates;
 	}
 
 	@Override
-	public void setUpdateAvailable(boolean updateAvailable) {
-		this.updateAvailable = updateAvailable;
+	public void addUpdate(ModVersion update) {
+		updates.add(update);
+	}
+
+	@Override
+	public void resetUpdates() {
+		updates.clear();
 	}
 
 }

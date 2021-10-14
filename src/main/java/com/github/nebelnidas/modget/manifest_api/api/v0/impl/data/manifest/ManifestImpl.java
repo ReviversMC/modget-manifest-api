@@ -2,11 +2,16 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.manifest;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Package;
+import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manifest;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ThirdPartyIds;
 
 public class ManifestImpl implements Manifest {
+	private final Package parentPackage;
+	private final LookupTableEntry parentLookupTableEntry;
 	private String manifestSpecVersion;
 	private String publisher;
 	private String name;
@@ -23,9 +28,20 @@ public class ManifestImpl implements Manifest {
 	private List<ModVersion> downloads;
 
 
-	public ManifestImpl() {
+	public ManifestImpl(@JacksonInject Package parentPackage, @JacksonInject LookupTableEntry parentLookupTableEntry) {
+		this.parentPackage = parentPackage;
+		this.parentLookupTableEntry = parentLookupTableEntry;
 	}
 
+	@Override
+	public Package getParentPackage() {
+		return this.parentPackage;
+	}
+
+	@Override
+	public LookupTableEntry getParentLookupTableEntry() {
+		return this.parentLookupTableEntry;
+	}
 
 	@Override
 	public String getManifestSpecVersion() {

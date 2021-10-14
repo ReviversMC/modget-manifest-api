@@ -8,11 +8,10 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.Loo
 
 public class LookupTableImpl implements LookupTable {
 	private final Repository parentRepository;
-	private final List<LookupTableEntry> lookupTableEntries;
+	private List<LookupTableEntry> lookupTableEntries;
 
-	public LookupTableImpl(Repository parentRepository, List<LookupTableEntry> lookupTableEntries) {
+	public LookupTableImpl(Repository parentRepository) {
 		this.parentRepository = parentRepository;
-		this.lookupTableEntries = lookupTableEntries;
 	}
 
 	@Override
@@ -23,6 +22,11 @@ public class LookupTableImpl implements LookupTable {
 	@Override
 	public List<LookupTableEntry> getLookupTableEntries() {
 		return this.lookupTableEntries;
+	}
+
+	@Override
+	public void setLookupTableEntries(List<LookupTableEntry> lookupTableEntries) {
+		this.lookupTableEntries = lookupTableEntries;
 	}
 
 }
