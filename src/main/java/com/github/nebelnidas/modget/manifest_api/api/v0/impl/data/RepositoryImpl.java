@@ -61,7 +61,7 @@ public class RepositoryImpl implements Repository {
 			if (e instanceof UnknownHostException) {
 				ManifestApi.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", e.getMessage());
 			} else {
-				ManifestApi.logWarn("Couldn't connect to the manifest repository.", e.getMessage());
+				ManifestApi.logWarn("Couldn't connect to the manifest repository", e.getMessage());
 			}
 			throw e;
         }
