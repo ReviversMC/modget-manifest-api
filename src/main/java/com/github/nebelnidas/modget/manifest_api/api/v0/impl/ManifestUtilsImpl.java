@@ -2,6 +2,8 @@ package com.github.nebelnidas.modget.manifest_api.api.v0.impl;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
@@ -14,6 +16,7 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Package;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manifest;
+import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.ModVersion;
 
 public class ManifestUtilsImpl implements ManifestUtils {
 
@@ -50,6 +53,16 @@ public class ManifestUtilsImpl implements ManifestUtils {
 
 		try {
 			manifest = mapper.readValue(new URL(uri), Manifest.class);
+
+			// TODO: Figure out how to set parentManifest with Jackson
+			List<ModVersion> versions = new ArrayList<>();
+			for (int i = 0; i < manifest.getDownloads().size(); i++) {
+				ModVersion version = manifest.getDownloads().get(i);
+				version.setParentManifest(manifest);
+				versions.add(version);
+			}
+			manifest.setDownloads(versions);
+
 		} catch (Exception e) {
 			if (e instanceof IOException) {
 				ManifestApi.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getMessage());

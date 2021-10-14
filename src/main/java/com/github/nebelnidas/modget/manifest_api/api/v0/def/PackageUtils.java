@@ -8,4 +8,5 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
 public interface PackageUtils {
 
 	public Package downloadPackage(List<Repository> repos, String publisher, String id);
+
 }
