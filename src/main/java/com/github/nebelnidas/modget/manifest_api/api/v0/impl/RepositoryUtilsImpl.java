@@ -14,6 +14,11 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.lookuptable.Loo
 
 public class RepositoryUtilsImpl implements RepositoryUtils {
 
+	public static RepositoryUtilsImpl create() {
+		return new RepositoryUtilsImpl();
+	}
+
+
 	@Override
 	public boolean checkForNewVersion(Repository repo) throws Exception {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

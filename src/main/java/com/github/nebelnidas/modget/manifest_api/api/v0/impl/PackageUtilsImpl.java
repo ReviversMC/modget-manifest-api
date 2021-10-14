@@ -12,6 +12,11 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.PackageImpl;
 
 public class PackageUtilsImpl implements PackageUtils {
 
+	public static PackageUtilsImpl create() {
+		return new PackageUtilsImpl();
+	}
+
+
 	@Override
 	public Package downloadPackage(List<Repository> repos, String publisher, String id) {
 		Package pack = new PackageImpl(publisher, id);

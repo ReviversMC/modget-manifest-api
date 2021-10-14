@@ -17,6 +17,11 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.manifest.Manife
 
 public class ManifestUtilsImpl implements ManifestUtils {
 
+	public static ManifestUtilsImpl create() {
+		return new ManifestUtilsImpl();
+	}
+
+
 	@Override
 	public String assembleManifestUri(Repository repo, String publisher, String modId) {
 		try {
