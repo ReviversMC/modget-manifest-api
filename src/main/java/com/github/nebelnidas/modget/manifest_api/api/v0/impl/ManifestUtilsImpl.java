@@ -37,7 +37,7 @@ public class ManifestUtilsImpl implements ManifestUtils {
 	}
 
 	@Override
-	public Manifest downloadManifest(LookupTableEntry entry, Package pack) {
+	public Manifest downloadManifest(LookupTableEntry entry, Package pack) throws IOException {
 		final String packageId = String.format("Repo%s.%s.%s", entry.getParentLookupTable().getParentRepository().getId(), pack.getPublisher(), pack.getId());
 		final String uri = assembleManifestUri(entry.getParentLookupTable().getParentRepository(), pack.getPublisher(), pack.getId());
 
@@ -66,10 +66,11 @@ public class ManifestUtilsImpl implements ManifestUtils {
 		} catch (Exception e) {
 			if (e instanceof IOException) {
 				ManifestApi.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getMessage());
+				throw e;
 			} else {
 				ManifestApi.logWarn(String.format("An error occurred while parsing the %s manifest", packageId), e.getMessage());
+				return null;
 			}
-			return null;
 		}
 		ManifestApi.logInfo(String.format("Fetched Manifest: %s", packageId));
 		return manifest;

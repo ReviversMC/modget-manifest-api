@@ -1,8 +1,8 @@
 package com.github.nebelnidas.modget.manifest_api.api.v0.impl;
 
+import java.io.IOException;
 import java.util.List;
 
-import com.github.nebelnidas.modget.manifest_api.ManifestApi;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.PackageUtils;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Package;
 import com.github.nebelnidas.modget.manifest_api.api.v0.def.data.Repository;
@@ -18,7 +18,7 @@ public class PackageUtilsImpl implements PackageUtils {
 
 
 	@Override
-	public Package downloadPackage(List<Repository> repos, String publisher, String id) {
+	public Package downloadPackage(List<Repository> repos, String publisher, String id) throws IOException {
 		Package pack = new PackageImpl(publisher, id);
 
 		for (Repository repo : repos) {
@@ -32,15 +32,15 @@ public class PackageUtilsImpl implements PackageUtils {
 						continue;
 					}
 
+					Manifest manifest;
 					try {
-						Manifest manifest = ManifestApi.MANIFEST_UTILS.downloadManifest(entry, pack);
-						if (manifest == null) {continue;}
-
-						pack.addManifest(manifest);
-
-					} catch (Exception e) {
-						ManifestApi.logWarn(String.format("An error occurred while parsing the Repo%s.%s.%s manifest", repo.getId(), packageIdParts[0], packageIdParts[1]), e.getMessage());
+						manifest = ManifestUtilsImpl.create().downloadManifest(entry, pack);
+					} catch (IOException e) {
+						throw e;
 					}
+					if (manifest == null) {continue;}
+
+					pack.addManifest(manifest);
 				}
 			}
 		}
