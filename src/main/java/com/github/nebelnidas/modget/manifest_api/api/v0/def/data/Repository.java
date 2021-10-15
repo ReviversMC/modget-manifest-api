@@ -7,6 +7,7 @@ import com.github.nebelnidas.modget.manifest_api.api.v0.impl.data.RepositoryImpl
 @JsonDeserialize(as = RepositoryImpl.class)
 public interface Repository {
 
+	public void init() throws Exception;
 	public void refresh() throws Exception;
 
 	public int getId();

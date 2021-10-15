@@ -1,5 +1,6 @@
 package com.github.nebelnidas.modget.manifest_api.api.v0.impl.data;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -31,11 +32,12 @@ public class RepositoryImpl implements Repository {
 		}
 		this.uri = uri;
 		this.uriWithSpec = uri + "/v" + ApiV0Config.MAX_SUPPORTED_MANIFEST_SPEC;
-		try {
-			refresh();
-		} catch (Exception e) {}
 	}
 
+	@Override
+	public void init() throws Exception {
+		refresh();
+	}
 
 	@Override
 	public void refresh() throws Exception {
@@ -58,7 +60,7 @@ public class RepositoryImpl implements Repository {
 			newLookupTable.setLookupTableEntries(entries);
 			this.lookupTable = newLookupTable;
         } catch (Exception e) {
-			if (e instanceof UnknownHostException) {
+			if (e instanceof UnknownHostException || e instanceof IOException) {
 				ManifestApi.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", e.getMessage());
 			} else {
 				ManifestApi.logWarn("Couldn't connect to the manifest repository", e.getMessage());
