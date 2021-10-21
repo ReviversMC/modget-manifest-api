@@ -1,6 +1,6 @@
 # Modget Manifest API
 
-This API contains common functions for accessing Modget manifests and manifest repositories.
+This API provides basic functions for accessing Modget manifests and manifest repositories.
 
 To use it, add jitpack to the end of your `build.gradle` repositories:
 ```gradle
