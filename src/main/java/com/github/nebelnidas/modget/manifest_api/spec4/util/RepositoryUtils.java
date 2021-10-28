@@ -1,0 +1,56 @@
+package com.github.nebelnidas.modget.manifest_api.spec4.util;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import com.github.nebelnidas.modget.manifest_api.config.ManifestApiConfig;
+import com.github.nebelnidas.modget.manifest_api.spec4.api.data.Repository;
+
+public class RepositoryUtils {
+
+	public static RepositoryUtils create() {
+		return new RepositoryUtils();
+	}
+
+
+	public boolean doesRepoSupportMajorSpecVersion(Repository repo, int specVersion) throws Exception {
+		String url = String.format("%s/v%s/%s", repo.getUri(), specVersion, "lookup-table.yaml");
+
+		HttpURLConnection.setFollowRedirects(false);
+		// Note: You may also need HttpURLConnection.setInstanceFollowRedirects(false)
+		HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+		con.setRequestMethod("HEAD");
+
+		if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			return true;
+		}
+		return false;
+	}
+
+
+	public int getLatestSupportedMajorSpecVersion(Repository repo) {
+		final int MAX_SUPPORTED_VERSION = ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.size() - 1);
+		final int MIN_SUPPORTED_VERSION = ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(0);
+		final int MAX_VERSIONS_TO_CHECK = 10;
+		int latestSupportedMajorSpecVersion = MIN_SUPPORTED_VERSION;
+
+		for (int versionNumber = MIN_SUPPORTED_VERSION; versionNumber < MAX_SUPPORTED_VERSION + MAX_VERSIONS_TO_CHECK; versionNumber++) {
+			try {
+				if (doesRepoSupportMajorSpecVersion(repo, versionNumber) == true) {
+					latestSupportedMajorSpecVersion = versionNumber;
+				}
+			} catch (Exception e) {}
+		}
+
+		return latestSupportedMajorSpecVersion;
+	}
+
+
+	public boolean checkForNewVersion(Repository repo) {
+		if (getLatestSupportedMajorSpecVersion(repo) > ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.size() - 1)) {
+			return true;
+		}
+		return false;
+	}
+
+}
