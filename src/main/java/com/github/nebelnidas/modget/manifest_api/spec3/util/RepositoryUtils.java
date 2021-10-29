@@ -14,7 +14,7 @@ public class RepositoryUtils {
 
 
 	public boolean doesRepoSupportMajorSpecVersion(Repository repo, int specVersion) throws Exception {
-		String url = String.format("%s/v%s/%s", repo.getUri(), specVersion, "lookup-table.yaml");
+		String url = String.format("%s/v%s/lookup-table.yaml", repo.getUri(), specVersion);
 
 		HttpURLConnection.setFollowRedirects(false);
 		// Note: You may also need HttpURLConnection.setInstanceFollowRedirects(false)
