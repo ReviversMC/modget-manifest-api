@@ -1,6 +1,5 @@
 package com.github.nebelnidas.modget.manifest_api.spec3.util;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Package;
@@ -16,7 +15,7 @@ public class PackageUtils {
 	}
 
 
-	public Package downloadPackage(List<Repository> repos, String publisher, String id) throws IOException {
+	public Package downloadPackage(List<Repository> repos, String publisher, String id) throws Exception {
 		Package pack = new PackageImpl(publisher, id);
 
 		for (Repository repo : repos) {
@@ -31,11 +30,7 @@ public class PackageUtils {
 					}
 
 					Manifest manifest;
-					try {
-						manifest = ManifestUtils.create().downloadManifest(entry, pack);
-					} catch (IOException e) {
-						throw e;
-					}
+					manifest = ManifestUtils.create().downloadManifest(entry, pack);
 					if (manifest == null) {continue;}
 
 					pack.addManifest(manifest);

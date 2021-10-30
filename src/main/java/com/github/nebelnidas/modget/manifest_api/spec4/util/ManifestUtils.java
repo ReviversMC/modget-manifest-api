@@ -26,16 +26,16 @@ public class ManifestUtils {
 
 
 	public String assembleManifestUri(Repository repo, String publisher, String modId) {
-		try {
+		// try {
 			final String uri = new String(String.format("%s/v%s/manifests/%s/%s/%s/%s.%s.yaml", repo.getUri(), repo.getMaxSpecVersion(), (""+publisher.charAt(0)).toUpperCase(), publisher, modId, publisher, modId));
 			return uri;
-		} catch (Exception e) {
-			ManifestApiLogger.logWarn(String.format("An error occurred while assembling the Repo%s.%s.%s manifest uri", repo.getId(), publisher, modId), e.getMessage());
-			return null;
-		}
+		// } catch (Exception e) {
+		// 	ManifestApiLogger.logWarn(String.format("An error occurred while assembling the Repo%s.%s.%s manifest uri", repo.getId(), publisher, modId), e.getMessage());
+		// 	throw e;
+		// }
 	}
 
-	public Manifest downloadManifest(LookupTableEntry entry, Package pack) throws IOException {
+	public Manifest downloadManifest(LookupTableEntry entry, Package pack) throws Exception {
 
 		if (entry.getParentLookupTable().getParentRepository().getMaxSpecVersion() == 3) {
 			return V3ManifestCompat.create().downloadAndConvertManifest(entry, pack);
@@ -69,12 +69,11 @@ public class ManifestUtils {
 
 		} catch (Exception e) {
 			if (e instanceof IOException) {
-				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getMessage());
-				throw e;
+				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getStackTrace().toString());
 			} else {
-				ManifestApiLogger.logWarn(String.format("An error occurred while parsing the %s manifest", packageId), e.getMessage());
-				return null;
+				ManifestApiLogger.logWarn(String.format("An error occurred while parsing the %s manifest", packageId), e.getStackTrace().toString());
 			}
+			throw e;
 		}
 		ManifestApiLogger.logInfo(String.format("Fetched Manifest: %s", packageId));
 		return manifest;

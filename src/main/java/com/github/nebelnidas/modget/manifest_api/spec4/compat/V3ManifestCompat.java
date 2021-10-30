@@ -1,6 +1,5 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.compat;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class V3ManifestCompat {
 	public com.github.nebelnidas.modget.manifest_api.spec4.api.data.manifest.Manifest downloadAndConvertManifest(
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry v4Entry,
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.Package v4Package
-	) throws IOException
+	) throws Exception
 	{
 		Package v3Package = new PackageImpl(v4Package.getPublisher(), v4Package.getId());
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(null);
