@@ -35,7 +35,7 @@ dependencies {
 
     // jackson for reading YAML
 	shadow implementation("com.fasterxml.jackson.core:jackson-core:${project.jackson_version}")
-	shadow implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${project.jackson_dataformat_yaml_version}")
+	shadow implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${project.jackson_version}")
 	shadow implementation("com.fasterxml.jackson.core:jackson-databind:${project.jackson_version}")
     shadow implementation("com.fasterxml.jackson.core:jackson-annotations:${project.jackson_version}")
 
