@@ -1,1 +1,11 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+		mavenLocal()
+	}
+}
+
 rootProject.name = 'modget-manifest-api'
+
+include 'manifest-api-v3'
+include 'manifest-api-v4'
