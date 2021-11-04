@@ -60,7 +60,7 @@ allprojects {
 
 
 dependencies {
-    shadow api(project(":manifest-api-v4"))
+    shadow api(project(":modget-manifest-api-v4"))
 }
 
 
