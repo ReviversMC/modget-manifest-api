@@ -59,6 +59,13 @@ allprojects {
 }
 
 
+configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
+    dependencies {
+        shadow implementation(project(":modget-manifest-api-base"))
+    }
+}
+
+
 dependencies {
     shadow api(project(":modget-manifest-api-v4"))
 }

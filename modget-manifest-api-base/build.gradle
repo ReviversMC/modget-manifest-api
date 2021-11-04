@@ -1,0 +1,8 @@
+archivesBaseName = "modget-manifest-api-base"
+version = "0.1.0"
+
+dependencies {
+	// log4j for Minecraft compatible logging
+	shadow implementation("org.apache.logging.log4j:log4j-api:${project.log4j_version}")
+	shadow implementation("org.apache.logging.log4j:log4j-core:${project.log4j_version}")
+}

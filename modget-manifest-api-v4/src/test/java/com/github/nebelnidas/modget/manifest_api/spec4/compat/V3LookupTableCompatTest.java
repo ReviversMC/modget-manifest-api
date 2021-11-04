@@ -18,7 +18,7 @@ public class V3LookupTableCompatTest {
 		try {
 			assertTrue(LookupTableUtils.create().downloadLookupTable(repo).getLookupTableEntries().get(0).getId() != "");
 		} catch (Exception e) {
-			fail();
+			fail(e.getStackTrace().toString());
 		}
 	}
 }

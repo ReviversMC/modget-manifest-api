@@ -7,5 +7,6 @@ pluginManagement {
 
 rootProject.name = 'modget-manifest-api'
 
+include 'modget-manifest-api-base'
 include 'modget-manifest-api-v3'
 include 'modget-manifest-api-v4'

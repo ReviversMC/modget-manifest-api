@@ -3,8 +3,8 @@ package com.github.nebelnidas.modget.manifest_api.spec3.util;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.github.nebelnidas.modget.manifest_api.config.ManifestApiConfig;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
+import com.github.nebelnidas.modget.manifest_api.spec3.config.ManifestApiV3Config;
 
 public class RepositoryUtils {
 
@@ -29,8 +29,8 @@ public class RepositoryUtils {
 
 
 	public int getLatestSupportedMajorSpecVersion(Repository repo) {
-		final int MAX_SUPPORTED_VERSION = ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.size() - 1);
-		final int MIN_SUPPORTED_VERSION = ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(0);
+		final int MAX_SUPPORTED_VERSION = ManifestApiV3Config.SUPPORTED_MANIFEST_SPECS.get(ManifestApiV3Config.SUPPORTED_MANIFEST_SPECS.size() - 1);
+		final int MIN_SUPPORTED_VERSION = ManifestApiV3Config.SUPPORTED_MANIFEST_SPECS.get(0);
 		final int MAX_VERSIONS_TO_CHECK = 10;
 		int latestSupportedMajorSpecVersion = MIN_SUPPORTED_VERSION;
 
@@ -47,7 +47,7 @@ public class RepositoryUtils {
 
 
 	public boolean checkForNewVersion(Repository repo) {
-		if (getLatestSupportedMajorSpecVersion(repo) > ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.get(ManifestApiConfig.SUPPORTED_MANIFEST_SPECS.size() - 1)) {
+		if (getLatestSupportedMajorSpecVersion(repo) > ManifestApiV3Config.SUPPORTED_MANIFEST_SPECS.get(ManifestApiV3Config.SUPPORTED_MANIFEST_SPECS.size() - 1)) {
 			return true;
 		}
 		return false;
