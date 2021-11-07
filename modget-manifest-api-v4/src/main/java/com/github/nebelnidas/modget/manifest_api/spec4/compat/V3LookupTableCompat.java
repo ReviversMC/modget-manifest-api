@@ -1,7 +1,6 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.compat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTable;
@@ -16,12 +15,12 @@ public class V3LookupTableCompat {
 	}
 
 
+
 	public com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTable downloadAndConvertLookupTable(
-		com.github.nebelnidas.modget.manifest_api.spec4.api.data.Repository v4Repository
+		com.github.nebelnidas.modget.manifest_api.spec4.api.data.ManifestRepository v4Repository
 	) throws Exception
 	{
 		Repository v3Repository = new RepositoryImpl(v4Repository.getId(), v4Repository.getUri());
-
 		LookupTable v3LookupTable = LookupTableUtils.create().downloadLookupTable(v3Repository);
 
 		return convertLookupTable(v3LookupTable, v4Repository);
@@ -31,29 +30,36 @@ public class V3LookupTableCompat {
 
 	public com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTable convertLookupTable(
 		LookupTable v3LookupTable,
-		com.github.nebelnidas.modget.manifest_api.spec4.api.data.Repository v4Repository
+		com.github.nebelnidas.modget.manifest_api.spec4.api.data.ManifestRepository v4Repository
 	)
 	{
 		// Create new v4 lookup table
-		com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTable v4LookupTable
-			= new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableImpl(v4Repository);
+		return new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableImpl(v4Repository) {{
+			com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTable v4LookupTable = this;
 
-		// Copy all entries
-		List<com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry> v4LookupTableEntries = new ArrayList<>();
-		for (LookupTableEntry v3Entry : v3LookupTable.getLookupTableEntries()) {
-			com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry v4Entry
-				= new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableEntryImpl(v4LookupTable);
+			// Set parent repository
+			setParentRepository(v4Repository);
 
-			v4Entry.setId(v3Entry.getId());
-			v4Entry.setNames(v3Entry.getNames());
-			v4Entry.setPackages(v3Entry.getPackages());
-			v4Entry.setTags(v3Entry.getTags());
-
-			v4LookupTableEntries.add(v4Entry);
-		}
-
-		v4LookupTable.setLookupTableEntries(v4LookupTableEntries);
-
-		return v4LookupTable;
+			// Copy all entries
+			setLookupTableEntries(new ArrayList<com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry>() {{
+				for (LookupTableEntry v3Entry : v3LookupTable.getLookupTableEntries()) {
+					add(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableEntryImpl(v4LookupTable) {{
+						setId(v3Entry.getId());
+						setNames(v3Entry.getNames());
+						setTags(v3Entry.getTags());
+	
+						// Convert packages
+						setPackages(new ArrayList<com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage>() {{
+							for (String v3PackageId : v3Entry.getPackages()) {
+								add(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.mod.ModPackageImpl() {{
+									setPackageId(v3PackageId);
+								}});
+							}
+						}});
+					}});
+				}
+			}});
+		}};
 	}
+
 }

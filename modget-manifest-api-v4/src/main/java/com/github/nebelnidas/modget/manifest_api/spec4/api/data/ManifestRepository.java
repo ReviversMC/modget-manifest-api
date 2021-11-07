@@ -1,19 +1,25 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.api.data;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTable;
-import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.RepositoryImpl;
+import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.ManifestRepositoryImpl;
 
-@JsonDeserialize(as = RepositoryImpl.class)
-public interface Repository {
+@JsonDeserialize(as = ManifestRepositoryImpl.class)
+public interface ManifestRepository {
 
 	public void init() throws Exception;
 	public void refresh() throws Exception;
 
 	public int getId();
-	public String getUri();
+	public void setId(int id);
 
-	public int getMaxSpecVersion();
+	public String getUri();
+	public void setUri(String uri);
+
+	public List<Integer> getAvailableManifestSpecMajorVersions();
+	public void setSupportedManifestSpecMajorVersions(List<Integer> availableManifestSpecMajorVersions);
 
 	public LookupTable getLookupTable();
 	public void setLookupTable(LookupTable lookupTable);

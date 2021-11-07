@@ -2,9 +2,11 @@ package com.github.nebelnidas.modget.manifest_api.spec4.util;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.github.nebelnidas.modget.manifest_api.spec4.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec4.config.ManifestApiV4Config;
-import com.github.nebelnidas.modget.manifest_api.spec4.api.data.Repository;
 
 public class RepositoryUtils {
 
@@ -13,7 +15,7 @@ public class RepositoryUtils {
 	}
 
 
-	public boolean doesRepoSupportMajorSpecVersion(Repository repo, int specVersion) throws Exception {
+	public boolean doesRepoSupportMajorSpecVersion(ManifestRepository repo, int specVersion) throws Exception {
 		String url = String.format("%s/v%s/lookup-table.yaml", repo.getUri(), specVersion);
 
 		HttpURLConnection.setFollowRedirects(false);
@@ -28,26 +30,27 @@ public class RepositoryUtils {
 	}
 
 
-	public int getLatestSupportedMajorSpecVersion(Repository repo) {
-		final int MAX_SUPPORTED_VERSION = ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.get(ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.size() - 1);
-		final int MIN_SUPPORTED_VERSION = ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.get(0);
+	public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
 		final int MAX_VERSIONS_TO_CHECK = 10;
-		int latestSupportedMajorSpecVersion = MIN_SUPPORTED_VERSION;
+		List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
-		for (int versionNumber = MIN_SUPPORTED_VERSION; versionNumber < MAX_SUPPORTED_VERSION + MAX_VERSIONS_TO_CHECK; versionNumber++) {
+		for (int version = 3; version < ManifestApiV4Config.MAX_SUPPORTED_VERSION + MAX_VERSIONS_TO_CHECK; version++) {
 			try {
-				if (doesRepoSupportMajorSpecVersion(repo, versionNumber) == true) {
-					latestSupportedMajorSpecVersion = versionNumber;
+				if (doesRepoSupportMajorSpecVersion(repo, version) == true) {
+					availableManifestSpecMajorVersions.add(version);
 				}
 			} catch (Exception e) {}
 		}
 
-		return latestSupportedMajorSpecVersion;
+		return availableManifestSpecMajorVersions;
 	}
 
 
-	public boolean checkForNewVersion(Repository repo) {
-		if (getLatestSupportedMajorSpecVersion(repo) > ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.get(ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.size() - 1)) {
+	public boolean checkForNewVersion(ManifestRepository repo) {
+		List<Integer> availableManifestSpecMajorVersions = getAvailableManifestSpecMajorVersions(repo);
+		final int MAX_AVAILABLE_VERSION = availableManifestSpecMajorVersions.get(availableManifestSpecMajorVersions.size() - 1);
+
+		if (MAX_AVAILABLE_VERSION > ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
 			return true;
 		}
 		return false;

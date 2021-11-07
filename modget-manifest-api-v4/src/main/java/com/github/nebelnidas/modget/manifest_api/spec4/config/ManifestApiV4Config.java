@@ -10,5 +10,7 @@ public class ManifestApiV4Config {
             3, 4
         )
     );
+    public final static int MIN_SUPPORTED_VERSION = SUPPORTED_MANIFEST_SPECS.get(0);
+    public final static int MAX_SUPPORTED_VERSION = SUPPORTED_MANIFEST_SPECS.get(SUPPORTED_MANIFEST_SPECS.size() - 1);
 
 }

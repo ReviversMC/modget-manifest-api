@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.nebelnidas.modget.manifest_api.TestConfig;
-import com.github.nebelnidas.modget.manifest_api.spec4.api.data.Repository;
-import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.RepositoryImpl;
+import com.github.nebelnidas.modget.manifest_api.spec4.api.data.ManifestRepository;
+import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.ManifestRepositoryImpl;
 import com.github.nebelnidas.modget.manifest_api.spec4.util.LookupTableUtils;
 
 import org.junit.jupiter.api.Test;
 
 public class V3LookupTableCompatTest {
-	private Repository repo = new RepositoryImpl(0, TestConfig.specV3RepoUrl);
+	private ManifestRepository repo = new ManifestRepositoryImpl(0, TestConfig.specV3RepoUrl);
 
 	@Test
 	private void assertConversionWorks() {
