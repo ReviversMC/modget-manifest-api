@@ -51,9 +51,7 @@ public class V3LookupTableCompat {
 						// Convert packages
 						setPackages(new ArrayList<com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage>() {{
 							for (String v3PackageId : v3Entry.getPackages()) {
-								add(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.mod.ModPackageImpl() {{
-									setPackageId(v3PackageId);
-								}});
+								add(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.mod.ModPackageImpl(v3PackageId));
 							}
 						}});
 					}});

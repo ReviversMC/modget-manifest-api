@@ -16,8 +16,15 @@ public class ModPackageImpl implements ModPackage {
 	private List<ModManifest> manifests;
 
 
-	public ModPackageImpl() {
-		manifests = new ArrayList<>();
+	public ModPackageImpl(String packageId) {
+		this.packageId = packageId;
+		manifests = new ArrayList<>(1);
+	}
+
+	public ModPackageImpl(String modId, String publisher) {
+		this.modId = modId;
+		this.publisher = publisher;
+		manifests = new ArrayList<>(1);
 	}
 
 
