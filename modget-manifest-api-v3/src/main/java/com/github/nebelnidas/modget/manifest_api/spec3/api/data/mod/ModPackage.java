@@ -3,7 +3,6 @@ package com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod;
 import java.util.List;
 
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.main.ModManifest;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
 
 public interface ModPackage {
 
