@@ -7,35 +7,75 @@ import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.main.Mo
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.ModPackage;
 
 public class ModPackageImpl implements ModPackage {
-	private final String publisher;
-	private final String id;
-	private List<ModManifest> manifests = new ArrayList<>();
+	private String packageId;
+	private String publisher;
+	private String modId;
+	private List<ModManifest> manifests;
 
 
-	public ModPackageImpl(String publisher, String id) {
+	public ModPackageImpl(String packageId) {
+		this.packageId = packageId;
+		manifests = new ArrayList<>(1);
+	}
+
+	public ModPackageImpl(String modId, String publisher) {
+		this.modId = modId;
 		this.publisher = publisher;
-		this.id = id;
+		manifests = new ArrayList<>(1);
+	}
+
+
+	@Override
+	public String getPackageId() {
+		return packageId;
+	}
+
+	@Override
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
+		String[] packageIdParts = packageId.split("\\.");
+		publisher = packageIdParts[0];
+		modId = packageIdParts[1];
 	}
 
 
 	@Override
 	public String getPublisher() {
-		return this.publisher;
+		return publisher;
 	}
 
 	@Override
-	public String getId() {
-		return this.id;
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+		packageId = String.format("%s.%s", publisher, modId);
 	}
+
+
+	@Override
+	public String getModId() {
+		return modId;
+	}
+
+	@Override
+	public void setModId(String modId) {
+		this.modId = modId;
+		packageId = String.format("%s.%s", publisher, modId);
+	}
+
 
 	@Override
 	public List<ModManifest> getManifests() {
-		return this.manifests;
+		return manifests;
 	}
 
 	@Override
 	public void addManifest(ModManifest manifest) {
-		this.manifests.add(manifest);
+		manifests.add(manifest);
+	}
+
+	@Override
+	public void setManifests(List<ModManifest> manifests) {
+		this.manifests = manifests;
 	}
 
 }

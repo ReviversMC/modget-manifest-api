@@ -14,6 +14,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	private List<String> packages;
 	private List<String> tags;
 
+	
 	public LookupTableEntryImpl(@JacksonInject LookupTable parentLookupTable) {
 		this.parentLookupTable = parentLookupTable;
 

@@ -53,7 +53,6 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
-
 		if (MAX_SHARED_VERSION == -1) {
 			throw new VersionNotSupportedException(String.format(
 				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
@@ -65,16 +64,15 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		}
 
 
-
 		final String packageId = String.format("Repo%s.%s.%s", repo.getId(), modPackage.getPublisher(), modPackage.getModId());
 		final String uri = assembleManifestUri(
 			repo.getUri(),
 			MAX_SHARED_VERSION,
 			modPackage
-			);
+		);
 			
-			final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-			final InjectableValues.Std injectableValues = new InjectableValues.Std();
+		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		final InjectableValues.Std injectableValues = new InjectableValues.Std();
         injectableValues.addValue(ModPackage.class, modPackage);
         injectableValues.addValue(LookupTableEntry.class, entry);
         // injectableValues.addValue(ModManifest.class, null);

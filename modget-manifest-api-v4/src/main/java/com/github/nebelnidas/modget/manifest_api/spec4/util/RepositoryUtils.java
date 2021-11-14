@@ -32,7 +32,7 @@ public class RepositoryUtils {
 
 	public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
 		final int MAX_VERSIONS_TO_CHECK = 10;
-		List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
+		final List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
 		for (int version = 3; version < ManifestApiV4Config.MAX_SUPPORTED_VERSION + MAX_VERSIONS_TO_CHECK; version++) {
 			try {

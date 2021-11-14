@@ -1,5 +1,6 @@
 package com.github.nebelnidas.modget.manifest_api.spec3.impl.data.manifest.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
@@ -38,6 +39,12 @@ public class ModManifestImpl implements ModManifest {
 	public ModManifestImpl(@JacksonInject ModPackage parentPackage, @JacksonInject LookupTableEntry parentLookupTableEntry) {
 		this.parentPackage = parentPackage;
 		this.parentLookupTableEntry = parentLookupTableEntry;
+
+		this.loader = new ArrayList<>(1);
+		this.depends = new ArrayList<>(2);
+		this.breaks = new ArrayList<>(2);
+		this.recommends = new ArrayList<>(1);
+		this.downloads = new ArrayList<>(10);
 	}
 
 

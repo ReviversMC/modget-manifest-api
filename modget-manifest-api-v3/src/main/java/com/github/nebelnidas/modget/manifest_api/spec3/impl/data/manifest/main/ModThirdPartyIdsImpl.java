@@ -36,7 +36,7 @@ public class ModThirdPartyIdsImpl implements ModThirdPartyIds {
 		this.curseforge = curseforge;
 	}
 
-	
+
 	@Override
 	public String getModrinth() {
 		return modrinth;

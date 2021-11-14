@@ -14,7 +14,6 @@ public class InstalledModImpl implements InstalledMod {
 
 	public InstalledModImpl(String id) {
 		this.id = id;
-
 		this.availablePackages = new ArrayList<>(2);
 	}
 

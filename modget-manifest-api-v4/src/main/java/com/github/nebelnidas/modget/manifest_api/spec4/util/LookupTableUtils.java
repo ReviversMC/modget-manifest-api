@@ -35,7 +35,6 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
-
 		if (MAX_SHARED_VERSION == -1) {
 			throw new VersionNotSupportedException(String.format(
 				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
@@ -45,7 +44,6 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 		} else if (MAX_AVAILABLE_VERSION < ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
 			return V3LookupTableCompat.create().downloadAndConvertLookupTable(repo);
 		}
-
 
 
 		final LookupTable lookupTable = new LookupTableImpl(repo);

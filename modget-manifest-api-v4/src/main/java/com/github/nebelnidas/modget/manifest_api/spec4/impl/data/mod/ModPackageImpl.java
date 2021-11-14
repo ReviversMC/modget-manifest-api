@@ -103,5 +103,4 @@ public class ModPackageImpl implements ModPackage {
 		this.manifests = manifests;
 	}
 
-
 }

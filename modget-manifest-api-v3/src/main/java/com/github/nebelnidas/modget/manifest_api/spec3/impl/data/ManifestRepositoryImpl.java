@@ -1,24 +1,23 @@
 package com.github.nebelnidas.modget.manifest_api.spec3.impl.data;
 
+import java.util.List;
+
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.LookupTableUtils;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.RepositoryUtils;
 
 public class ManifestRepositoryImpl implements ManifestRepository {
-	private final int ID;
-	private final String URI;
-	private final int MAX_SPEC_VERSION;
+	private int id;
+	private String uri;
+	private List<Integer> availableManifestSpecMajorVersions;
 	private LookupTable lookupTable;
 	private boolean enabled = true;
 
 	public ManifestRepositoryImpl(int id, String uri) {
-		this.ID = id;
-		if (uri.endsWith("/")) {
-			uri = uri.substring(0, uri.length() - 1);
-		}
-		this.URI = uri;
-		this.MAX_SPEC_VERSION = RepositoryUtils.create().getLatestSupportedMajorSpecVersion(this);
+		this.id = id;
+		setUri(uri);
+		this.availableManifestSpecMajorVersions = RepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
 	}
 
 	@Override
@@ -32,25 +31,45 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	}
 
 
-
 	@Override
 	public int getId() {
-		return this.ID;
+		return id;
 	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	@Override
 	public String getUri() {
-		return this.URI;
+		return uri;
 	}
 
 	@Override
-	public int getMaxSpecVersion() {
-		return this.MAX_SPEC_VERSION;
+	public void setUri(String uri) {
+		if (uri.endsWith("/")) {
+			uri = uri.substring(0, uri.length() - 1);
+		}
+		this.uri = uri;
 	}
+
+
+	@Override
+	public List<Integer> getAvailableManifestSpecMajorVersions() {
+		return availableManifestSpecMajorVersions;
+	}
+
+	@Override
+	public void setSupportedManifestSpecMajorVersions(List<Integer> availableManifestSpecMajorVersions) {
+		this.availableManifestSpecMajorVersions = availableManifestSpecMajorVersions;
+	}
+
 
 	@Override
 	public LookupTable getLookupTable() {
-		return this.lookupTable;
+		return lookupTable;
 	}
 
 	@Override
@@ -58,13 +77,15 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 		this.lookupTable = lookupTable;
 	}
 
+
 	@Override
 	public boolean isEnabled() {
-		return this.enabled;
+		return enabled;
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
 }

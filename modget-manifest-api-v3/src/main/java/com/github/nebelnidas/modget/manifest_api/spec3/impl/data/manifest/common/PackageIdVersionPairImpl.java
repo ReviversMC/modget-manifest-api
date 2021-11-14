@@ -6,7 +6,13 @@ public class PackageIdVersionPairImpl implements PackageIdVersionPair {
 	String packageId;
 	String version;
 
-	
+
+	public PackageIdVersionPairImpl(String packageId, String version) {
+		this.packageId = packageId;
+		this.version = version;
+	}
+
+
 	@Override
 	public String getPackage() {
 		return packageId;

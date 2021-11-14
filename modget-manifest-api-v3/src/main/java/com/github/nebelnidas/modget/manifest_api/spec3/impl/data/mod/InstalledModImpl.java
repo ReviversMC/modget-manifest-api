@@ -3,59 +3,56 @@ package com.github.nebelnidas.modget.manifest_api.spec3.impl.data.mod;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.InstalledMod;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.ModPackage;
 
 public class InstalledModImpl implements InstalledMod {
-	private final String id;
-	private String currentVersion;
-	private List<ModPackage> availablePackages = new ArrayList<>(2);
-	private List<ModVersion> updates = new ArrayList<>(2);
+	private String id;
+	private String installedVersion;
+	private List<ModPackage> availablePackages;
 
 
 	public InstalledModImpl(String id) {
 		this.id = id;
+		this.availablePackages = new ArrayList<>(2);
 	}
 
-	public InstalledModImpl(String id, String currentVersion) {
-		this.id = id;
-		this.currentVersion = currentVersion;
-	}
 
 	@Override
 	public String getId() {
-		return this.id;
+		return id;
 	}
 
 	@Override
-	public String getCurrentVersion() {
-		return this.currentVersion;
+	public void setId(String id) {
+		this.id = id;
 	}
+
+
+	@Override
+	public String getInstalledVersion() {
+		return installedVersion;
+	}
+
+	@Override
+	public void setInstalledVersion(String installedVersion) {
+		this.installedVersion = installedVersion;
+	}
+
 
 	@Override
 	public List<ModPackage> getAvailablePackages() {
-		return this.availablePackages;
+		return availablePackages;
 	}
 
 	@Override
 	public void addAvailablePackage(ModPackage availablePackage) {
-		this.availablePackages.add(availablePackage);
+		availablePackages.add(availablePackage);
 	}
 
 	@Override
-	public List<ModVersion> getUpdates() {
-		return this.updates;
-	}
-
-	@Override
-	public void addUpdate(ModVersion update) {
-		updates.add(update);
-	}
-
-	@Override
-	public void resetUpdates() {
-		updates.clear();
+	public void setAvailablePackages(List<ModPackage> availablePackages) {
+		this.availablePackages = availablePackages;
 	}
 
 }
