@@ -11,11 +11,11 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.nebelnidas.modget.manifest_api.ManifestApiLogger;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Package;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTableEntry;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.Manifest;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.main.ModManifest;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.ModPackage;
 
 public class ManifestUtils {
 
@@ -24,7 +24,7 @@ public class ManifestUtils {
 	}
 
 
-	public String assembleManifestUri(Repository repo, String publisher, String modId) {
+	public String assembleManifestUri(ManifestRepository repo, String publisher, String modId) {
 		// try {
 			final String uri = new String(String.format("%s/v%s/manifests/%s/%s/%s/%s.%s.yaml", repo.getUri(), repo.getMaxSpecVersion(), (""+publisher.charAt(0)).toUpperCase(), publisher, modId, publisher, modId));
 			return uri;
@@ -34,22 +34,22 @@ public class ManifestUtils {
 		// }
 	}
 
-	public Manifest downloadManifest(LookupTableEntry entry, Package pack) throws Exception {
+	public ModManifest downloadManifest(LookupTableEntry entry, ModPackage pack) throws Exception {
 		final String packageId = String.format("Repo%s.%s.%s", entry.getParentLookupTable().getParentRepository().getId(), pack.getPublisher(), pack.getId());
 		final String uri = assembleManifestUri(entry.getParentLookupTable().getParentRepository(), pack.getPublisher(), pack.getId());
 
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		final InjectableValues.Std injectableValues = new InjectableValues.Std();
-        injectableValues.addValue(Package.class, pack);
+        injectableValues.addValue(ModPackage.class, pack);
         injectableValues.addValue(LookupTableEntry.class, entry);
         mapper.setInjectableValues(injectableValues);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.disable(MapperFeature.USE_GETTERS_AS_SETTERS);
 
-		Manifest manifest;
+		ModManifest manifest;
 
 		try {
-			manifest = mapper.readValue(new URL(uri), Manifest.class);
+			manifest = mapper.readValue(new URL(uri), ModManifest.class);
 
 			// TODO: Figure out how to set parentManifest with Jackson
 			List<ModVersion> versions = new ArrayList<>();

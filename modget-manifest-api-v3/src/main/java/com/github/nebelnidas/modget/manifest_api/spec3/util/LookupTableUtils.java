@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.nebelnidas.modget.manifest_api.ManifestApiLogger;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.lookuptable.LookupTableImpl;
@@ -24,7 +24,7 @@ public class LookupTableUtils {
 	}
 
 
-	public LookupTable downloadLookupTable(Repository repo) throws Exception {
+	public LookupTable downloadLookupTable(ManifestRepository repo) throws Exception {
 		final LookupTable lookupTable = new LookupTableImpl(repo);
 
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

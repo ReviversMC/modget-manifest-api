@@ -1,18 +1,18 @@
 package com.github.nebelnidas.modget.manifest_api.spec3.impl.data;
 
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.LookupTableUtils;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.RepositoryUtils;
 
-public class RepositoryImpl implements Repository {
+public class ManifestRepositoryImpl implements ManifestRepository {
 	private final int ID;
 	private final String URI;
 	private final int MAX_SPEC_VERSION;
 	private LookupTable lookupTable;
 	private boolean enabled = true;
 
-	public RepositoryImpl(int id, String uri) {
+	public ManifestRepositoryImpl(int id, String uri) {
 		this.ID = id;
 		if (uri.endsWith("/")) {
 			uri = uri.substring(0, uri.length() - 1);

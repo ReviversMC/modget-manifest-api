@@ -2,10 +2,10 @@ package com.github.nebelnidas.modget.manifest_api.spec4.compat;
 
 import java.util.ArrayList;
 
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Repository;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.ManifestRepository;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTable;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTableEntry;
-import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.RepositoryImpl;
+import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.ManifestRepositoryImpl;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.LookupTableUtils;
 
 public class V3LookupTableCompat {
@@ -20,7 +20,7 @@ public class V3LookupTableCompat {
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.ManifestRepository v4Repository
 	) throws Exception
 	{
-		Repository v3Repository = new RepositoryImpl(v4Repository.getId(), v4Repository.getUri());
+		ManifestRepository v3Repository = new ManifestRepositoryImpl(v4Repository.getId(), v4Repository.getUri());
 		LookupTable v3LookupTable = LookupTableUtils.create().downloadLookupTable(v3Repository);
 
 		return convertLookupTable(v3LookupTable, v4Repository);

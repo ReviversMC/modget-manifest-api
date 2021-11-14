@@ -1,24 +1,24 @@
-package com.github.nebelnidas.modget.manifest_api.spec3.impl.data;
+package com.github.nebelnidas.modget.manifest_api.spec3.impl.data.mod;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Package;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.RecognizedMod;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.InstalledMod;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.ModPackage;
 
-public class RecognizedModImpl implements RecognizedMod {
+public class InstalledModImpl implements InstalledMod {
 	private final String id;
 	private String currentVersion;
-	private List<Package> availablePackages = new ArrayList<>(2);
+	private List<ModPackage> availablePackages = new ArrayList<>(2);
 	private List<ModVersion> updates = new ArrayList<>(2);
 
 
-	public RecognizedModImpl(String id) {
+	public InstalledModImpl(String id) {
 		this.id = id;
 	}
 
-	public RecognizedModImpl(String id, String currentVersion) {
+	public InstalledModImpl(String id, String currentVersion) {
 		this.id = id;
 		this.currentVersion = currentVersion;
 	}
@@ -34,12 +34,12 @@ public class RecognizedModImpl implements RecognizedMod {
 	}
 
 	@Override
-	public List<Package> getAvailablePackages() {
+	public List<ModPackage> getAvailablePackages() {
 		return this.availablePackages;
 	}
 
 	@Override
-	public void addAvailablePackage(Package availablePackage) {
+	public void addAvailablePackage(ModPackage availablePackage) {
 		this.availablePackages.add(availablePackage);
 	}
 

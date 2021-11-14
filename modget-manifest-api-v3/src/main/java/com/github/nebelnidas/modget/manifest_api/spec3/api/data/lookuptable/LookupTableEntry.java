@@ -9,6 +9,8 @@ import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.lookuptable.Loo
 public interface LookupTableEntry {
 
 	public LookupTable getParentLookupTable();
+	public void setParentLookupTable(LookupTable parentLookupTable);
+
 
 	public String getId();
 	public void setId(String id);

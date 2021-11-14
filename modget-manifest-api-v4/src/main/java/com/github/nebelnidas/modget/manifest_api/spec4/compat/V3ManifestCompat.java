@@ -1,17 +1,15 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.compat;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.Package;
 import com.github.nebelnidas.modget.manifest_api.spec3.api.data.lookuptable.LookupTableEntry;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.Manifest;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersion;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersionDownload;
-import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.PackageImpl;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.main.ModManifest;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModDownload;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.mod.ModPackage;
 import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.lookuptable.LookupTableEntryImpl;
+import com.github.nebelnidas.modget.manifest_api.spec3.impl.data.mod.ModPackageImpl;
 import com.github.nebelnidas.modget.manifest_api.spec3.util.ManifestUtils;
-import com.github.nebelnidas.modget.manifest_api.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.manifest.common.NameUrlPairImpl;
 
 public class V3ManifestCompat {
@@ -27,10 +25,10 @@ public class V3ManifestCompat {
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage v4Package
 	) throws Exception
 	{
-		Package v3Package = new PackageImpl(v4Package.getPublisher(), v4Package.getModId());
+		ModPackage v3Package = new ModPackageImpl(v4Package.getPublisher(), v4Package.getModId());
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(null);
 
-		Manifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
+		ModManifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
 
 		return convertManifest(v3Manifest, v4Package, v4Entry);
 	}
@@ -38,7 +36,7 @@ public class V3ManifestCompat {
 
 
 	public com.github.nebelnidas.modget.manifest_api.spec4.api.data.manifest.main.ModManifest convertManifest(
-		Manifest v3Manifest,
+		ModManifest v3Manifest,
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage v4Package,
 		com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry v4Entry
 	)
@@ -77,11 +75,11 @@ public class V3ManifestCompat {
 	)
 	{
 		return new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.manifest.version.ModVersionImpl(v4Manifest) {{
-			Manifest v3Manifest = v3Version.getParentManifest();
+			ModManifest v3Manifest = v3Version.getParentManifest();
 
 			// Copy version metadata
 			setVersion(v3Version.getVersion());
-			// setLoaders(v3Manifest.getLoader()); // TODO
+			setLoaders(v3Manifest.getLoader());
 			setMinecraftVersions(v3Version.getMinecraftVersions());
 			setChannel(null);
 			setDepends(null);
@@ -117,7 +115,7 @@ public class V3ManifestCompat {
 	
 			// Copy version download page urls
 			setDownloadPageUrls(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
-				for (ModVersionDownload v3Download : v3Version.getDownloadPageUrls()) {
+				for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
 					String url = v3Download.getUrl();
 					switch (v3Download.getName()) {
 						case "Modrinth":
@@ -140,7 +138,7 @@ public class V3ManifestCompat {
 	
 			// Copy version file urls
 			setFileUrls(new com.github.nebelnidas.modget.manifest_api.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
-				for (ModVersionDownload v3Download : v3Version.getDownloadPageUrls()) {
+				for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
 					String url = v3Download.getUrl();
 					switch (v3Download.getName()) {
 						case "Modrinth":

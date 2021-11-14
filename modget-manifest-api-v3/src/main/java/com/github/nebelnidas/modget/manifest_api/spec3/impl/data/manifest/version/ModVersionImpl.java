@@ -1,22 +1,22 @@
-package com.github.nebelnidas.modget.manifest_api.spec3.impl.data.manifest;
+package com.github.nebelnidas.modget.manifest_api.spec3.impl.data.manifest.version;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.Manifest;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersion;
-import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.ModVersionDownload;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.main.ModManifest;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModDownload;
+import com.github.nebelnidas.modget.manifest_api.spec3.api.data.manifest.version.ModVersion;
 
 public class ModVersionImpl implements ModVersion {
-	private /*final*/ Manifest parentManifest; // TODO
+	private /*final*/ ModManifest parentManifest; // TODO
 	private String version;
 	private List<String> minecraftVersions;
 	private String md5;
-	private List<ModVersionDownload> downloadPageUrls;
-	private List<ModVersionDownload> fileUrls;
+	private List<ModDownload> downloadPageUrls;
+	private List<ModDownload> fileUrls;
 
 	@JsonIgnore
-	public ModVersionImpl(Manifest parentManifest) {
+	public ModVersionImpl(ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}
 
@@ -26,12 +26,12 @@ public class ModVersionImpl implements ModVersion {
 
 
 	@Override
-	public Manifest getParentManifest() {
+	public ModManifest getParentManifest() {
 		return this.parentManifest;
 	}
 
 	@Override
-	public void setParentManifest(Manifest parentManifest) {
+	public void setParentManifest(ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}
 
@@ -66,22 +66,22 @@ public class ModVersionImpl implements ModVersion {
 	}
 
 	@Override
-	public List<ModVersionDownload> getDownloadPageUrls() {
+	public List<ModDownload> getDownloadPageUrls() {
 		return this.downloadPageUrls;
 	}
 
 	@Override
-	public void setDownloadPageUrls(List<ModVersionDownload> downloadPageUrls) {
+	public void setDownloadPageUrls(List<ModDownload> downloadPageUrls) {
 		this.downloadPageUrls = downloadPageUrls;
 	}
 
 	@Override
-	public List<ModVersionDownload> getFileUrls() {
+	public List<ModDownload> getFileUrls() {
 		return this.fileUrls;
 	}
 
 	@Override
-	public void setFileUrls(List<ModVersionDownload> fileUrls) {
+	public void setFileUrls(List<ModDownload> fileUrls) {
 		this.fileUrls = fileUrls;
 	}
 
