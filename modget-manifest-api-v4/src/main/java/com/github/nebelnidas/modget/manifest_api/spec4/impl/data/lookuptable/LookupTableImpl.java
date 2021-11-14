@@ -27,6 +27,7 @@ public class LookupTableImpl implements LookupTable {
 		this.parentRepository = parentRepository;
 	}
 
+	
 	@Override
 	public List<LookupTableEntry> getLookupTableEntries() {
 		return lookupTableEntries;

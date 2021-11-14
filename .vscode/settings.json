@@ -1,8 +1,11 @@
 {
 	"cSpell.enabled": true,
 	"cSpell.words": [
+		"Compat",
+		"curseforge",
 		"Minecraft",
-		"Modget"
+		"Modget",
+		"modrinth"
 	],
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"editor.bracketPairColorization.enabled": true

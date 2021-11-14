@@ -2,14 +2,17 @@ package com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage;
+import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableEntryImpl;
 
+@JsonDeserialize(as = LookupTableEntryImpl.class)
 public interface LookupTableEntry {
 
 	public LookupTable getParentLookupTable();
 	public void setParentLookupTable(LookupTable parentLookupTable);
 
-	
+
 	public String getId();
 	public void setId(String id);
 

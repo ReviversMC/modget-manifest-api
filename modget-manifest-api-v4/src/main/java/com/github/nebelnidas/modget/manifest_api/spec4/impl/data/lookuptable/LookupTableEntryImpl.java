@@ -15,6 +15,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	private List<String> tags;
 	private List<ModPackage> packages;
 
+
 	public LookupTableEntryImpl(@JacksonInject LookupTable parentLookupTable) {
 		this.parentLookupTable = parentLookupTable;
 
@@ -22,6 +23,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 		this.tags = new ArrayList<>(5);
 		this.packages = new ArrayList<>(2);
 	}
+
 
 	@Override
 	public LookupTable getParentLookupTable() {
@@ -33,6 +35,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 		this.parentLookupTable = parentLookupTable;
 	}
 
+
 	@Override
 	public String getId() {
 		return id;
@@ -42,6 +45,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	public void setId(String id) {
 		this.id = id;
 	}
+
 
 	@Override
 	public List<String> getNames() {
@@ -53,6 +57,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 		this.names = names;
 	}
 
+
 	@Override
 	public List<ModPackage> getPackages() {
 		return packages;
@@ -62,6 +67,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	public void setPackages(List<ModPackage> packages) {
 		this.packages = packages;
 	}
+
 
 	@Override
 	public List<String> getTags() {
