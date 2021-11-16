@@ -1,6 +1,7 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.util;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -17,7 +18,6 @@ import com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.Look
 import com.github.nebelnidas.modget.manifest_api.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.exception.VersionNotSupportedException;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.util.RepoHandlingUtilsBase;
-import com.github.nebelnidas.modget.manifest_api.spec4.compat.V3LookupTableCompat;
 import com.github.nebelnidas.modget.manifest_api.spec4.config.ManifestApiV4Config;
 import com.github.nebelnidas.modget.manifest_api.spec4.impl.data.lookuptable.LookupTableImpl;
 
@@ -35,14 +35,34 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
+
+		boolean notSupported = false;
 		if (MAX_SHARED_VERSION == -1) {
+			notSupported = true;
+		} else if (MAX_AVAILABLE_VERSION < ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
+			String packageName = "com.github.nebelnidas.modget.manifest_api.compat.spec3";
+			String className = "V3LookupTableCompat";
+			String convertMethodName = "downloadAndConvertLookupTable";
+			Class<?>[] formalParameters = { ManifestRepository.class };
+			Object[] effectiveParameters = new Object[] { repo };
+
+			try {
+				Class<?> V3LookupTableCompat = Class.forName(packageName + "." + className);
+
+				Method method = V3LookupTableCompat.getMethod(convertMethodName, formalParameters);
+				Object newInstance = V3LookupTableCompat.newInstance();
+				method.invoke(newInstance, effectiveParameters);
+
+			} catch (Exception e) {}
+			notSupported = true;
+		}
+
+		if (notSupported) {
 			throw new VersionNotSupportedException(String.format(
 				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
 				repo.getId()
 			), ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList()),
 			repo.getAvailableManifestSpecMajorVersions().stream().map(Object::toString).collect(Collectors.toList()));
-		} else if (MAX_AVAILABLE_VERSION < ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
-			return V3LookupTableCompat.create().downloadAndConvertLookupTable(repo);
 		}
 
 

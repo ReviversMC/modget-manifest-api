@@ -2,8 +2,6 @@ archivesBaseName = "modget-manifest-api-v4"
 version = "0.1.0-beta.2"
 
 dependencies {
-	shadow api(project(':modget-manifest-api-v3'))
-
 	// jackson for reading YAML
 	shadow implementation("com.fasterxml.jackson.core:jackson-core:${project.jackson_version}")
 	shadow implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${project.jackson_version}")

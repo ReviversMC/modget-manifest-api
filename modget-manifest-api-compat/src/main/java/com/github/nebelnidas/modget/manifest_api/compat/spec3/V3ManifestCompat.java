@@ -1,4 +1,4 @@
-package com.github.nebelnidas.modget.manifest_api.spec4.compat;
+package com.github.nebelnidas.modget.manifest_api.compat.spec3;
 
 import java.util.ArrayList;
 

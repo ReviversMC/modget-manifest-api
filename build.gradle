@@ -9,7 +9,7 @@ version = project.version
 
 
 allprojects {
-	apply plugin: "java-library"
+	apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -67,6 +67,8 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
 
 
 dependencies {
+    shadow implementation(project(":modget-manifest-api-compat"))
+    shadow implementation(project(":modget-manifest-api-v3"))
     shadow api(project(":modget-manifest-api-v4"))
 }
 

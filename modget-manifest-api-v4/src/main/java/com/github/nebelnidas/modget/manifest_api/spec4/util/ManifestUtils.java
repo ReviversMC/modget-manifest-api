@@ -1,6 +1,7 @@
 package com.github.nebelnidas.modget.manifest_api.spec4.util;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,6 @@ import com.github.nebelnidas.modget.manifest_api.spec4.api.data.manifest.version
 import com.github.nebelnidas.modget.manifest_api.spec4.api.data.mod.ModPackage;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.exception.VersionNotSupportedException;
 import com.github.nebelnidas.modget.manifest_api.spec4.api.util.RepoHandlingUtilsBase;
-import com.github.nebelnidas.modget.manifest_api.spec4.compat.V3ManifestCompat;
 import com.github.nebelnidas.modget.manifest_api.spec4.config.ManifestApiV4Config;
 
 public class ManifestUtils extends RepoHandlingUtilsBase {
@@ -53,14 +53,34 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
+
+		boolean notSupported = false;
 		if (MAX_SHARED_VERSION == -1) {
+			notSupported = true;
+		} else if (MAX_AVAILABLE_VERSION < ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
+			String packageName = "com.github.nebelnidas.modget.manifest_api.compat.spec3";
+			String className = "V3ManifestCompat";
+			String convertMethodName = "downloadAndConvertManifest";
+			Class<?>[] formalParameters = { LookupTableEntry.class, ModPackage.class };
+			Object[] effectiveParameters = new Object[] { repo };
+
+			try {
+				Class<?> V3ManifestCompat = Class.forName(packageName + "." + className);
+
+				Method method = V3ManifestCompat.getMethod(convertMethodName, formalParameters);
+				Object newInstance = V3ManifestCompat.newInstance();
+				method.invoke(newInstance, effectiveParameters);
+
+			} catch (Exception e) {}
+			notSupported = true;
+		}
+
+		if (notSupported) {
 			throw new VersionNotSupportedException(String.format(
 				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
 				repo.getId()
 			), ManifestApiV4Config.SUPPORTED_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList()),
 			repo.getAvailableManifestSpecMajorVersions().stream().map(Object::toString).collect(Collectors.toList()));
-		} else if (MAX_AVAILABLE_VERSION < ManifestApiV4Config.MAX_SUPPORTED_VERSION) {
-			return V3ManifestCompat.create().downloadAndConvertManifest(entry, modPackage);
 		}
 
 
