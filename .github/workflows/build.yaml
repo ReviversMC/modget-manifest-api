@@ -33,5 +33,6 @@ jobs:
       with:
         name: build-artifacts
         path: |
-          [^/]*/build/libs
+          build/libs
+          [^/]+/build/libs
           !modget-manifest-api-base/build/libs
