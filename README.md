@@ -20,7 +20,7 @@ implementation "com.github.ReviversMC:modget-manifest-api-spec4:${modget_manifes
 
 If you want to stay on the bleeding edge and always use the latest available specification, simply depend on the `modget-manifest-api` package without any specific spec versions attached.
 
-But what if you need to support multiple generations of manifest specifications? [Modget-Minecraft]() for example allows users to add custom repositories, though it can't expect that these will always be up-to-date with the latest spec. Hence, we created a compatibility module which you can additionally add this way:
+But what if you need to support multiple generations of manifest specifications? [Modget-Minecraft](https://github.com/ReviversMC/modget-minecraft) for example allows users to add custom repositories, though it can't expect that these will always be up-to-date with the latest spec. Hence, we created a compatibility module which you can additionally add this way:
 ```gradle
 implementation "com.github.ReviversMC:modget-manifest-api-compat:${modget_manifest_api_version}"
 ```
