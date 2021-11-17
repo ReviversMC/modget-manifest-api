@@ -35,5 +35,5 @@ jobs:
         path: |
           build/libs
           modget-manifest-api-compat/build/libs
-          modget-manifest-api-compat/spec3/libs
-          modget-manifest-api-compat/spec4/libs
+          modget-manifest-api-spec3/build/libs
+          modget-manifest-api-spec4/build/libs
