@@ -29,7 +29,9 @@ jobs:
       run: ./gradlew shadowJar
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: build-artifacts
-        path: build/libs
+        path: |
+          [^/]*/build/libs
+          !modget-manifest-api-base/build/libs
