@@ -5,9 +5,10 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
-version = project.version
 
-
+//*************
+// Global
+//*************
 allprojects {
 	apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
@@ -15,7 +16,6 @@ allprojects {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    archivesBaseName = project.archives_base_name
     group = project.maven_group
 
     configurations {
@@ -65,11 +65,17 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
     }
 }
 
+//*************
+// Main build
+//*************
+archivesBaseName = project.archives_base_name
+version = project.version
+
 
 dependencies {
     shadow implementation(project(":modget-manifest-api-compat"))
-    shadow implementation(project(":modget-manifest-api-v3"))
-    shadow api(project(":modget-manifest-api-v4"))
+    shadow implementation(project(":modget-manifest-api-spec3"))
+    shadow api(project(":modget-manifest-api-spec4"))
 }
 
 

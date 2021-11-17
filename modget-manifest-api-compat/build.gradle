@@ -2,6 +2,6 @@ archivesBaseName = "modget-manifest-api-compat"
 version = "0.1.0"
 
 dependencies {
-	implementation project(':modget-manifest-api-v3')
-	implementation project(':modget-manifest-api-v4')
+	implementation project(':modget-manifest-api-spec3')
+	implementation project(':modget-manifest-api-spec4')
 }
