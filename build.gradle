@@ -6,9 +6,23 @@ plugins {
 }
 
 
-//*************
-// Global
-//*************
+def getProjectVersion(project) {
+	// Get the version from the gradle.properties file
+	def version = project.properties["${project.name}-version"]
+
+    if (project.name.equals("modget-manifest-api")) {
+        version = project.properties.version
+    }
+
+	if (!version) {
+		throw new NullPointerException("Could not find version for " + project.name)
+	}
+
+    return version
+}
+
+
+
 allprojects {
 	apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
@@ -17,6 +31,8 @@ allprojects {
     targetCompatibility = JavaVersion.VERSION_1_8
 
     group = project.maven_group
+    project.name
+    version = getProjectVersion(project)
 
     configurations {
         includeTransitive {
@@ -55,6 +71,13 @@ allprojects {
     shadowJar {
         configurations = [project.configurations.shadow]
         archiveClassifier.set("")
+
+        dependencies {
+            exclude(dependency {
+                it.moduleGroup == 'org.apache.logging.log4j' ||
+                it.moduleGroup == 'com.fasterxml.jackson'
+            })
+        }
     }
 }
 
@@ -63,35 +86,34 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
     dependencies {
         shadow implementation(project(":modget-manifest-api-base"))
     }
-}
 
-//*************
-// Main build
-//*************
-archivesBaseName = project.archives_base_name
-version = project.version
-
-
-dependencies {
-    shadow implementation(project(":modget-manifest-api-compat"))
-    shadow implementation(project(":modget-manifest-api-spec3"))
-    shadow api(project(":modget-manifest-api-spec4"))
-}
-
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-            artifact(shadowJar) {
-                builtBy shadowJar
+    publishing {
+        publications {
+            "$project.name"(MavenPublication) {
+                artifact(shadowJar) {
+                    groupId project.group
+                    artifactId project.name
+                    version getProjectVersion(project)
+                    builtBy shadowJar
+                }
+            }
+            latest(MavenPublication) {
+                if (project.name.equals("modget-manifest-api-spec4")) {
+                    artifact(shadowJar) {
+                        groupId rootProject.group
+                        artifactId rootProject.name
+                        version getProjectVersion(rootProject)
+                        builtBy shadowJar
+                    }
+                }
             }
         }
-    }
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        maven {
-            mavenLocal()
+        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+        repositories {
+            maven {
+                mavenLocal()
+            }
         }
     }
 }
