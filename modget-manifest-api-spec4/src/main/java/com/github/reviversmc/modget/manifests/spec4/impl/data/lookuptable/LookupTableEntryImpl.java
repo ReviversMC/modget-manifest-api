@@ -11,7 +11,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 public class LookupTableEntryImpl implements LookupTableEntry {
 	private LookupTable parentLookupTable;
 	private String id;
-	private List<String> names;
+	private List<String> alternativeNames;
 	private List<String> tags;
 	private List<ModPackage> packages;
 
@@ -19,7 +19,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	public LookupTableEntryImpl(@JacksonInject LookupTable parentLookupTable) {
 		this.parentLookupTable = parentLookupTable;
 
-		this.names = new ArrayList<>(4);
+		this.alternativeNames = new ArrayList<>(4);
 		this.tags = new ArrayList<>(5);
 		this.packages = new ArrayList<>(2);
 	}
@@ -48,13 +48,13 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 
 	@Override
-	public List<String> getNames() {
-		return names;
+	public List<String> getAlternativeNames() {
+		return alternativeNames;
 	}
 
 	@Override
-	public void setNames(List<String> names) {
-		this.names = names;
+	public void setAlternativeNames(List<String> alternativeNames) {
+		this.alternativeNames = alternativeNames;
 	}
 
 

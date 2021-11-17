@@ -45,7 +45,7 @@ public class Spec3ToSpec4LookupTableCompat {
 				for (LookupTableEntry v3Entry : v3LookupTable.getLookupTableEntries()) {
 					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.LookupTableEntryImpl(v4LookupTable) {{
 						setId(v3Entry.getId());
-						setNames(v3Entry.getNames());
+						setAlternativeNames(v3Entry.getNames());
 						setTags(v3Entry.getTags());
 	
 						// Convert packages

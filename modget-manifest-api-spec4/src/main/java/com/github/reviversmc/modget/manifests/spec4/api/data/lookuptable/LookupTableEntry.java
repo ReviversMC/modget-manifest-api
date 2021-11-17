@@ -16,8 +16,8 @@ public interface LookupTableEntry {
 	public String getId();
 	public void setId(String id);
 
-	public List<String> getNames();
-	public void setNames(List<String> names);
+	public List<String> getAlternativeNames();
+	public void setAlternativeNames(List<String> names);
 
 	public List<String> getTags();
 	public void setTags(List<String> tags);
