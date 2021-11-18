@@ -97,16 +97,16 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
                     builtBy shadowJar
                 }
             }
-            latest(MavenPublication) {
-                if (project.name.equals("modget-manifest-api-spec4")) {
-                    artifact(shadowJar) {
-                        groupId rootProject.group
-                        artifactId rootProject.name
-                        version getProjectVersion(rootProject)
-                        builtBy shadowJar
-                    }
-                }
-            }
+            // latest(MavenPublication) {
+            //     if (project.name.equals("modget-manifest-api-spec4")) {
+            //         artifact(shadowJar) {
+            //             groupId rootProject.group
+            //             artifactId rootProject.name
+            //             version getProjectVersion(rootProject)
+            //             builtBy shadowJar
+            //         }
+            //     }
+            // }
         }
 
         // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
