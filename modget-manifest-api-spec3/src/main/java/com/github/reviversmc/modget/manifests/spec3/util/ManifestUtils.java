@@ -62,7 +62,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		}
 
 
-		final String packageId = String.format("Repo%s.%s.%s", repo.getId(), modPackage.getPublisher(), modPackage.getModId());
+		final String packageId = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
 		final String uri = assembleManifestUri(
 			repo.getUri(),
 			MAX_SHARED_VERSION,
