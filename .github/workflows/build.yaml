@@ -33,7 +33,5 @@ jobs:
       with:
         name: build-artifacts
         path: |
-          build/libs
-          modget-manifest-api-compat/build/libs
-          modget-manifest-api-spec3/build/libs
-          modget-manifest-api-spec4/build/libs
+          **/build/libs
+          !modget-manifest-api-base/build/libs
