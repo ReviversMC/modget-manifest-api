@@ -34,5 +34,5 @@ jobs:
       - name: Upload GitHub release
         uses: AButler/upload-release-assets@v2.0
         with:
-          files: '**/build/libs/*.jar;!**/build/libs/*-dev.jar';!modget-manifest-api-base/build/libs
+          files: '**/build/libs/*.jar;!**/build/libs/*-dev.jar';!build/libs;!modget-manifest-api-base/build/libs
           repo-token: ${{ secrets.GITHUB_TOKEN }}
