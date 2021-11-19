@@ -58,11 +58,13 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		if (MAX_SHARED_VERSION == -1) {
 			notSupported = true;
 		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.MAX_SUPPORTED_VERSION) {
+			ManifestApiLogger.logInfo("Utilizing back-compat module...");
+
 			String packageName = "com.github.reviversmc.modget.manifests.compat.spec3";
 			String className = "Spec3ToSpec4ManifestCompat";
 			String convertMethodName = "downloadAndConvertManifest";
 			Class<?>[] formalParameters = { LookupTableEntry.class, ModPackage.class };
-			Object[] effectiveParameters = new Object[] { repo };
+			Object[] effectiveParameters = new Object[] { entry, modPackage };
 
 			try {
 				Class<?> Spec3ToSpec4ManifestCompat = Class.forName(packageName + "." + className);
@@ -71,7 +73,9 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 				Object newInstance = Spec3ToSpec4ManifestCompat.newInstance();
 				method.invoke(newInstance, effectiveParameters);
 
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				ManifestApiLogger.logInfo("Back-compat module has failed! " + e.getStackTrace());
+			}
 			notSupported = true;
 		}
 

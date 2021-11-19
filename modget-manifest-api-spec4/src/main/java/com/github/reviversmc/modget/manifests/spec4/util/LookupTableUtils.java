@@ -40,6 +40,8 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 		if (MAX_SHARED_VERSION == -1) {
 			notSupported = true;
 		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.MAX_SUPPORTED_VERSION) {
+			ManifestApiLogger.logInfo("Utilizing back-compat module...");
+
 			String packageName = "com.github.reviversmc.modget.manifests.compat.spec3";
 			String className = "Spec3ToSpec4LookupTableCompat";
 			String convertMethodName = "downloadAndConvertLookupTable";
@@ -53,13 +55,15 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 				Object newInstance = Spec3ToSpec4LookupTableCompat.newInstance();
 				method.invoke(newInstance, effectiveParameters);
 
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				ManifestApiLogger.logInfo("Back-compat module has failed! " + e.getStackTrace());
+			}
 			notSupported = true;
 		}
 
 		if (notSupported) {
 			throw new VersionNotSupportedException(String.format(
-				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
+				"This version of the Manifest API doesn't support the manifest specification Repo%s provides!",
 				repo.getId()
 			), ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList()),
 			repo.getAvailableManifestSpecMajorVersions().stream().map(Object::toString).collect(Collectors.toList()));
