@@ -34,7 +34,7 @@ public class RepositoryUtils {
 		final int MAX_VERSIONS_TO_CHECK = 10;
 		final List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
-		for (int version = 3; version < ManifestApiSpec4Config.MAX_SUPPORTED_VERSION + MAX_VERSIONS_TO_CHECK; version++) {
+		for (int version = 3; version < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC + MAX_VERSIONS_TO_CHECK; version++) {
 			try {
 				if (doesRepoSupportMajorSpecVersion(repo, version) == true) {
 					availableManifestSpecMajorVersions.add(version);
@@ -50,7 +50,7 @@ public class RepositoryUtils {
 		List<Integer> availableManifestSpecMajorVersions = getAvailableManifestSpecMajorVersions(repo);
 		final int MAX_AVAILABLE_VERSION = availableManifestSpecMajorVersions.get(availableManifestSpecMajorVersions.size() - 1);
 
-		if (MAX_AVAILABLE_VERSION > ManifestApiSpec4Config.MAX_SUPPORTED_VERSION) {
+		if (MAX_AVAILABLE_VERSION > ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
 			return true;
 		}
 		return false;

@@ -15,4 +15,13 @@ public abstract class RepoHandlingUtilsBase {
 		return -1;
 	}
 
+	protected int findMaxSharedInt(int a, List<Integer> intList1) {
+		for (int b : intList1) {
+			if (a == b) {
+				return a;
+			}
+		}
+		return -1;
+	}
+
 }

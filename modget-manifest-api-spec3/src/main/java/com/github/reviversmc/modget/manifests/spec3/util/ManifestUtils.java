@@ -51,7 +51,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 
 		if (MAX_SHARED_VERSION == -1) {
 			throw new VersionNotSupportedException(String.format(
-				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
+				"This version of the Manifest API doesn't support any of the manifest specifications provided by Repo%s!",
 				repo.getId()
 			), new ArrayList<String>(
 				Arrays.asList(

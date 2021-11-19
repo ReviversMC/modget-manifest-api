@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 
 		final int MAX_AVAILABLE_VERSION = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
 		final int MAX_SHARED_VERSION = findMaxSharedInt(
-			ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPECS,
+			ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC,
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
@@ -57,7 +58,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		boolean notSupported = false;
 		if (MAX_SHARED_VERSION == -1) {
 			notSupported = true;
-		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.MAX_SUPPORTED_VERSION) {
+		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
 			ManifestApiLogger.logInfo("Utilizing back-compat module...");
 
 			String packageName = "com.github.reviversmc.modget.manifests.compat.spec3";
@@ -83,9 +84,13 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 
 		if (notSupported) {
 			throw new VersionNotSupportedException(String.format(
-				"This version of the Manifest API doesn't support any of the manifest specifications Repo%s provides!",
+				"This version of the Manifest API doesn't support any of the manifest specifications provided by Repo%s!",
 				repo.getId()
-			), ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList()),
+			), new ArrayList<String>(
+				Arrays.asList(
+					Integer.toString(ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC)
+				)
+			),
 			repo.getAvailableManifestSpecMajorVersions().stream().map(Object::toString).collect(Collectors.toList()));
 		}
 
