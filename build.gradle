@@ -90,11 +90,13 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
     publishing {
         publications {
             "$project.name"(MavenPublication) {
-                artifact(shadowJar) {
-                    groupId project.group
-                    artifactId project.name
-                    version getProjectVersion(project)
-                    builtBy shadowJar
+                if (!project.name.equals("modget-manifest-api-base")) {
+                    artifact(shadowJar) {
+                        groupId project.group
+                        artifactId project.name
+                        version getProjectVersion(project)
+                        builtBy shadowJar
+                    }
                 }
             }
             // latest(MavenPublication) {
