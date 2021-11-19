@@ -71,7 +71,9 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 
 				Method method = Spec3ToSpec4ManifestCompat.getMethod(convertMethodName, formalParameters);
 				Object newInstance = Spec3ToSpec4ManifestCompat.newInstance();
-				method.invoke(newInstance, effectiveParameters);
+				Object value = method.invoke(newInstance, effectiveParameters);
+
+				return (ModManifest)value;
 
 			} catch (Exception e) {
 				ManifestApiLogger.logInfo("Back-compat module has failed! " + e.getStackTrace());
