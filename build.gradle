@@ -23,7 +23,7 @@ def getProjectVersion(project) {
 
 
 
-allprojects {
+subprojects {
 	apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
 
