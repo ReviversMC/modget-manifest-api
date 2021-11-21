@@ -1,5 +1,6 @@
 package com.github.reviversmc.modget.manifests.spec3.impl.data.manifest.common;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.common.PackageIdVersionPair;
 
 public class PackageIdVersionPairImpl implements PackageIdVersionPair {
@@ -7,7 +8,7 @@ public class PackageIdVersionPairImpl implements PackageIdVersionPair {
 	String version;
 
 
-	public PackageIdVersionPairImpl(String packageId, String version) {
+	public PackageIdVersionPairImpl(@JacksonInject String packageId, @JacksonInject String version) {
 		this.packageId = packageId;
 		this.version = version;
 	}

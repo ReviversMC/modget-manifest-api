@@ -23,6 +23,8 @@ import com.github.reviversmc.modget.manifests.spec3.api.exception.VersionNotSupp
 import com.github.reviversmc.modget.manifests.spec3.api.util.RepoHandlingUtilsBase;
 import com.github.reviversmc.modget.manifests.spec3.config.ManifestApiSpec3Config;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 public class ManifestUtils extends RepoHandlingUtilsBase {
 
 	public static ManifestUtils create() {
@@ -32,13 +34,14 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 
 	public String assembleManifestUri(String uri, int manifestSpecMajorVersion, ModPackage modPackage) {
 		return new String(String.format(
-			"%s/v%s/manifests/%s/%s/%s/main.yaml",
+			"%s/v%s/manifests/%s/%s/%s/%s.yaml",
 			uri,
 			manifestSpecMajorVersion,
 			String.valueOf(modPackage.getPublisher().charAt(0)).toUpperCase(),
 			modPackage.getPublisher(),
-			modPackage.getModId())
-		);
+			modPackage.getModId(),
+			modPackage.getPackageId()
+		));
 	}
 
 	public ModManifest downloadManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
@@ -62,7 +65,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		}
 
 
-		final String packageId = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
+		final String packageIdWithRepo = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
 		final String uri = assembleManifestUri(
 			repo.getUri(),
 			MAX_SHARED_VERSION,
@@ -73,8 +76,9 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		final InjectableValues.Std injectableValues = new InjectableValues.Std();
         injectableValues.addValue(ModPackage.class, modPackage);
         injectableValues.addValue(LookupTableEntry.class, entry);
-        // injectableValues.addValue(ModManifest.class, null);
-        // injectableValues.addValue(ModVersion.class, null);
+        injectableValues.addValue(ModManifest.class, null);
+        injectableValues.addValue(ModVersion.class, null);
+        injectableValues.addValue(String.class, null);
         mapper.setInjectableValues(injectableValues);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -84,16 +88,16 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			modManifest = mapper.readValue(new URL(uri), ModManifest.class);
 		} catch (Exception e) {
 			if (e instanceof IOException) {
-				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageId), e.getStackTrace().toString());
+				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageIdWithRepo), ExceptionUtils.getStackTrace(e));
 			} else {
-				ManifestApiLogger.logWarn(String.format("An error occurred while parsing the %s manifest", packageId), e.getStackTrace().toString());
+				ManifestApiLogger.logWarn(String.format("An error occurred while parsing the %s manifest", packageIdWithRepo), ExceptionUtils.getStackTrace(e));
 			}
 			throw e;
 		}
 
 		modManifest = setMissingReferences(modManifest);
 
-		ManifestApiLogger.logInfo(String.format("Fetched Manifest: %s", packageId));
+		ManifestApiLogger.logInfo(String.format("Fetched Manifest: %s", packageIdWithRepo));
 		return modManifest;
 	}
 
@@ -123,7 +127,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 				fileUrl.setParentModVersion(version);
 				fileUrls.add(fileUrl);
 			}
-			version.setDownloadPageUrls(fileUrls);
+			version.setFileUrls(fileUrls);
 
 
 			versions.add(version);

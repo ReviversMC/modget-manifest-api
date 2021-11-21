@@ -14,13 +14,13 @@ public class ModPackageImpl implements ModPackage {
 
 
 	public ModPackageImpl(String packageId) {
-		this.packageId = packageId;
+		setPackageId(packageId);
 		manifests = new ArrayList<>(1);
 	}
 
-	public ModPackageImpl(String modId, String publisher) {
-		this.modId = modId;
+	public ModPackageImpl(String publisher, String modId) {
 		this.publisher = publisher;
+		setModId(modId);
 		manifests = new ArrayList<>(1);
 	}
 

@@ -1,5 +1,6 @@
 package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 
 public class NameUrlPairImpl implements NameUrlPair {
@@ -7,7 +8,7 @@ public class NameUrlPairImpl implements NameUrlPair {
 	private String url;
 
 
-	public NameUrlPairImpl(String name, String url) {
+	public NameUrlPairImpl(@JacksonInject String name, @JacksonInject String url) {
 		this.name = name;
 		this.url = url;
 	}

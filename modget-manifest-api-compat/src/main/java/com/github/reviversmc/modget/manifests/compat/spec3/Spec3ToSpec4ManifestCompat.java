@@ -2,18 +2,23 @@ package com.github.reviversmc.modget.manifests.compat.spec3;
 
 import java.util.ArrayList;
 
+import com.github.reviversmc.modget.manifests.ManifestApiLogger;
+import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModDownload;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
+import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepositoryImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableEntryImpl;
+import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl;
 import com.github.reviversmc.modget.manifests.spec3.util.ManifestUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.RepositoryUtils;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
 
 public class Spec3ToSpec4ManifestCompat {
-	public com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest;
+	com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest;
 
 	public static Spec3ToSpec4ManifestCompat create() {
 		return new Spec3ToSpec4ManifestCompat();
@@ -25,12 +30,25 @@ public class Spec3ToSpec4ManifestCompat {
 		com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage v4Package
 	) throws Exception
 	{
-		ModPackage v3Package = new ModPackageImpl(v4Package.getPublisher(), v4Package.getModId());
-		LookupTableEntry v3Entry = new LookupTableEntryImpl(null);
+		ModPackage v3Package = new ModPackageImpl(v4Package.getPackageId());
 
+		com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository v4Repo
+			= v4Entry.getParentLookupTable().getParentRepository();
+		ManifestRepository v3Repo = new ManifestRepositoryImpl(v4Repo.getId(), v4Repo.getUri()) {{
+			setSupportedManifestSpecMajorVersions(RepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
+		}};
+
+		LookupTableEntry v3Entry = new LookupTableEntryImpl(new LookupTableImpl(v3Repo));
 		ModManifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
 
-		return convertManifest(v3Manifest, v4Package, v4Entry);
+		v4Manifest = convertManifest(v3Manifest, v4Package, v4Entry);
+		v4Manifest.setParentPackage(v4Package);
+		v4Manifest.setParentLookupTableEntry(v4Entry);
+		for (com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion version : v4Manifest.getVersions()) {
+			version.setParentManifest(v4Manifest);
+		}
+
+		return v4Manifest;
 	}
 
 
@@ -62,7 +80,10 @@ public class Spec3ToSpec4ManifestCompat {
 			// Copy mod versions
 			setVersions(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion>() {{
 				for (ModVersion v3Version : v3Manifest.getDownloads()) {
-					add(convertModVersion(v3Version));
+					com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion v4Version
+						= convertModVersion(v3Version);
+					v4Version.setParentManifest(v4Manifest);
+					add(v4Version);
 				}
 			}});
 		}};
@@ -138,7 +159,7 @@ public class Spec3ToSpec4ManifestCompat {
 	
 			// Copy version file urls
 			setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
-				for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
+				for (ModDownload v3Download : v3Version.getFileUrls()) {
 					String url = v3Download.getUrl();
 					switch (v3Download.getName()) {
 						case "Modrinth":

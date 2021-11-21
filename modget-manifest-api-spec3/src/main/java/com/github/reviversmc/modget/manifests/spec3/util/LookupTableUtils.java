@@ -21,6 +21,8 @@ import com.github.reviversmc.modget.manifests.spec3.api.util.RepoHandlingUtilsBa
 import com.github.reviversmc.modget.manifests.spec3.config.ManifestApiSpec3Config;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableImpl;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 public class LookupTableUtils extends RepoHandlingUtilsBase {
 
 	public static LookupTableUtils create() {
@@ -62,9 +64,9 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 			return lookupTable;
         } catch (Exception e) {
 			if (e instanceof UnknownHostException || e instanceof IOException) {
-				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", e.getStackTrace().toString());
+				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", ExceptionUtils.getStackTrace(e));
 			} else {
-				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", e.getStackTrace().toString());
+				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", ExceptionUtils.getStackTrace(e));
 			}
 			throw e;
         }

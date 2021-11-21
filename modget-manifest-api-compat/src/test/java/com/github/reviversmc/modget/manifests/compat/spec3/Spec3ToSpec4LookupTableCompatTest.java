@@ -8,6 +8,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.ManifestRepositoryImpl;
 import com.github.reviversmc.modget.manifests.spec4.util.LookupTableUtils;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Test;
 
 public class Spec3ToSpec4LookupTableCompatTest {
@@ -18,7 +19,7 @@ public class Spec3ToSpec4LookupTableCompatTest {
 		try {
 			assertTrue(LookupTableUtils.create().downloadLookupTable(repo).getLookupTableEntries().get(0).getId() != "");
 		} catch (Exception e) {
-			fail(e.getStackTrace().toString());
+			fail(ExceptionUtils.getStackTrace(e));
 		}
 	}
 }
