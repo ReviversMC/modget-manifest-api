@@ -2,7 +2,6 @@ package com.github.reviversmc.modget.manifests.compat.spec3;
 
 import java.util.ArrayList;
 
-import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
@@ -15,10 +14,13 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.Lookup
 import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl;
 import com.github.reviversmc.modget.manifests.spec3.util.ManifestUtils;
 import com.github.reviversmc.modget.manifests.spec3.util.RepositoryUtils;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
 
 public class Spec3ToSpec4ManifestCompat {
-	com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest;
+	com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest
+		= new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModManifestImpl(null, null);
+	ModPackage v3Package = null;
 
 	public static Spec3ToSpec4ManifestCompat create() {
 		return new Spec3ToSpec4ManifestCompat();
@@ -30,63 +32,73 @@ public class Spec3ToSpec4ManifestCompat {
 		com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage v4Package
 	) throws Exception
 	{
-		ModPackage v3Package = new ModPackageImpl(v4Package.getPackageId());
+		// Package
+		v3Package = new ModPackageImpl(v4Package.getPackageId());
 
+		// Repository
 		com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository v4Repo
 			= v4Entry.getParentLookupTable().getParentRepository();
 		ManifestRepository v3Repo = new ManifestRepositoryImpl(v4Repo.getId(), v4Repo.getUri()) {{
 			setSupportedManifestSpecMajorVersions(RepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
 		}};
 
+		// Lookup table entry
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(new LookupTableImpl(v3Repo));
-		ModManifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
 
-		v4Manifest = convertManifest(v3Manifest, v4Package, v4Entry);
+		// Manifest
+		ModManifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
+		convertManifest(v3Manifest, v4Package, v4Entry);
 		v4Manifest.setParentPackage(v4Package);
 		v4Manifest.setParentLookupTableEntry(v4Entry);
-		for (com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion version : v4Manifest.getVersions()) {
-			version.setParentManifest(v4Manifest);
-		}
 
 		return v4Manifest;
 	}
 
 
 
-	public com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest convertManifest(
+	public void convertManifest(
 		ModManifest v3Manifest,
 		com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage v4Package,
 		com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry v4Entry
 	)
 	{
-		// Create new v4 manifest
-		return new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModManifestImpl(v4Package, v4Entry) {{
-			// Copy basic metadata
-			setManifestSpecVersion(v3Manifest.getManifestSpecVersion());
-			setPublisher(v3Manifest.getPublisher());
-			setIconUrls(null);
-			setStatus(null);
-			setUpdatedAlternatives(null);
-			setName(v3Manifest.getName());
-			setDescription(v3Manifest.getDescription());
-			setAuthors(null);
-			setHome(v3Manifest.getHome());
-			setSource(v3Manifest.getSource());
-			setIssues(v3Manifest.getIssues());
-			setSupport(v3Manifest.getSupport());
-			setWiki(null);
-			setChats(null);
+		// Copy basic metadata
+		v4Manifest.setManifestSpecVersion(v3Manifest.getManifestSpecVersion());
+		v4Manifest.setPublisher(v3Manifest.getPublisher());
+		v4Manifest.setIconUrls(null);
+		v4Manifest.setStatus(null);
+		v4Manifest.setUpdatedAlternatives(null);
+		v4Manifest.setName(v3Manifest.getName());
+		v4Manifest.setDescription(v3Manifest.getDescription());
+		v4Manifest.setAuthors(null);
+		v4Manifest.setHome(v3Manifest.getHome());
+		v4Manifest.setSource(v3Manifest.getSource());
+		v4Manifest.setIssues(v3Manifest.getIssues());
+		v4Manifest.setSupport(v3Manifest.getSupport());
+		v4Manifest.setWiki(null);
 
-			// Copy mod versions
-			setVersions(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion>() {{
-				for (ModVersion v3Version : v3Manifest.getDownloads()) {
-					com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion v4Version
-						= convertModVersion(v3Version);
-					v4Version.setParentManifest(v4Manifest);
-					add(v4Version);
-				}
-			}});
-		}};
+		// Copy chats
+		v4Manifest.setChats(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModChatsImpl(v4Manifest) {{
+			if (v3Manifest.getChat().toLowerCase().contains("discord")) {
+				setDiscord(v3Manifest.getChat());
+			} else if (v3Manifest.getChat().toLowerCase().contains("irc")) {
+				setIrc(v3Manifest.getChat());
+			} else {
+				setOthers(new ArrayList<NameUrlPair>() {{
+					add(new NameUrlPairImpl(null, v3Manifest.getChat()));
+				}});
+			}
+		}});
+
+		// Copy mod versions
+		v4Manifest.setVersions(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion>() {{
+			for (ModVersion v3Version : v3Manifest.getDownloads()) {
+				com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion v4Version
+					= convertModVersion(v3Version);
+				v4Version.setParentManifest(v4Manifest);
+				add(v4Version);
+			}
+		}});
 	}
 
 
@@ -100,14 +112,11 @@ public class Spec3ToSpec4ManifestCompat {
 
 			// Copy version metadata
 			setVersion(v3Version.getVersion());
-			setLoaders(v3Manifest.getLoader());
+			setLoaders(v3Version.getLoaders());
 			setMinecraftVersions(v3Version.getMinecraftVersions());
 			setChannel(null);
-			setDepends(null);
 			setBundles(null);
-			setBreaks(null);
 			setConflicts(null);
-			setRecommends(null);
 			setLicense(v3Manifest.getLicense());
 			setFileType(v3Manifest.getModType());
 			setMd5(v3Version.getMd5());
@@ -127,6 +136,28 @@ public class Spec3ToSpec4ManifestCompat {
 						break;
 				}
 			}});
+
+			setDepends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+				for (ModPackage v3DependentPackage : v3Version.getDepends()) {
+					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3DependentPackage.getPackageId()) {{
+						setVersion(v3DependentPackage.getVersion());
+					}});
+				}
+			}});
+			setBreaks(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+				for (ModPackage v3BreakingPackage : v3Version.getBreaks()) {
+					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3BreakingPackage.getPackageId()) {{
+						setVersion(v3BreakingPackage.getVersion());
+					}});
+				}
+			}});
+			setRecommends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+				for (ModPackage v3RecommendedPackage : v3Version.getRecommends()) {
+					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3RecommendedPackage.getPackageId()) {{
+						setVersion(v3RecommendedPackage.getVersion());
+					}});
+				}
+			}});
 	
 			// Copy third party ids
 			setThirdPartyIds(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModThirdPartyIdsImpl(this) {{
@@ -138,16 +169,16 @@ public class Spec3ToSpec4ManifestCompat {
 			setDownloadPageUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
 				for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
 					String url = v3Download.getUrl();
-					switch (v3Download.getName()) {
-						case "Modrinth":
+					switch (v3Download.getName().toLowerCase()) {
+						case "modrinth":
 							setModrinth(url);
 							break;
-						case "CurseForge":
+						case "curseforge":
 							setCurseforge(url);
 							break;
-						case "GitHub":
-						case "GitLab":
-						case "Gitea":
+						case "github":
+						case "gitlab":
+						case "gitea":
 							setSourceControl(url);
 							break;
 						default:
@@ -161,16 +192,16 @@ public class Spec3ToSpec4ManifestCompat {
 			setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
 				for (ModDownload v3Download : v3Version.getFileUrls()) {
 					String url = v3Download.getUrl();
-					switch (v3Download.getName()) {
-						case "Modrinth":
+					switch (v3Download.getName().toLowerCase()) {
+						case "modrinth":
 							setModrinth(url);
 							break;
-						case "CurseForge":
+						case "curseforge":
 							setCurseforge(url);
 							break;
-						case "GitHub":
-						case "GitLab":
-						case "Gitea":
+						case "github":
+						case "gitlab":
+						case "gitea":
 							setSourceControl(url);
 							break;
 						default:

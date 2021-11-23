@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
 public class ModPackageImpl implements ModPackage {
@@ -12,7 +11,7 @@ public class ModPackageImpl implements ModPackage {
 	private String publisher;
 	private String modId;
 	private List<String> loaders;
-	private ModVersion version;
+	private String version;
 	private List<ModManifest> manifests;
 
 
@@ -78,12 +77,12 @@ public class ModPackageImpl implements ModPackage {
 
 
 	@Override
-	public ModVersion getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
 	@Override
-	public void setVersion(ModVersion version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 

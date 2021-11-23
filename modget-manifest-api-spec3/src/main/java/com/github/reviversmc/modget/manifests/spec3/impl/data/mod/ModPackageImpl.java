@@ -10,6 +10,7 @@ public class ModPackageImpl implements ModPackage {
 	private String packageId;
 	private String publisher;
 	private String modId;
+	private String version;
 	private List<ModManifest> manifests;
 
 
@@ -60,6 +61,17 @@ public class ModPackageImpl implements ModPackage {
 	public void setModId(String modId) {
 		this.modId = modId;
 		packageId = String.format("%s.%s", publisher, modId);
+	}
+
+
+	@Override
+	public String getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 

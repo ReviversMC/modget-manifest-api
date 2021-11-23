@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModDownload;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModVersion;
@@ -11,8 +12,12 @@ import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.Mo
 public class ModVersionImpl implements ModVersion {
 	private ModManifest parentManifest;
 	private String version;
-	private List<String> minecraftVersions;
+	private List<String> loaders;
 	private String md5;
+	private List<String> minecraftVersions;
+	private List<ModPackage> depends;
+	private List<ModPackage> breaks;
+	private List<ModPackage> recommends;
 	private List<ModDownload> downloadPageUrls;
 	private List<ModDownload> fileUrls;
 
@@ -20,7 +25,11 @@ public class ModVersionImpl implements ModVersion {
 	public ModVersionImpl(@JacksonInject ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 
+		this.loaders = new ArrayList<>(1);
 		this.minecraftVersions = new ArrayList<>(4);
+		this.depends = new ArrayList<>(2);
+		this.breaks = new ArrayList<>(2);
+		this.recommends = new ArrayList<>(1);
 		this.downloadPageUrls = new ArrayList<>(3);
 		this.fileUrls = new ArrayList<>(3);
 	}
@@ -49,13 +58,13 @@ public class ModVersionImpl implements ModVersion {
 
 
 	@Override
-	public List<String> getMinecraftVersions() {
-		return this.minecraftVersions;
+	public List<String> getLoaders() {
+		return loaders;
 	}
 
 	@Override
-	public void setMinecraftVersions(List<String> minecraftVersions) {
-		this.minecraftVersions = minecraftVersions;
+	public void setLoaders(List<String> loaders) {
+		this.loaders = loaders;
 	}
 
 
@@ -67,6 +76,50 @@ public class ModVersionImpl implements ModVersion {
 	@Override
 	public void setMd5(String md5) {
 		this.md5 = md5;
+	}
+
+
+	@Override
+	public List<String> getMinecraftVersions() {
+		return this.minecraftVersions;
+	}
+
+	@Override
+	public void setMinecraftVersions(List<String> minecraftVersions) {
+		this.minecraftVersions = minecraftVersions;
+	}
+
+
+	@Override
+	public List<ModPackage> getDepends() {
+		return depends;
+	}
+
+	@Override
+	public void setDepends(List<ModPackage> depends) {
+		this.depends = depends;
+	}
+
+
+	@Override
+	public List<ModPackage> getBreaks() {
+		return breaks;
+	}
+
+	@Override
+	public void setBreaks(List<ModPackage> breaks) {
+		this.breaks = breaks;
+	}
+
+
+	@Override
+	public List<ModPackage> getRecommends() {
+		return recommends;
+	}
+
+	@Override
+	public void setRecommends(List<ModPackage> recommends) {
+		this.recommends = recommends;
 	}
 
 

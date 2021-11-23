@@ -19,4 +19,7 @@ public interface ModPackage {
 	public void addManifest(ModManifest manifest);
 	public void setManifests(List<ModManifest> manifests);
 
+	public String getVersion();
+	public void setVersion(String version);
+
 }

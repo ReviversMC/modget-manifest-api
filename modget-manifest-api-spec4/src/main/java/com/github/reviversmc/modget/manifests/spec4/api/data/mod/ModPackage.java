@@ -3,7 +3,6 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.mod;
 import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 
 public interface ModPackage {
 
@@ -23,7 +22,7 @@ public interface ModPackage {
 	public void addManifest(ModManifest manifest);
 	public void setManifests(List<ModManifest> manifests);
 
-	public ModVersion getVersion();
-	public void setVersion(ModVersion version);
+	public String getVersion();
+	public void setVersion(String version);
 
 }

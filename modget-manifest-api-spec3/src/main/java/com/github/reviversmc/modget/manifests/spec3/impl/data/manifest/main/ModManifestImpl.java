@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
-import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.common.PackageIdVersionPair;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModVersion;
@@ -17,7 +16,6 @@ public class ModManifestImpl implements ModManifest {
 	private String manifestSpecVersion;
 	private String publisher;
 	private String id;
-	private List<String> loader;
 	private String modType;
 	private String side;
 	private String name;
@@ -26,12 +24,9 @@ public class ModManifestImpl implements ModManifest {
 	private String home;
 	private String source;
 	private String issues;
-	private String wiki;
 	private String support;
+	private String wiki;
 	private String chat;
-	private List<PackageIdVersionPair> depends;
-	private List<PackageIdVersionPair> breaks;
-	private List<PackageIdVersionPair> recommends;
 	private ModThirdPartyIds thirdPartyIds;
 	private List<ModVersion> downloads;
 
@@ -40,10 +35,6 @@ public class ModManifestImpl implements ModManifest {
 		this.parentPackage = parentPackage;
 		this.parentLookupTableEntry = parentLookupTableEntry;
 
-		this.loader = new ArrayList<>(1);
-		this.depends = new ArrayList<>(2);
-		this.breaks = new ArrayList<>(2);
-		this.recommends = new ArrayList<>(1);
 		this.downloads = new ArrayList<>(10);
 	}
 
@@ -100,17 +91,6 @@ public class ModManifestImpl implements ModManifest {
 	@Override
 	public void setId(String id) {
 		this.id = id;
-	}
-
-
-	@Override
-	public List<String> getLoader() {
-		return loader;
-	}
-
-	@Override
-	public void setLoader(List<String> loader) {
-		this.loader = loader;
 	}
 
 
@@ -203,17 +183,6 @@ public class ModManifestImpl implements ModManifest {
 
 
 	@Override
-	public String getWiki() {
-		return wiki;
-	}
-
-	@Override
-	public void setWiki(String wiki) {
-		this.wiki = wiki;
-	}
-
-
-	@Override
 	public String getSupport() {
 		return support;
 	}
@@ -225,6 +194,17 @@ public class ModManifestImpl implements ModManifest {
 
 
 	@Override
+	public String getWiki() {
+		return wiki;
+	}
+
+	@Override
+	public void setWiki(String wiki) {
+		this.wiki = wiki;
+	}
+
+
+	@Override
 	public String getChat() {
 		return chat;
 	}
@@ -232,39 +212,6 @@ public class ModManifestImpl implements ModManifest {
 	@Override
 	public void setChat(String chat) {
 		this.chat = chat;
-	}
-
-
-	@Override
-	public List<PackageIdVersionPair> getDepends() {
-		return depends;
-	}
-
-	@Override
-	public void setDepends(List<PackageIdVersionPair> depends) {
-		this.depends = depends;
-	}
-
-
-	@Override
-	public List<PackageIdVersionPair> getBreaks() {
-		return breaks;
-	}
-
-	@Override
-	public void setBreaks(List<PackageIdVersionPair> breaks) {
-		this.breaks = breaks;
-	}
-
-
-	@Override
-	public List<PackageIdVersionPair> getRecommends() {
-		return recommends;
-	}
-
-	@Override
-	public void setRecommends(List<PackageIdVersionPair> recommends) {
-		this.recommends = recommends;
 	}
 
 
