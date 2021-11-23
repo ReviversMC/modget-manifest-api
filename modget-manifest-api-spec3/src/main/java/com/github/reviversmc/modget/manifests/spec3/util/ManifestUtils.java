@@ -115,7 +115,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		for (ModVersion version : modManifest.getDownloads()) {
 			version.setParentManifest(modManifest);
 
-			// Depends
+			// DownloadPageUrls
 			List<ModDownload> downloadPageUrls = new ArrayList<>();
 			for (ModDownload downloadPageUrl : version.getDownloadPageUrls()) {
 				downloadPageUrl.setParentModVersion(version);
@@ -123,7 +123,7 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			}
 			version.setDownloadPageUrls(downloadPageUrls);
 
-			// Depends
+			// FileUrls
 			List<ModDownload> fileUrls = new ArrayList<>();
 			for (ModDownload fileUrl : version.getFileUrls()) {
 				fileUrl.setParentModVersion(version);

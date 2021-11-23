@@ -3,6 +3,8 @@ package com.github.reviversmc.modget.manifests.spec3.impl.data.mod;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
 
@@ -14,7 +16,8 @@ public class ModPackageImpl implements ModPackage {
 	private List<ModManifest> manifests;
 
 
-	public ModPackageImpl(String packageId) {
+	@JsonCreator
+	public ModPackageImpl(@JsonProperty("packageId") String packageId) {
 		setPackageId(packageId);
 		manifests = new ArrayList<>(1);
 	}
