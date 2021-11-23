@@ -23,4 +23,4 @@ But what if you need to support multiple generations of manifest specifications?
 implementation "com.github.ReviversMC.modget-manifest-api:modget-manifest-api-compat:${modget_manifest_api_version}"
 ```
 
-Additionally, you still need to implement a specific manfifest specification's API like above. This method allows you to work with features from the later manifest specs, while still retaining backwards compatibility. Be aware though that trying to read certain values introduced by newer specs from a manifest with an old spec will return in a `null` value, so you should handle these cases well.
+Additionally, you still need to implement a specific manfifest specification's API like above. This method allows you to work with features from the later manifest specs, while still retaining backwards compatibility with the older ones. Be aware though that trying to read certain values introduced by newer specs from a manifest with an old spec will return in a `null` value, so you should handle these cases well.
