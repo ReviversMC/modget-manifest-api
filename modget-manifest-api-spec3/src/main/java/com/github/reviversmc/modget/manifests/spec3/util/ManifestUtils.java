@@ -81,6 +81,8 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
         injectableValues.addValue(String.class, null);
         mapper.setInjectableValues(injectableValues);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
 
 		ModManifest modManifest;
 
