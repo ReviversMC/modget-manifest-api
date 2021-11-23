@@ -2,8 +2,11 @@ package com.github.reviversmc.modget.manifests.spec3.api.data.mod;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
+import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl;
 
+@JsonDeserialize(as = ModPackageImpl.class)
 public interface ModPackage {
 
 	public String getPackageId();
