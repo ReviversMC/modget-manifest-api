@@ -78,17 +78,19 @@ public class Spec3ToSpec4ManifestCompat {
 		v4Manifest.setWiki(null);
 
 		// Copy chats
-		v4Manifest.setChats(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModChatsImpl(v4Manifest) {{
-			if (v3Manifest.getChat().toLowerCase().contains("discord")) {
-				setDiscord(v3Manifest.getChat());
-			} else if (v3Manifest.getChat().toLowerCase().contains("irc")) {
-				setIrc(v3Manifest.getChat());
-			} else {
-				setOthers(new ArrayList<NameUrlPair>() {{
-					add(new NameUrlPairImpl(null, v3Manifest.getChat()));
-				}});
-			}
-		}});
+		if (v3Manifest.getChat() != null) {
+			v4Manifest.setChats(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModChatsImpl(v4Manifest) {{
+				if (v3Manifest.getChat().toLowerCase().contains("discord")) {
+					setDiscord(v3Manifest.getChat());
+				} else if (v3Manifest.getChat().toLowerCase().contains("irc")) {
+					setIrc(v3Manifest.getChat());
+				} else {
+					setOthers(new ArrayList<NameUrlPair>() {{
+						add(new NameUrlPairImpl(null, v3Manifest.getChat()));
+					}});
+				}
+			}});
+		}
 
 		// Copy mod versions
 		v4Manifest.setVersions(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion>() {{
