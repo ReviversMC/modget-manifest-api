@@ -1,6 +1,7 @@
 package com.github.reviversmc.modget.manifests.compat.spec3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
@@ -16,6 +17,7 @@ import com.github.reviversmc.modget.manifests.spec3.util.ManifestUtils;
 import com.github.reviversmc.modget.manifests.spec3.util.RepositoryUtils;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionVariantImpl;
 
 public class Spec3ToSpec4ManifestCompat {
 	com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest
@@ -105,7 +107,7 @@ public class Spec3ToSpec4ManifestCompat {
 
 
 
-	public com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion convertModVersion(
+	public <ModVersionVariant> com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion convertModVersion(
 		ModVersion v3Version
 	)
 	{
@@ -114,104 +116,109 @@ public class Spec3ToSpec4ManifestCompat {
 
 			// Copy version metadata
 			setVersion(v3Version.getVersion());
-			setLoaders(v3Version.getLoaders());
-			setMinecraftVersions(v3Version.getMinecraftVersions());
-			setChannel(null);
-			setBundles(null);
-			setConflicts(null);
-			setLicense(v3Manifest.getLicense());
-			setFileType(v3Manifest.getModType());
-			setMd5(v3Version.getMd5());
 
-			// Copy environment
-			setEnvironment(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModEnvironmentImpl(this) {{
-				switch (v3Manifest.getSide()) {
-					case "client":
-						setClient("required");
-						break;
-					case "server":
-						setServer("required");
-						break;
-					case "both":
-						setClient("required");
-						setServer("required");
-						break;
-				}
-			}});
+			// Copy version variant
+			ModVersionVariantImpl variant = new ModVersionVariantImpl(this) {{
+				setLoaders(v3Version.getLoaders());
+				setMinecraftVersions(v3Version.getMinecraftVersions());
+				setChannel(null);
+				setBundles(null);
+				setConflicts(null);
+				setLicense(v3Manifest.getLicense());
+				setFileType(v3Manifest.getModType());
+				setMd5(v3Version.getMd5());
 
-			setDepends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
-				for (ModPackage v3DependentPackage : v3Version.getDepends()) {
-					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3DependentPackage.getPackageId()) {{
-						setVersion(v3DependentPackage.getVersion());
-					}});
-				}
-			}});
-			setBreaks(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
-				for (ModPackage v3BreakingPackage : v3Version.getBreaks()) {
-					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3BreakingPackage.getPackageId()) {{
-						setVersion(v3BreakingPackage.getVersion());
-					}});
-				}
-			}});
-			setRecommends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
-				for (ModPackage v3RecommendedPackage : v3Version.getRecommends()) {
-					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3RecommendedPackage.getPackageId()) {{
-						setVersion(v3RecommendedPackage.getVersion());
-					}});
-				}
-			}});
-	
-			// Copy third party ids
-			setThirdPartyIds(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModThirdPartyIdsImpl(this) {{
-				setCurseforge(v3Manifest.getThirdPartyIds().getCurseforge());
-				setModrinth(v3Manifest.getThirdPartyIds().getModrinth());
-			}});
-	
-			// Copy version download page urls
-			setDownloadPageUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
-				for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
-					String url = v3Download.getUrl();
-					switch (v3Download.getName().toLowerCase()) {
-						case "modrinth":
-							setModrinth(url);
+				// Copy environment
+				setEnvironment(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModEnvironmentImpl(this) {{
+					switch (v3Manifest.getSide()) {
+						case "client":
+							setClient("required");
 							break;
-						case "curseforge":
-							setCurseforge(url);
+						case "server":
+							setServer("required");
 							break;
-						case "github":
-						case "gitlab":
-						case "gitea":
-							setSourceControl(url);
-							break;
-						default:
-							addOther(new NameUrlPairImpl(v3Download.getName(), url));
+						case "both":
+							setClient("required");
+							setServer("required");
 							break;
 					}
-				}
-			}});
-	
-			// Copy version file urls
-			setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
-				for (ModDownload v3Download : v3Version.getFileUrls()) {
-					String url = v3Download.getUrl();
-					switch (v3Download.getName().toLowerCase()) {
-						case "modrinth":
-							setModrinth(url);
-							break;
-						case "curseforge":
-							setCurseforge(url);
-							break;
-						case "github":
-						case "gitlab":
-						case "gitea":
-							setSourceControl(url);
-							break;
-						default:
-							addOther(new NameUrlPairImpl(v3Download.getName(), url));
-							break;
+				}});
+
+				setDepends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+					for (ModPackage v3DependentPackage : v3Version.getDepends()) {
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3DependentPackage.getPackageId()) {{
+							setVersion(v3DependentPackage.getVersion());
+						}});
 					}
-				}
-			}});
+				}});
+				setBreaks(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+					for (ModPackage v3BreakingPackage : v3Version.getBreaks()) {
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3BreakingPackage.getPackageId()) {{
+							setVersion(v3BreakingPackage.getVersion());
+						}});
+					}
+				}});
+				setRecommends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
+					for (ModPackage v3RecommendedPackage : v3Version.getRecommends()) {
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3RecommendedPackage.getPackageId()) {{
+							setVersion(v3RecommendedPackage.getVersion());
+						}});
+					}
+				}});
+
+				// Copy third party ids
+				setThirdPartyIds(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModThirdPartyIdsImpl(this) {{
+					setCurseforge(v3Manifest.getThirdPartyIds().getCurseforge());
+					setModrinth(v3Manifest.getThirdPartyIds().getModrinth());
+				}});
+
+				// Copy version download page urls
+				setDownloadPageUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
+					for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
+						String url = v3Download.getUrl();
+						switch (v3Download.getName().toLowerCase()) {
+							case "modrinth":
+								setModrinth(url);
+								break;
+							case "curseforge":
+								setCurseforge(url);
+								break;
+							case "github":
+							case "gitlab":
+							case "gitea":
+								setSourceControl(url);
+								break;
+							default:
+								addOther(new NameUrlPairImpl(v3Download.getName(), url));
+								break;
+						}
+					}
+				}});
+
+				// Copy version file urls
+				setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
+					for (ModDownload v3Download : v3Version.getFileUrls()) {
+						String url = v3Download.getUrl();
+						switch (v3Download.getName().toLowerCase()) {
+							case "modrinth":
+								setModrinth(url);
+								break;
+							case "curseforge":
+								setCurseforge(url);
+								break;
+							case "github":
+							case "gitlab":
+							case "gitea":
+								setSourceControl(url);
+								break;
+							default:
+								addOther(new NameUrlPairImpl(v3Download.getName(), url));
+								break;
+						}
+					}
+				}});
+			}};
+			setVariants(Arrays.asList(variant));
 		}};
 	}
 
