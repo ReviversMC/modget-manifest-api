@@ -9,7 +9,7 @@ public interface LookupTable {
 	public ManifestRepository getParentRepository();
 	public void setParentRepository(ManifestRepository parentRepository);
 
-	public List<LookupTableEntry> getLookupTableEntries();
-	public void setLookupTableEntries(List<LookupTableEntry> lookupTableEntries);
+	public List<LookupTableEntry> getEntries();
+	public void setEntries(List<LookupTableEntry> lookupTableEntries);
 
 }

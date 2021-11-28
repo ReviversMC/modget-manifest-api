@@ -8,10 +8,10 @@ import java.util.List;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 
-public class ManifestRepositoryUtils {
+public class ManifestRepositoryDownloader {
 
-	public static ManifestRepositoryUtils create() {
-		return new ManifestRepositoryUtils();
+	public static ManifestRepositoryDownloader create() {
+		return new ManifestRepositoryDownloader();
 	}
 
 

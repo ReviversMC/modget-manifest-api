@@ -41,8 +41,8 @@ public class Spec3ToSpec4LookupTableCompat {
 			setParentRepository(v4Repository);
 
 			// Copy all entries
-			setLookupTableEntries(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry>() {{
-				for (LookupTableEntry v3Entry : v3LookupTable.getLookupTableEntries()) {
+			setEntries(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry>() {{
+				for (LookupTableEntry v3Entry : v3LookupTable.getEntries()) {
 					add(new com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.LookupTableEntryImpl(v4LookupTable) {{
 						setId(v3Entry.getId());
 						setAlternativeNames(v3Entry.getNames());

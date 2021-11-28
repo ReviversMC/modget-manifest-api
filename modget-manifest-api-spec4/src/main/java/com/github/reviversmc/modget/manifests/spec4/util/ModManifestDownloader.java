@@ -26,25 +26,26 @@ import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Confi
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class ModManifestUtils extends RepoHandlingUtilsBase {
+public class ModManifestDownloader extends RepoHandlingUtilsBase {
 
-	public static ModManifestUtils create() {
-		return new ModManifestUtils();
+	public static ModManifestDownloader create() {
+		return new ModManifestDownloader();
 	}
 
 
-	public String assembleManifestUri(String uri, int manifestSpecMajorVersion, ModPackage modPackage) {
+	public String assembleUri(String uri, int manifestSpecMajorVersion, ModPackage modPackage) {
 		return new String(String.format(
 			"%s/v%s/manifests/%s/%s/%s/main.yaml",
 			uri,
 			manifestSpecMajorVersion,
 			String.valueOf(modPackage.getPublisher().charAt(0)).toUpperCase(),
 			modPackage.getPublisher(),
-			modPackage.getModId())
-		);
+			modPackage.getModId()
+		));
 	}
 
-	public ModManifest downloadManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
+
+	public ModManifest downloadModManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
 		ManifestRepository repo = entry.getParentLookupTable().getParentRepository();
 		final int MAX_AVAILABLE_VERSION = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
 		final int MAX_SHARED_VERSION = findMaxSharedInt(
@@ -111,12 +112,12 @@ public class ModManifestUtils extends RepoHandlingUtilsBase {
 
 
 		final String packageIdWithRepo = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
-		final String uri = assembleManifestUri(
+		final String uri = assembleUri(
 			repo.getUri(),
 			MAX_SHARED_VERSION,
 			modPackage
 		);
-			
+
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		final InjectableValues.Std injectableValues = new InjectableValues.Std();
         injectableValues.addValue(ModPackage.class, modPackage);
@@ -161,47 +162,6 @@ public class ModManifestUtils extends RepoHandlingUtilsBase {
 		// Versions
 		for (ModVersion version : modManifest.getVersions()) {
 			version.setParentManifest(modManifest);
-
-			for (ModVersionVariant variant : version.getVariants()) {
-				variant.setParentVersion(version);
-
-				// Environment
-				variant.getEnvironment().setParentModVersionVariant(variant);
-
-				// Depends
-				for (ModPackage modPackage : variant.getDepends()) {
-					modPackage.addManifest(modManifest);
-				}
-
-				// Bundles
-				for (ModPackage modPackage : variant.getBundles()) {
-					modPackage.addManifest(modManifest);
-				}
-
-				// Breaks
-				for (ModPackage modPackage : variant.getBreaks()) {
-					modPackage.addManifest(modManifest);
-				}
-
-				// Conflicts
-				for (ModPackage modPackage : variant.getConflicts()) {
-					modPackage.addManifest(modManifest);
-				}
-
-				// Recommends
-				for (ModPackage modPackage : variant.getRecommends()) {
-					modPackage.addManifest(modManifest);
-				}
-
-				// ThirdPartyIds
-				variant.getThirdPartyIds().setParentModVersionVariant(variant);
-
-				// DownloadPageUrls
-				variant.getDownloadPageUrls().setParentModVersionVariant(variant);
-
-				// FileUrls
-				variant.getFileUrls().setParentModVersionVariant(variant);
-			}
 		}
 	}
 

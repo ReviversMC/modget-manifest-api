@@ -62,7 +62,7 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 		try {
 			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), LookupTableEntry[].class));
 
-			lookupTable.setLookupTableEntries(entries);
+			lookupTable.setEntries(entries);
 			return lookupTable;
         } catch (Exception e) {
 			if (e instanceof UnknownHostException || e instanceof IOException) {

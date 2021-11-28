@@ -24,10 +24,10 @@ import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.Lookup
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class LookupTableUtils extends RepoHandlingUtilsBase {
+public class LookupTableDownloader extends RepoHandlingUtilsBase {
 
-	public static LookupTableUtils create() {
-		return new LookupTableUtils();
+	public static LookupTableDownloader create() {
+		return new LookupTableDownloader();
 	}
 
 
@@ -103,7 +103,7 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 		try {
 			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), LookupTableEntry[].class));
 
-			lookupTable.setLookupTableEntries(entries);
+			lookupTable.setEntries(entries);
 			return lookupTable;
         } catch (Exception e) {
 			if (e instanceof UnknownHostException || e instanceof IOException) {

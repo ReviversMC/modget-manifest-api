@@ -9,10 +9,13 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.ManifestRepositoryImpl;
-import com.github.reviversmc.modget.manifests.spec4.util.LookupTableUtils;
-import com.github.reviversmc.modget.manifests.spec4.util.ModManifestUtils;
+import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
+import com.github.reviversmc.modget.manifests.spec4.util.ModManifestDownloader;
+import com.github.reviversmc.modget.manifests.spec4.util.ModVersionDownloader;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Test;
@@ -22,17 +25,24 @@ public class Main {
 
 	@Test
 	private void assertEverythingWorks() {
-		LookupTable lookupTable;
 		try {
-			lookupTable = LookupTableUtils.create().downloadLookupTable(repo);
-			ManifestApiLogger.logInfo("LookupTable downloaded!");
+			LookupTable lookupTable = LookupTableDownloader.create().downloadLookupTable(repo);
 
-			for (LookupTableEntry entry : lookupTable.getLookupTableEntries()) {{
+			for (LookupTableEntry entry : lookupTable.getEntries()) {
 				for (ModPackage modPackage : entry.getPackages()) {
-					ModManifest manifest = ModManifestUtils.create().downloadManifest(entry, modPackage);
-					ManifestApiLogger.logInfo("ModManifest downloaded! ID: " + modPackage.getPackageId());
+					ModManifest modManifest = ModManifestDownloader.create().downloadModManifest(entry, modPackage);
+
+					for (ModVersion modVersion : modManifest.getVersions()) {
+						modVersion = ModVersionDownloader.create().downloadModVersion(modManifest, modVersion.getVersion());
+
+						for (ModVersionVariant modVersionVariant : modVersion.getVariants()) {
+							if (modVersionVariant.getMinecraftVersions().contains("1.17.1")) {
+								System.out.println(String.format("Package %s supports 1.17.1!", modPackage.getPackageId()));
+							}
+						}
+					}
 				}
-			}}
+			}
 
 
 		} catch (Exception e) {
@@ -42,7 +52,7 @@ public class Main {
 
 
 		try {
-			assertTrue(LookupTableUtils.create().downloadLookupTable(repo).getLookupTableEntries().get(0).getId() != "");
+			assertTrue(LookupTableDownloader.create().downloadLookupTable(repo).getEntries().get(0).getId() != "");
 		} catch (Exception e) {
 			fail(ExceptionUtils.getStackTrace(e));
 		}

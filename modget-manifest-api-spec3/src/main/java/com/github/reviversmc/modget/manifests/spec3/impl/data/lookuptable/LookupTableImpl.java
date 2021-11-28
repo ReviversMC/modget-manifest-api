@@ -29,12 +29,12 @@ public class LookupTableImpl implements LookupTable {
 
 
 	@Override
-	public List<LookupTableEntry> getLookupTableEntries() {
+	public List<LookupTableEntry> getEntries() {
 		return lookupTableEntries;
 	}
 
 	@Override
-	public void setLookupTableEntries(List<LookupTableEntry> lookupTableEntries) {
+	public void setEntries(List<LookupTableEntry> lookupTableEntries) {
 		this.lookupTableEntries = lookupTableEntries;
 	}
 
