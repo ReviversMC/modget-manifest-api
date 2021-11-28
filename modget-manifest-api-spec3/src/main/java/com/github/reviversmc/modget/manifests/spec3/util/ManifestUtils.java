@@ -97,47 +97,31 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			throw e;
 		}
 
-		modManifest = setMissingReferences(modManifest);
+		setMissingReferences(modManifest);
 
 		ManifestApiLogger.logInfo(String.format("Fetched Manifest: %s", packageIdWithRepo));
 		return modManifest;
 	}
 
 
-	private ModManifest setMissingReferences(ModManifest modManifest) {
+	private void setMissingReferences(ModManifest modManifest) {
 		// ThirdPartyIds
-		ModThirdPartyIds thirdPartyIds = modManifest.getThirdPartyIds();
-		thirdPartyIds.setParentManifest(modManifest);
-		modManifest.setThirdPartyIds(thirdPartyIds);
+		modManifest.getThirdPartyIds().setParentManifest(modManifest);
 
 		// Versions
-		List<ModVersion> versions = new ArrayList<>();
 		for (ModVersion version : modManifest.getDownloads()) {
 			version.setParentManifest(modManifest);
 
 			// DownloadPageUrls
-			List<ModDownload> downloadPageUrls = new ArrayList<>();
 			for (ModDownload downloadPageUrl : version.getDownloadPageUrls()) {
 				downloadPageUrl.setParentModVersion(version);
-				downloadPageUrls.add(downloadPageUrl);
 			}
-			version.setDownloadPageUrls(downloadPageUrls);
 
 			// FileUrls
-			List<ModDownload> fileUrls = new ArrayList<>();
 			for (ModDownload fileUrl : version.getFileUrls()) {
 				fileUrl.setParentModVersion(version);
-				fileUrls.add(fileUrl);
 			}
-			version.setFileUrls(fileUrls);
-
-
-			versions.add(version);
 		}
-		modManifest.setDownloads(versions);
-
-
-		return modManifest;
 	}
 
 }

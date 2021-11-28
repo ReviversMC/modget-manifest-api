@@ -147,31 +147,23 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 			throw e;
 		}
 
-		modManifest = setMissingReferences(modManifest);
+		setMissingReferences(modManifest);
 
 		ManifestApiLogger.logInfo(String.format("Fetched Manifest: %s", packageIdWithRepo));
 		return modManifest;
 	}
 
 
-	private ModManifest setMissingReferences(ModManifest modManifest) {
+	private void setMissingReferences(ModManifest modManifest) {
 		// Authors
-		List<ModAuthor> authors = new ArrayList<>();
 		for (ModAuthor author : modManifest.getAuthors()) {
 			author.setParentManifest(modManifest);
-			authors.add(author);
 		}
-		modManifest.setAuthors(authors);
-
 
 		// Chats
-		ModChats chats = modManifest.getChats();
-		chats.setParentManifest(modManifest);
-		modManifest.setChats(chats);
-
+		modManifest.getChats().setParentManifest(modManifest);
 
 		// Versions
-		List<ModVersion> versions = new ArrayList<>();
 		for (ModVersion version : modManifest.getVersions()) {
 			version.setParentManifest(modManifest);
 
@@ -179,71 +171,43 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 				variant.setParentVersion(version);
 
 				// Environment
-				ModEnvironment environment = variant.getEnvironment();
-				environment.setParentModVersionVariant(variant);
-				variant.setEnvironment(environment);
+				variant.getEnvironment().setParentModVersionVariant(variant);
 
 				// Depends
-				List<ModPackage> depends = new ArrayList<>();
 				for (ModPackage modPackage : variant.getDepends()) {
 					modPackage.addManifest(modManifest);
-					depends.add(modPackage);
 				}
-				variant.setDepends(depends);
 
 				// Bundles
-				List<ModPackage> bundles = new ArrayList<>();
 				for (ModPackage modPackage : variant.getBundles()) {
 					modPackage.addManifest(modManifest);
-					bundles.add(modPackage);
 				}
-				variant.setBundles(bundles);
 
 				// Breaks
-				List<ModPackage> breaks = new ArrayList<>();
 				for (ModPackage modPackage : variant.getBreaks()) {
 					modPackage.addManifest(modManifest);
-					breaks.add(modPackage);
 				}
-				variant.setBreaks(breaks);
 
 				// Conflicts
-				List<ModPackage> conflicts = new ArrayList<>();
 				for (ModPackage modPackage : variant.getConflicts()) {
 					modPackage.addManifest(modManifest);
-					conflicts.add(modPackage);
 				}
-				variant.setConflicts(conflicts);
 
 				// Recommends
-				List<ModPackage> recommends = new ArrayList<>();
 				for (ModPackage modPackage : variant.getRecommends()) {
 					modPackage.addManifest(modManifest);
-					recommends.add(modPackage);
 				}
-				variant.setRecommends(recommends);
 
 				// ThirdPartyIds
-				ModThirdPartyIds thirdPartyIds = variant.getThirdPartyIds();
-				thirdPartyIds.setParentModVersionVariant(variant);
-				variant.setThirdPartyIds(thirdPartyIds);
+				variant.getThirdPartyIds().setParentModVersionVariant(variant);
 
 				// DownloadPageUrls
-				ModDownloads downloadPageUrls = variant.getDownloadPageUrls();
-				downloadPageUrls.setParentModVersionVariant(variant);
-				variant.setDownloadPageUrls(downloadPageUrls);
+				variant.getDownloadPageUrls().setParentModVersionVariant(variant);
 
 				// FileUrls
-				ModDownloads fileUrls = variant.getFileUrls();
-				fileUrls.setParentModVersionVariant(variant);
-				variant.setFileUrls(fileUrls);
-
-
-				versions.add(version);
+				variant.getFileUrls().setParentModVersionVariant(variant);
 			}
-			modManifest.setVersions(versions);
 		}
-		return modManifest;
 	}
 
 }
