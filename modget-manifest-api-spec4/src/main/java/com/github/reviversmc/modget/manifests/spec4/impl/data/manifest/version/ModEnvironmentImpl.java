@@ -2,27 +2,27 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
 public class ModEnvironmentImpl implements ModEnvironment {
-	private ModVersion parentModVersion;
+	private ModVersionVariant parentModVersionVariant;
 	private String server;
 	private String client;
 
 
-	public ModEnvironmentImpl(@JacksonInject ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public ModEnvironmentImpl(@JacksonInject ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
 
 	@Override
-	public ModVersion getParentModVersion() {
-		return parentModVersion;
+	public ModVersionVariant getParentModVersionVariant() {
+		return parentModVersionVariant;
 	}
 
 	@Override
-	public void setParentModVersion(ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public void setParentModVersionVariant(ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
 

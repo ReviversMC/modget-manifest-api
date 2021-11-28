@@ -2,27 +2,27 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModThirdPartyIds;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
 public class ModThirdPartyIdsImpl implements ModThirdPartyIds {
-	private ModVersion parentModVersion;
+	private ModVersionVariant parentModVersionVariant;
 	private String modrinth;
 	private String curseforge;
 
 
-	public ModThirdPartyIdsImpl(@JacksonInject ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public ModThirdPartyIdsImpl(@JacksonInject ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
 
 	@Override
-	public ModVersion getParentModVersion() {
-		return parentModVersion;
+	public ModVersionVariant getParentModVersionVariant() {
+		return parentModVersionVariant;
 	}
 
 	@Override
-	public void setParentModVersion(ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public void setParentModVersionVariant(ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
 

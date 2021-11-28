@@ -23,6 +23,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
 import com.github.reviversmc.modget.manifests.spec4.api.util.RepoHandlingUtilsBase;
@@ -174,72 +175,74 @@ public class ManifestUtils extends RepoHandlingUtilsBase {
 		for (ModVersion version : modManifest.getVersions()) {
 			version.setParentManifest(modManifest);
 
-			// Environment
-			ModEnvironment environment = version.getEnvironment();
-			environment.setParentModVersion(version);
-			version.setEnvironment(environment);
+			for (ModVersionVariant variant : version.getVariants()) {
+				variant.setParentVersion(version);
 
-			// Depends
-			List<ModPackage> depends = new ArrayList<>();
-			for (ModPackage modPackage : version.getDepends()) {
-				modPackage.addManifest(modManifest);
-				depends.add(modPackage);
+				// Environment
+				ModEnvironment environment = variant.getEnvironment();
+				environment.setParentModVersionVariant(variant);
+				variant.setEnvironment(environment);
+
+				// Depends
+				List<ModPackage> depends = new ArrayList<>();
+				for (ModPackage modPackage : variant.getDepends()) {
+					modPackage.addManifest(modManifest);
+					depends.add(modPackage);
+				}
+				variant.setDepends(depends);
+
+				// Bundles
+				List<ModPackage> bundles = new ArrayList<>();
+				for (ModPackage modPackage : variant.getBundles()) {
+					modPackage.addManifest(modManifest);
+					bundles.add(modPackage);
+				}
+				variant.setBundles(bundles);
+
+				// Breaks
+				List<ModPackage> breaks = new ArrayList<>();
+				for (ModPackage modPackage : variant.getBreaks()) {
+					modPackage.addManifest(modManifest);
+					breaks.add(modPackage);
+				}
+				variant.setBreaks(breaks);
+
+				// Conflicts
+				List<ModPackage> conflicts = new ArrayList<>();
+				for (ModPackage modPackage : variant.getConflicts()) {
+					modPackage.addManifest(modManifest);
+					conflicts.add(modPackage);
+				}
+				variant.setConflicts(conflicts);
+
+				// Recommends
+				List<ModPackage> recommends = new ArrayList<>();
+				for (ModPackage modPackage : variant.getRecommends()) {
+					modPackage.addManifest(modManifest);
+					recommends.add(modPackage);
+				}
+				variant.setRecommends(recommends);
+
+				// ThirdPartyIds
+				ModThirdPartyIds thirdPartyIds = variant.getThirdPartyIds();
+				thirdPartyIds.setParentModVersionVariant(variant);
+				variant.setThirdPartyIds(thirdPartyIds);
+
+				// DownloadPageUrls
+				ModDownloads downloadPageUrls = variant.getDownloadPageUrls();
+				downloadPageUrls.setParentModVersionVariant(variant);
+				variant.setDownloadPageUrls(downloadPageUrls);
+
+				// FileUrls
+				ModDownloads fileUrls = variant.getFileUrls();
+				fileUrls.setParentModVersionVariant(variant);
+				variant.setFileUrls(fileUrls);
+
+
+				versions.add(version);
 			}
-			version.setDepends(depends);
-
-			// Bundles
-			List<ModPackage> bundles = new ArrayList<>();
-			for (ModPackage modPackage : version.getBundles()) {
-				modPackage.addManifest(modManifest);
-				bundles.add(modPackage);
-			}
-			version.setBundles(bundles);
-
-			// Breaks
-			List<ModPackage> breaks = new ArrayList<>();
-			for (ModPackage modPackage : version.getBreaks()) {
-				modPackage.addManifest(modManifest);
-				breaks.add(modPackage);
-			}
-			version.setBreaks(breaks);
-
-			// Conflicts
-			List<ModPackage> conflicts = new ArrayList<>();
-			for (ModPackage modPackage : version.getConflicts()) {
-				modPackage.addManifest(modManifest);
-				conflicts.add(modPackage);
-			}
-			version.setConflicts(conflicts);
-
-			// Recommends
-			List<ModPackage> recommends = new ArrayList<>();
-			for (ModPackage modPackage : version.getRecommends()) {
-				modPackage.addManifest(modManifest);
-				recommends.add(modPackage);
-			}
-			version.setRecommends(recommends);
-
-			// ThirdPartyIds
-			ModThirdPartyIds thirdPartyIds = version.getThirdPartyIds();
-			thirdPartyIds.setParentModVersion(version);
-			version.setThirdPartyIds(thirdPartyIds);
-
-			// DownloadPageUrls
-			ModDownloads downloadPageUrls = version.getDownloadPageUrls();
-			downloadPageUrls.setParentModVersion(version);
-			version.setDownloadPageUrls(downloadPageUrls);
-
-			// FileUrls
-			ModDownloads fileUrls = version.getFileUrls();
-			fileUrls.setParentModVersion(version);
-			version.setFileUrls(fileUrls);
-
-
-			versions.add(version);
+			modManifest.setVersions(versions);
 		}
-		modManifest.setVersions(versions);
-
-
 		return modManifest;
 	}
 

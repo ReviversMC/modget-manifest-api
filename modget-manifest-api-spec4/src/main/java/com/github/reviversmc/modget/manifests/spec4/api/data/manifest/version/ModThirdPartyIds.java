@@ -6,8 +6,8 @@ import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.M
 @JsonDeserialize(as = ModThirdPartyIdsImpl.class)
 public interface ModThirdPartyIds {
 
-	public ModVersion getParentModVersion();
-	public void setParentModVersion(ModVersion parentVersion);
+	public ModVersionVariant getParentModVersionVariant();
+	public void setParentModVersionVariant(ModVersionVariant parentVersion);
 
 
 	public String getCurseforge();

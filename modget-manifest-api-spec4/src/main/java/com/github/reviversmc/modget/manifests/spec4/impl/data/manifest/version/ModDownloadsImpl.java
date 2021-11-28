@@ -6,31 +6,31 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
 public class ModDownloadsImpl implements ModDownloads {
-	private ModVersion parentModVersion;
+	private ModVersionVariant parentModVersionVariant;
 	private String modrinth;
 	private String curseforge;
 	private String sourceControl;
 	private List<NameUrlPair> others;
 
 
-	public ModDownloadsImpl(@JacksonInject ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public ModDownloadsImpl(@JacksonInject ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 
 		this.others = new ArrayList<>(0);
 	}
 
 
 	@Override
-	public ModVersion getParentModVersion() {
-		return parentModVersion;
+	public ModVersionVariant getParentModVersionVariant() {
+		return parentModVersionVariant;
 	}
 
 	@Override
-	public void setParentModVersion(ModVersion parentModVersion) {
-		this.parentModVersion = parentModVersion;
+	public void setParentModVersionVariant(ModVersionVariant parentModVersionVariant) {
+		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
 
