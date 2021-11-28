@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -15,7 +14,6 @@ import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
-import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModDownload;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
