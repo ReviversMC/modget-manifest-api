@@ -13,8 +13,8 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepository
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableEntryImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl;
-import com.github.reviversmc.modget.manifests.spec3.util.ManifestUtils;
-import com.github.reviversmc.modget.manifests.spec3.util.RepositoryUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.ModManifestUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.ManifestRepositoryUtils;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionVariantImpl;
@@ -41,14 +41,14 @@ public class Spec3ToSpec4ManifestCompat {
 		com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository v4Repo
 			= v4Entry.getParentLookupTable().getParentRepository();
 		ManifestRepository v3Repo = new ManifestRepositoryImpl(v4Repo.getId(), v4Repo.getUri()) {{
-			setSupportedManifestSpecMajorVersions(RepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
+			setSupportedManifestSpecMajorVersions(ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
 		}};
 
 		// Lookup table entry
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(new LookupTableImpl(v3Repo));
 
 		// Manifest
-		ModManifest v3Manifest = ManifestUtils.create().downloadManifest(v3Entry, v3Package);
+		ModManifest v3Manifest = ModManifestUtils.create().downloadManifest(v3Entry, v3Package);
 		convertManifest(v3Manifest, v4Package, v4Entry);
 		v4Manifest.setParentPackage(v4Package);
 		v4Manifest.setParentLookupTableEntry(v4Entry);

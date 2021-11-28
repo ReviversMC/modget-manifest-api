@@ -23,10 +23,10 @@ import com.github.reviversmc.modget.manifests.spec3.config.ManifestApiSpec3Confi
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class ManifestUtils extends RepoHandlingUtilsBase {
+public class ModManifestUtils extends RepoHandlingUtilsBase {
 
-	public static ManifestUtils create() {
-		return new ManifestUtils();
+	public static ModManifestUtils create() {
+		return new ModManifestUtils();
 	}
 
 

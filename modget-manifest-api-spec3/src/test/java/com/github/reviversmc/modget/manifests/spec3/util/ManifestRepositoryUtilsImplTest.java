@@ -9,11 +9,11 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepository
 
 import org.junit.jupiter.api.Test;
 
-public class RepositoryUtilsImplTest {
+public class ManifestRepositoryUtilsImplTest {
 
 	@Test
 	void assertV3RepoUpdateCheckWorks() {
-		RepositoryUtils utils = new RepositoryUtils();
+		ManifestRepositoryUtils utils = new ManifestRepositoryUtils();
 
 		ManifestRepository repoWithUpdate = new ManifestRepositoryImpl(0, TestConfig.specV4RepoUrl);
 		ManifestRepository repoWithoutUpdate = new ManifestRepositoryImpl(1, TestConfig.specV3RepoUrl);

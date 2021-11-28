@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.util.LookupTableUtils;
-import com.github.reviversmc.modget.manifests.spec4.util.RepositoryUtils;
+import com.github.reviversmc.modget.manifests.spec4.util.ManifestRepositoryUtils;
 
 public class ManifestRepositoryImpl implements ManifestRepository {
 	private int id;
@@ -17,7 +17,7 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	public ManifestRepositoryImpl(int id, String uri) {
 		this.id = id;
 		setUri(uri);
-		this.availableManifestSpecMajorVersions = RepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
+		this.availableManifestSpecMajorVersions = ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
 	}
 
 	@Override

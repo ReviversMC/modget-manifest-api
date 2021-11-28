@@ -12,7 +12,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModMa
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.ManifestRepositoryImpl;
 import com.github.reviversmc.modget.manifests.spec4.util.LookupTableUtils;
-import com.github.reviversmc.modget.manifests.spec4.util.ManifestUtils;
+import com.github.reviversmc.modget.manifests.spec4.util.ModManifestUtils;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ public class Main {
 
 			for (LookupTableEntry entry : lookupTable.getLookupTableEntries()) {{
 				for (ModPackage modPackage : entry.getPackages()) {
-					ModManifest manifest = ManifestUtils.create().downloadManifest(entry, modPackage);
+					ModManifest manifest = ModManifestUtils.create().downloadManifest(entry, modPackage);
 					ManifestApiLogger.logInfo("ModManifest downloaded! ID: " + modPackage.getPackageId());
 				}
 			}}
