@@ -13,7 +13,6 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
 public class ModVersionVariantImpl implements ModVersionVariant {
 	private ModVersion parentVersion;
-	private String version;
 	private List<String> loaders;
 	private List<String> minecraftVersions;
 	private ModEnvironment environment;
@@ -52,17 +51,6 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 	@Override
 	public void setParentVersion(ModVersion parentVersion) {
 		this.parentVersion = parentVersion;
-	}
-
-
-	@Override
-	public String getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 

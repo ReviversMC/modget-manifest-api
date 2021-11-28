@@ -13,9 +13,6 @@ public interface ModVersionVariant {
 	public void setParentVersion(ModVersion parentVersion);
 
 
-	public String getVersion();
-	public void setVersion(String version);
-
 	public List<String> getLoaders();
 	public void setLoaders(List<String> loaders);
 

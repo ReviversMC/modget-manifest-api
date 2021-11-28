@@ -11,6 +11,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 public class ModVersionImpl implements ModVersion {
 	private ModManifest parentManifest;
 	private List<ModVersionVariant> variants;
+	private String version;
 
 
 	public ModVersionImpl(@JacksonInject ModManifest parentManifest) {
@@ -39,6 +40,17 @@ public class ModVersionImpl implements ModVersion {
 	@Override
 	public void setVariants(List<ModVersionVariant> variants) {
 		this.variants = variants;
+	}
+
+
+	@Override
+	public String getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }

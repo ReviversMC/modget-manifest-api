@@ -12,6 +12,9 @@ public interface ModVersion {
 	public ModManifest getParentManifest();
 	public void setParentManifest(ModManifest parentManifest);
 
+	public String getVersion();
+	public void setVersion(String version);
+
 	public List<ModVersionVariant> getVariants();
 	public void setVariants(List<ModVersionVariant> variants);
 
