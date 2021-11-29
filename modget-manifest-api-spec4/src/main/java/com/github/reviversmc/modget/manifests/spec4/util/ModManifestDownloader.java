@@ -18,7 +18,6 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupT
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
 import com.github.reviversmc.modget.manifests.spec4.api.util.RepoHandlingUtilsBase;
@@ -79,7 +78,7 @@ public class ModManifestDownloader extends RepoHandlingUtilsBase {
 				try {
 					Class<?> Spec3ToSpec4ManifestCompat = Class.forName(backCompatClassPath);
 					Method method = Spec3ToSpec4ManifestCompat.getMethod(convertMethodName, formalParameters);
-					Object newInstance = Spec3ToSpec4ManifestCompat.newInstance();
+					Object newInstance = Spec3ToSpec4ManifestCompat.getDeclaredConstructor().newInstance();
 					Object value;
 					try {
 						value = method.invoke(newInstance, effectiveParameters);
