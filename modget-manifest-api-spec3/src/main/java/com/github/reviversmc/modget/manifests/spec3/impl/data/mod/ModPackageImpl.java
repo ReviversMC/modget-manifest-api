@@ -19,12 +19,14 @@ public class ModPackageImpl implements ModPackage {
 	@JsonCreator
 	public ModPackageImpl(@JsonProperty("packageId") String packageId) {
 		setPackageId(packageId);
+
 		manifests = new ArrayList<>(1);
 	}
 
 	public ModPackageImpl(String publisher, String modId) {
 		this.publisher = publisher;
 		setModId(modId);
+
 		manifests = new ArrayList<>(1);
 	}
 
@@ -37,9 +39,11 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
-		String[] packageIdParts = packageId.split("\\.");
-		publisher = packageIdParts[0];
-		modId = packageIdParts[1];
+        if (packageId != null) {
+            String[] packageIdParts = packageId.split("\\.");
+            publisher = packageIdParts[0];
+            modId = packageIdParts[1];
+        }
 	}
 
 
@@ -51,7 +55,9 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
-		packageId = String.format("%s.%s", publisher, modId);
+        if (publisher != null && modId != null) {
+		    packageId = String.format("%s.%s", publisher, modId);
+        }
 	}
 
 
@@ -63,7 +69,9 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setModId(String modId) {
 		this.modId = modId;
-		packageId = String.format("%s.%s", publisher, modId);
+        if (publisher != null && modId != null) {
+		    packageId = String.format("%s.%s", publisher, modId);
+        }
 	}
 
 

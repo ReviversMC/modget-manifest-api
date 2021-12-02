@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
@@ -17,15 +18,20 @@ public class ModPackageImpl implements ModPackage {
 	private List<ModManifest> manifests;
 
 
-	@JsonCreator
+    @JsonCreator
 	public ModPackageImpl(@JsonProperty("packageId") String packageId) {
 		setPackageId(packageId);
+
+		loaders = new ArrayList<>(1);
 		manifests = new ArrayList<>(1);
 	}
 
+    @JsonIgnore
 	public ModPackageImpl(String publisher, String modId) {
 		this.publisher = publisher;
 		setModId(modId);
+
+		loaders = new ArrayList<>(1);
 		manifests = new ArrayList<>(1);
 	}
 
@@ -38,9 +44,11 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
-		String[] packageIdParts = packageId.split("\\.");
-		publisher = packageIdParts[0];
-		modId = packageIdParts[1];
+        if (packageId != null) {
+            String[] packageIdParts = packageId.split("\\.");
+            publisher = packageIdParts[0];
+            modId = packageIdParts[1];
+        }
 	}
 
 
@@ -52,7 +60,9 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
-		packageId = String.format("%s.%s", publisher, modId);
+        if (publisher != null && modId != null) {
+		    packageId = String.format("%s.%s", publisher, modId);
+        }
 	}
 
 
@@ -64,7 +74,9 @@ public class ModPackageImpl implements ModPackage {
 	@Override
 	public void setModId(String modId) {
 		this.modId = modId;
-		packageId = String.format("%s.%s", publisher, modId);
+        if (publisher != null && modId != null) {
+		    packageId = String.format("%s.%s", publisher, modId);
+        }
 	}
 
 
