@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
+import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
 
 public class LookupTableImpl implements LookupTable {
 	private ManifestRepository parentRepository;
@@ -27,9 +28,17 @@ public class LookupTableImpl implements LookupTable {
 		this.parentRepository = parentRepository;
 	}
 
-	
+
 	@Override
 	public List<LookupTableEntry> getEntries() {
+		return lookupTableEntries;
+	}
+
+	@Override
+	public List<LookupTableEntry> getOrDownloadEntries() throws Exception {
+        if (lookupTableEntries == null || lookupTableEntries.size() == 0) {
+            LookupTableDownloader.create().downloadLookupTable(parentRepository);
+        }
 		return lookupTableEntries;
 	}
 

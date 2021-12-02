@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
+import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
 
 public class LookupTableEntryImpl implements LookupTableEntry {
 	private LookupTable parentLookupTable;
@@ -60,6 +61,18 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 	@Override
 	public List<ModPackage> getPackages() {
+		return packages;
+	}
+
+	@Override
+	public List<ModPackage> getOrDownloadPackages() throws Exception {
+        if (packages == null || packages.size() == 0) {
+            for (LookupTableEntry entry : LookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
+                if (entry.getId().equals(this.getId())) {
+                    packages = entry.getPackages();
+                }
+            }
+        }
 		return packages;
 	}
 

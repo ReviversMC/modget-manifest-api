@@ -10,6 +10,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModCh
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
+import com.github.reviversmc.modget.manifests.spec4.util.ModVersionDownloader;
 
 public class ModManifestImpl implements ModManifest {
 	private ModPackage parentPackage;
@@ -220,6 +221,17 @@ public class ModManifestImpl implements ModManifest {
 
 	@Override
 	public List<ModVersion> getVersions() {
+		return versions;
+	}
+
+	@Override
+	public List<ModVersion> getOrDownloadVersions() throws Exception {
+        if (versions != null || versions.size() != 0) {
+            for (ModVersion version : versions) {
+                versions.remove(version);
+                versions.add(ModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
+            }
+        }
 		return versions;
 	}
 

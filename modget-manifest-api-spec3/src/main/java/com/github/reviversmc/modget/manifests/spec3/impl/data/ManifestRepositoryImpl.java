@@ -17,7 +17,6 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	public ManifestRepositoryImpl(int id, String uri) {
 		this.id = id;
 		setUri(uri);
-		this.availableManifestSpecMajorVersions = ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
 	}
 
 	@Override
@@ -28,6 +27,7 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	@Override
 	public void refresh() throws Exception {
 		lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
+		this.availableManifestSpecMajorVersions = ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
 	}
 
 
@@ -70,6 +70,14 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	@Override
 	public LookupTable getLookupTable() {
 		return lookupTable;
+	}
+
+	@Override
+	public LookupTable getOrDownloadLookupTable() throws Exception {
+		if (lookupTable == null) {
+            lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
+        }
+        return lookupTable;
 	}
 
 	@Override

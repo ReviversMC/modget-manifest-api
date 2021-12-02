@@ -10,6 +10,7 @@ public interface LookupTable {
 	public void setParentRepository(ManifestRepository parentRepository);
 
 	public List<LookupTableEntry> getEntries();
+	public List<LookupTableEntry> getOrDownloadEntries() throws Exception;
 	public void setEntries(List<LookupTableEntry> lookupTableEntries);
 
 }

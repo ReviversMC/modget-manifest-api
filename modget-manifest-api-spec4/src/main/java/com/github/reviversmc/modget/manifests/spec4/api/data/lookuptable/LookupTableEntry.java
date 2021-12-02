@@ -23,6 +23,7 @@ public interface LookupTableEntry {
 	public void setTags(List<String> tags);
 
 	public List<ModPackage> getPackages();
+	public List<ModPackage> getOrDownloadPackages() throws Exception;
 	public void setPackages(List<ModPackage> packages);
 
 }

@@ -16,7 +16,7 @@ public interface ModManifest {
 
 	public LookupTableEntry getParentLookupTableEntry();
 	public void setParentLookupTableEntry(LookupTableEntry parentLookupTableEntry);
-	
+
 
 	public String getManifestSpecVersion();
 	public void setManifestSpecVersion(String manifestSpecVersion);
