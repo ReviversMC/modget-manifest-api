@@ -1,6 +1,5 @@
 package com.github.reviversmc.modget.manifests.spec4.util;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -106,7 +105,7 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 			lookupTable.setEntries(entries);
 			return lookupTable;
         } catch (Exception e) {
-			if (e instanceof UnknownHostException || e instanceof IOException) {
+			if (e instanceof UnknownHostException) {
 				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", e.getMessage());
 			} else {
 				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", e.getMessage());
