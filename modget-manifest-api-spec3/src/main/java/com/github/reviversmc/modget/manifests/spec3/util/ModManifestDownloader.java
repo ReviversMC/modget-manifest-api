@@ -1,7 +1,7 @@
 package com.github.reviversmc.modget.manifests.spec3.util;
 
-import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -23,10 +23,10 @@ import com.github.reviversmc.modget.manifests.spec3.config.ManifestApiSpec3Confi
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class ModManifestUtils extends RepoHandlingUtilsBase {
+public class ModManifestDownloader extends RepoHandlingUtilsBase {
 
-	public static ModManifestUtils create() {
-		return new ModManifestUtils();
+	public static ModManifestDownloader create() {
+		return new ModManifestDownloader();
 	}
 
 
@@ -87,7 +87,7 @@ public class ModManifestUtils extends RepoHandlingUtilsBase {
 		try {
 			modManifest = mapper.readValue(new URL(uri), ModManifest.class);
 		} catch (Exception e) {
-			if (e instanceof IOException) {
+			if (e instanceof UnknownHostException) {
 				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageIdWithRepo), ExceptionUtils.getStackTrace(e));
 			} else {
 				ManifestApiLogger.logWarn(String.format("An error occurred while parsing the %s manifest", packageIdWithRepo), ExceptionUtils.getStackTrace(e));

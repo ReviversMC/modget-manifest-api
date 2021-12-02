@@ -6,7 +6,7 @@ import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepositoryImpl;
-import com.github.reviversmc.modget.manifests.spec3.util.LookupTableUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.LookupTableDownloader;
 
 public class Spec3ToSpec4LookupTableCompat {
 
@@ -21,7 +21,7 @@ public class Spec3ToSpec4LookupTableCompat {
 	) throws Exception
 	{
 		ManifestRepository v3Repository = new ManifestRepositoryImpl(v4Repository.getId(), v4Repository.getUri());
-		LookupTable v3LookupTable = LookupTableUtils.create().downloadLookupTable(v3Repository);
+		LookupTable v3LookupTable = LookupTableDownloader.create().downloadLookupTable(v3Repository);
 
 		return convertLookupTable(v3LookupTable, v4Repository);
 	}
@@ -47,7 +47,7 @@ public class Spec3ToSpec4LookupTableCompat {
 						setId(v3Entry.getId());
 						setAlternativeNames(v3Entry.getNames());
 						setTags(v3Entry.getTags());
-	
+
 						// Convert packages
 						setPackages(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
 							for (String v3PackageId : v3Entry.getPackages()) {

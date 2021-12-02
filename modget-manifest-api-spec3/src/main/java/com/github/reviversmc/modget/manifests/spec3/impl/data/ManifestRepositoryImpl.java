@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTable;
-import com.github.reviversmc.modget.manifests.spec3.util.LookupTableUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.LookupTableDownloader;
 import com.github.reviversmc.modget.manifests.spec3.util.ManifestRepositoryUtils;
 
 public class ManifestRepositoryImpl implements ManifestRepository {
@@ -27,7 +27,7 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 
 	@Override
 	public void refresh() throws Exception {
-		lookupTable = LookupTableUtils.create().downloadLookupTable(this);
+		lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
 	}
 
 

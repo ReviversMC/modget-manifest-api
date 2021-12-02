@@ -13,7 +13,7 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepository
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableEntryImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.LookupTableImpl;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl;
-import com.github.reviversmc.modget.manifests.spec3.util.ModManifestUtils;
+import com.github.reviversmc.modget.manifests.spec3.util.ModManifestDownloader;
 import com.github.reviversmc.modget.manifests.spec3.util.ManifestRepositoryUtils;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
@@ -48,7 +48,7 @@ public class Spec3ToSpec4ManifestCompat {
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(new LookupTableImpl(v3Repo));
 
 		// Manifest
-		ModManifest v3Manifest = ModManifestUtils.create().downloadManifest(v3Entry, v3Package);
+		ModManifest v3Manifest = ModManifestDownloader.create().downloadManifest(v3Entry, v3Package);
 		convertManifest(v3Manifest, v4Package, v4Entry);
 		v4Manifest.setParentPackage(v4Package);
 		v4Manifest.setParentLookupTableEntry(v4Entry);

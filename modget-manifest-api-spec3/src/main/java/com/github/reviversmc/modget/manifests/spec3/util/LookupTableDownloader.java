@@ -1,6 +1,5 @@
 package com.github.reviversmc.modget.manifests.spec3.util;
 
-import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -23,10 +22,10 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable.Lookup
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class LookupTableUtils extends RepoHandlingUtilsBase {
+public class LookupTableDownloader extends RepoHandlingUtilsBase {
 
-	public static LookupTableUtils create() {
-		return new LookupTableUtils();
+	public static LookupTableDownloader create() {
+		return new LookupTableDownloader();
 	}
 
 
@@ -65,7 +64,7 @@ public class LookupTableUtils extends RepoHandlingUtilsBase {
 			lookupTable.setEntries(entries);
 			return lookupTable;
         } catch (Exception e) {
-			if (e instanceof UnknownHostException || e instanceof IOException) {
+			if (e instanceof UnknownHostException) {
 				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", ExceptionUtils.getStackTrace(e));
 			} else {
 				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", ExceptionUtils.getStackTrace(e));
