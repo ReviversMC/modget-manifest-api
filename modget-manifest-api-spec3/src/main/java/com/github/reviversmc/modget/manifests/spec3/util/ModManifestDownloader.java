@@ -42,7 +42,7 @@ public class ModManifestDownloader extends RepoHandlingUtilsBase {
 		));
 	}
 
-	public ModManifest downloadManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
+	public ModManifest downloadModManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
 		ManifestRepository repo = entry.getParentLookupTable().getParentRepository();
 
 		final int MAX_SHARED_VERSION = findMaxSharedInt(

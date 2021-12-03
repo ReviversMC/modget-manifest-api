@@ -36,14 +36,18 @@ public class LookupTableImpl implements LookupTable {
 
 	@Override
 	public List<LookupTableEntry> getOrDownloadEntries() throws Exception {
-		if (lookupTableEntries == null || lookupTableEntries.size() == 0) {
-            lookupTableEntries = LookupTableDownloader.create().downloadLookupTable(parentRepository).getEntries();
+		if (lookupTableEntries.isEmpty()) {
+            setEntries(LookupTableDownloader.create().downloadLookupTable(parentRepository).getEntries());
         }
         return lookupTableEntries;
 	}
 
 	@Override
 	public void setEntries(List<LookupTableEntry> lookupTableEntries) {
+        if (lookupTableEntries == null) {
+            this.lookupTableEntries.clear();
+            return;
+        }
 		this.lookupTableEntries = lookupTableEntries;
 	}
 

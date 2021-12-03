@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
+import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
+import com.github.reviversmc.modget.manifests.spec3.util.ModManifestDownloader;
 
 public class ModPackageImpl implements ModPackage {
 	private String packageId;
@@ -92,12 +95,35 @@ public class ModPackageImpl implements ModPackage {
 	}
 
 	@Override
+	public List<ModManifest> getOrDownloadManifests(List<ManifestRepository> repos) throws Exception {
+        if (manifests.isEmpty()) {
+            for (ManifestRepository repo : repos) {
+                if (repo.getOrDownloadLookupTable() == null) continue;
+
+                for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
+                    if (entry.getId().equals(this.modId)) {
+                        for (ModPackage modPackage : entry.getOrDownloadPackages()) {
+                            this.addManifest(ModManifestDownloader.create().downloadModManifest(entry, this));
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+		return manifests;
+	}
+
+	@Override
 	public void addManifest(ModManifest manifest) {
 		manifests.add(manifest);
 	}
 
 	@Override
 	public void setManifests(List<ModManifest> manifests) {
+        if (manifests == null) {
+            this.manifests.clear();
+            return;
+        }
 		this.manifests = manifests;
 	}
 

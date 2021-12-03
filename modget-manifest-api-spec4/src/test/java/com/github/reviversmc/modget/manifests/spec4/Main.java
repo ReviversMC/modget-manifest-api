@@ -12,7 +12,6 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.ManifestRepositoryImpl;
-import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
 import com.github.reviversmc.modget.manifests.spec4.util.ModManifestDownloader;
 import com.github.reviversmc.modget.manifests.spec4.util.ModVersionDownloader;
 
@@ -25,7 +24,8 @@ public class Main {
 	@Test
 	private void assertEverythingWorks() {
 		try {
-			LookupTable lookupTable = LookupTableDownloader.create().downloadLookupTable(repo);
+            repo.init();
+			LookupTable lookupTable = repo.getOrDownloadLookupTable();
 
 			for (LookupTableEntry entry : lookupTable.getEntries()) {
 				for (ModPackage modPackage : entry.getPackages()) {
@@ -51,7 +51,7 @@ public class Main {
 
 
 		try {
-			assertTrue(LookupTableDownloader.create().downloadLookupTable(repo).getEntries().get(0).getId() != "");
+			assertTrue(repo.getOrDownloadLookupTable().getEntries().get(0).getId() != "");
 		} catch (Exception e) {
 			fail(ExceptionUtils.getStackTrace(e));
 		}

@@ -233,6 +233,10 @@ public class ModManifestImpl implements ModManifest {
 
 	@Override
 	public void setDownloads(List<ModVersion> downloads) {
+        if (downloads == null) {
+            this.downloads.clear();
+            return;
+        }
 		this.downloads = downloads;
 	}
 

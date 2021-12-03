@@ -62,6 +62,9 @@ public class ModChatsImpl implements ModChats {
 
 	@Override
 	public void setOthers(List<NameUrlPair> others) {
+        if (others == null) {
+            this.others.clear();
+        }
 		this.others = others;
 	}
 

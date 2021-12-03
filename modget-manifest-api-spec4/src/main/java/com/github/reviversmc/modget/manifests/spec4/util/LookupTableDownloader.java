@@ -54,7 +54,7 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 			if (backCompatModuleAvailable == false) {
 				notSupported = true;
 			} else {
-				ManifestApiLogger.logInfo("Can't interpret the provided manifest specification. Utilizing back-compat module...");
+				ManifestApiLogger.logInfo("Utilizing back-compat module...");
 
 				String convertMethodName = "downloadAndConvertLookupTable";
 				Class<?>[] formalParameters = { ManifestRepository.class };
@@ -103,12 +103,14 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), LookupTableEntry[].class));
 
 			lookupTable.setEntries(entries);
+
+            ManifestApiLogger.logInfo(String.format("Fetched lookup table from Repo%s", repo.getId()));
 			return lookupTable;
         } catch (Exception e) {
 			if (e instanceof UnknownHostException) {
-				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", e.getMessage());
+				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository. Please check your Internet connection!", ExceptionUtils.getStackTrace(e));
 			} else {
-				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", e.getMessage());
+				ManifestApiLogger.logWarn("Couldn't connect to the manifest repository", ExceptionUtils.getStackTrace(e));
 			}
 			throw e;
         }

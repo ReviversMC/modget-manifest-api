@@ -55,6 +55,10 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 	@Override
 	public void setAlternativeNames(List<String> alternativeNames) {
+        if (alternativeNames == null) {
+            this.alternativeNames.clear();
+            return;
+        }
 		this.alternativeNames = alternativeNames;
 	}
 
@@ -66,10 +70,11 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 	@Override
 	public List<ModPackage> getOrDownloadPackages() throws Exception {
-        if (packages == null || packages.size() == 0) {
+        if (packages.isEmpty()) {
             for (LookupTableEntry entry : LookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
                 if (entry.getId().equals(this.getId())) {
-                    packages = entry.getPackages();
+                    setPackages(entry.getPackages());
+                    break;
                 }
             }
         }
@@ -78,6 +83,10 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 	@Override
 	public void setPackages(List<ModPackage> packages) {
+        if (packages == null) {
+            this.packages.clear();
+            return;
+        }
 		this.packages = packages;
 	}
 
@@ -89,6 +98,10 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 	@Override
 	public void setTags(List<String> tags) {
+        if (tags == null) {
+            this.tags.clear();
+            return;
+        }
 		this.tags = tags;
 	}
 

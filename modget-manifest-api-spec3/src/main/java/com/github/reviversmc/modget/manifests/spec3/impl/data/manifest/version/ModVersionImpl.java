@@ -64,6 +64,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setLoaders(List<String> loaders) {
+        if (loaders == null) {
+            this.loaders.clear();
+            return;
+        }
 		this.loaders = loaders;
 	}
 
@@ -86,6 +90,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setMinecraftVersions(List<String> minecraftVersions) {
+        if (minecraftVersions == null) {
+            this.minecraftVersions.clear();
+            return;
+        }
 		this.minecraftVersions = minecraftVersions;
 	}
 
@@ -97,6 +105,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setDepends(List<ModPackage> depends) {
+        if (depends == null) {
+            this.depends.clear();
+            return;
+        }
 		this.depends = depends;
 	}
 
@@ -108,6 +120,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setBreaks(List<ModPackage> breaks) {
+        if (breaks == null) {
+            this.breaks.clear();
+            return;
+        }
 		this.breaks = breaks;
 	}
 
@@ -119,6 +135,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setRecommends(List<ModPackage> recommends) {
+        if (recommends == null) {
+            this.recommends.clear();
+            return;
+        }
 		this.recommends = recommends;
 	}
 
@@ -130,6 +150,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setDownloadPageUrls(List<ModDownload> downloadPageUrls) {
+        if (downloadPageUrls == null) {
+            this.downloadPageUrls.clear();
+            return;
+        }
 		this.downloadPageUrls = downloadPageUrls;
 	}
 
@@ -141,6 +165,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setFileUrls(List<ModDownload> fileUrls) {
+        if (fileUrls == null) {
+            this.fileUrls.clear();
+            return;
+        }
 		this.fileUrls = fileUrls;
 	}
 

@@ -39,6 +39,10 @@ public class ModVersionImpl implements ModVersion {
 
 	@Override
 	public void setVariants(List<ModVersionVariant> variants) {
+        if (variants == null) {
+            this.variants.clear();
+            return;
+        }
 		this.variants = variants;
 	}
 

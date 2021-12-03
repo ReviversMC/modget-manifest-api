@@ -94,6 +94,10 @@ public class ModManifestImpl implements ModManifest {
 
 	@Override
 	public void setIconUrls(List<String> iconUrls) {
+        if (iconUrls == null) {
+            this.iconUrls.clear();
+            return;
+       };
 		this.iconUrls = iconUrls;
 	}
 
@@ -116,6 +120,10 @@ public class ModManifestImpl implements ModManifest {
 
 	@Override
 	public void setUpdatedAlternatives(List<ModPackage> updatedAlternatives) {
+        if (updatedAlternatives == null) {
+            this.updatedAlternatives.clear();
+            return;
+        }
 		this.updatedAlternatives = updatedAlternatives;
 	}
 
@@ -149,6 +157,10 @@ public class ModManifestImpl implements ModManifest {
 
 	@Override
 	public void setAuthors(List<ModAuthor> authors) {
+        if (authors == null) {
+            this.authors.clear();
+            return;
+        }
 		this.authors = authors;
 	}
 
@@ -227,16 +239,25 @@ public class ModManifestImpl implements ModManifest {
 	@Override
 	public List<ModVersion> getOrDownloadVersions() throws Exception {
         if (versions != null || versions.size() != 0) {
+            List<ModVersion> versionsNew = new ArrayList<>(15);
             for (ModVersion version : versions) {
-                versions.remove(version);
-                versions.add(ModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
+                if (version.getVariants().isEmpty()) {
+                    versionsNew.add(ModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
+                } else {
+                    versionsNew.add(version);
+                }
             }
+            setVersions(versionsNew);
         }
 		return versions;
 	}
 
 	@Override
 	public void setVersions(List<ModVersion> versions) {
+        if (versions == null) {
+            this.versions.clear();
+            return;
+        }
 		this.versions = versions;
 	}
 

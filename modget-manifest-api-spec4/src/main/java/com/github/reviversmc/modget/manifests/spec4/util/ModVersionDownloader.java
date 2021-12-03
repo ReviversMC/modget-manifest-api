@@ -32,13 +32,14 @@ public class ModVersionDownloader extends RepoHandlingUtilsBase {
 
 
 	public String assembleUri(String uri, int manifestSpecMajorVersion, ModPackage modPackage, String version) {
-		String[] versionParts = version.split(".");
+		String[] versionParts = version.split("\\.");
 		switch (versionParts.length) {
 			case 0:
 				return "";
 			case 1:
 				versionParts[1] = "0";
 		}
+
 		return new String(String.format(
 			"%s/v%s/manifests/%s/%s/%s/%s/%s/%s.yaml",
 			uri,
@@ -67,7 +68,7 @@ public class ModVersionDownloader extends RepoHandlingUtilsBase {
 		if (MAX_SHARED_VERSION == -1) {
 			errorMessage = "This version of the Manifest API doesn't support any of the manifest specifications provided by Repo%s!";
 		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
-			errorMessage = "ModVersions can only be downloaded for manifest spec v4 manifests or higher! For older ones, use ModManifestDownloader.downloadModManifest with the back-compat module.";
+			errorMessage = "ModVersions can only be downloaded for manifest spec v4 manifests or higher! For older ones, simply use ModManifest.getDownloads() with the back-compat module.";
 		}
 		if (errorMessage != null) {
 			List<String> versions = Arrays.asList(Integer.toString(ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC));
@@ -101,6 +102,12 @@ public class ModVersionDownloader extends RepoHandlingUtilsBase {
 			List<ModVersionVariant> modVersionVariants = Arrays.asList(mapper.readValue(new URL(uri), ModVersionVariant[].class));
 
 			modVersion.setVariants(modVersionVariants);
+
+            setMissingReferences(modVersion);
+
+            ManifestApiLogger.logInfo(String.format("Fetched version manifest: %s %s", packageIdWithRepo, version));
+            return modVersion;
+
 		} catch (Exception e) {
 			if (e instanceof IOException) {
 				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s %s version manifest. Please check your Internet connection!", packageIdWithRepo, version), ExceptionUtils.getStackTrace(e));
@@ -109,11 +116,6 @@ public class ModVersionDownloader extends RepoHandlingUtilsBase {
 			}
 			throw e;
 		}
-
-		setMissingReferences(modVersion);
-
-		ManifestApiLogger.logInfo(String.format("Fetched version manifest: %s %s", packageIdWithRepo, version));
-		return modVersion;
 	}
 
 

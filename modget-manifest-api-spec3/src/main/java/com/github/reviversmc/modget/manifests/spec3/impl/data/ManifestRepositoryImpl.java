@@ -1,5 +1,6 @@
 package com.github.reviversmc.modget.manifests.spec3.impl.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
@@ -17,6 +18,8 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	public ManifestRepositoryImpl(int id, String uri) {
 		this.id = id;
 		setUri(uri);
+
+        availableManifestSpecMajorVersions = new ArrayList<>(2);
 	}
 
 	@Override
@@ -26,8 +29,8 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 
 	@Override
 	public void refresh() throws Exception {
+		setSupportedManifestSpecMajorVersions(ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
 		lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
-		this.availableManifestSpecMajorVersions = ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this);
 	}
 
 
@@ -63,6 +66,10 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 
 	@Override
 	public void setSupportedManifestSpecMajorVersions(List<Integer> availableManifestSpecMajorVersions) {
+        if (availableManifestSpecMajorVersions == null) {
+            this.availableManifestSpecMajorVersions.clear();
+            return;
+        }
 		this.availableManifestSpecMajorVersions = availableManifestSpecMajorVersions;
 	}
 

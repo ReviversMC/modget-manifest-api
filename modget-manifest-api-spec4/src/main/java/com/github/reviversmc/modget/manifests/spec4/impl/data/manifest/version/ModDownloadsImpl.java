@@ -79,6 +79,10 @@ public class ModDownloadsImpl implements ModDownloads {
 
 	@Override
 	public void setOther(List<NameUrlPair> others) {
+        if (others == null) {
+            this.others.clear();
+            return;
+        }
 		this.others = others;
 	}
 

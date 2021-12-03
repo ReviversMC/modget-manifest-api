@@ -61,6 +61,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setLoaders(List<String> loaders) {
+        if (loaders == null) {
+            this.loaders.clear();
+            return;
+        }
 		this.loaders = loaders;
 	}
 
@@ -72,6 +76,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setMinecraftVersions(List<String> minecraftVersions) {
+        if (minecraftVersions == null) {
+            this.minecraftVersions.clear();
+            return;
+        }
 		this.minecraftVersions = minecraftVersions;
 	}
 
@@ -105,6 +113,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setDepends(List<ModPackage> depends) {
+        if (depends == null) {
+            this.depends.clear();
+            return;
+        }
 		this.depends = depends;
 	}
 
@@ -116,6 +128,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setBundles(List<ModPackage> bundles) {
+        if (bundles == null) {
+            this.bundles.clear();
+            return;
+        }
 		this.bundles = bundles;
 	}
 
@@ -127,6 +143,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setBreaks(List<ModPackage> breaks) {
+        if (breaks == null) {
+            this.breaks.clear();
+            return;
+        }
 		this.breaks = breaks;
 	}
 
@@ -138,6 +158,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setConflicts(List<ModPackage> conflicts) {
+        if (conflicts == null) {
+            this.conflicts.clear();
+            return;
+        }
 		this.conflicts = conflicts;
 	}
 
@@ -149,6 +173,10 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 
 	@Override
 	public void setRecommends(List<ModPackage> recommends) {
+        if (recommends == null) {
+            this.recommends.clear();
+            return;
+        }
 		this.recommends = recommends;
 	}
 

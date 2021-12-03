@@ -69,7 +69,7 @@ public class ModManifestDownloader extends RepoHandlingUtilsBase {
 			if (backCompatModuleAvailable == false) {
 				notSupported = true;
 			} else {
-				ManifestApiLogger.logInfo("Can't interpret the provided manifest specification. Utilizing back-compat module...");
+				ManifestApiLogger.logInfo("Utilizing back-compat module...");
 
 				String convertMethodName = "downloadAndConvertManifest";
 				Class<?>[] formalParameters = { LookupTableEntry.class, ModPackage.class };
@@ -83,8 +83,8 @@ public class ModManifestDownloader extends RepoHandlingUtilsBase {
 					try {
 						value = method.invoke(newInstance, effectiveParameters);
 						return (ModManifest)value;
-					} catch (Exception e1) {
-						ManifestApiLogger.logWarn("Error in back-compat module encountered", String.format("%s: %s", e1.getMessage(), ExceptionUtils.getStackTrace(e1)));
+					} catch (Exception e) {
+						ManifestApiLogger.logWarn("Error in back-compat module encountered", ExceptionUtils.getStackTrace(e));
 					}
 					return null;
 

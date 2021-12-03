@@ -42,13 +42,14 @@ public class Spec3ToSpec4ManifestCompat {
 			= v4Entry.getParentLookupTable().getParentRepository();
 		ManifestRepository v3Repo = new ManifestRepositoryImpl(v4Repo.getId(), v4Repo.getUri()) {{
 			setSupportedManifestSpecMajorVersions(ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
+            init();
 		}};
 
 		// Lookup table entry
 		LookupTableEntry v3Entry = new LookupTableEntryImpl(new LookupTableImpl(v3Repo));
 
 		// Manifest
-		ModManifest v3Manifest = ModManifestDownloader.create().downloadManifest(v3Entry, v3Package);
+		ModManifest v3Manifest = ModManifestDownloader.create().downloadModManifest(v3Entry, v3Package);
 		convertManifest(v3Manifest, v4Package, v4Entry);
 		v4Manifest.setParentPackage(v4Package);
 		v4Manifest.setParentLookupTableEntry(v4Entry);

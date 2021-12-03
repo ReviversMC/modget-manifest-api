@@ -62,6 +62,8 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), LookupTableEntry[].class));
 
 			lookupTable.setEntries(entries);
+
+            ManifestApiLogger.logInfo(String.format("Fetched lookup table from Repo%s", repo.getId()));
 			return lookupTable;
         } catch (Exception e) {
 			if (e instanceof UnknownHostException) {

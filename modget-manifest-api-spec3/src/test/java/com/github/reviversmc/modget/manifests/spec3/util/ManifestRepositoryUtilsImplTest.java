@@ -19,7 +19,9 @@ public class ManifestRepositoryUtilsImplTest {
 		ManifestRepository repoWithoutUpdate = new ManifestRepositoryImpl(1, TestConfig.specV3RepoUrl);
 
 		try {
+            repoWithUpdate.init();
 			assertTrue(utils.checkForNewVersion(repoWithUpdate));
+            repoWithoutUpdate.init();
 			assertFalse(utils.checkForNewVersion(repoWithoutUpdate));
 		} catch (Exception e) {}
 	}
