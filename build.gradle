@@ -21,6 +21,17 @@ def getProjectVersion(project) {
     return version
 }
 
+def getProjectShortName(project) {
+	// Get the version from the gradle.properties file
+	def version = project.properties["${project.name}-short-name"]
+
+	if (!version) {
+		throw new NullPointerException("Could not find short name for " + project.name)
+	}
+
+    return version
+}
+
 
 
 subprojects {
@@ -93,7 +104,7 @@ configure(subprojects.findAll {it.name != 'modget-manifest-api-base'} ) {
                 if (!project.name.equals("modget-manifest-api-base")) {
                     artifact(shadowJar) {
                         groupId project.group
-                        artifactId project.name
+                        artifactId getProjectShortName(project)
                         version getProjectVersion(project)
                         builtBy shadowJar
                     }
