@@ -81,6 +81,7 @@ subprojects {
 
     shadowJar {
         configurations = [project.configurations.shadow]
+        archiveBaseName = getProjectShortName(project)
         archiveClassifier.set("")
 
         dependencies {
