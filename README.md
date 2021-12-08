@@ -15,7 +15,7 @@ repositories {
 From here on, it depends on what you're trying to achieve. If you already know you're going to work with a repository using a specific manifest spec, let's say v4, you can simply add the `modget-manifest-api-spec4` package to your dependencies:
 
 ```gradle
-api "com.github.ReviversMC.modget-manifest-api:modget-manifest-api-spec4:${modget_manifest_api_version}"
+api "com.github.ReviversMC.modget-manifest-api:spec4:${modget_manifest_api_version}"
 ```
 
 But what if you need to support multiple generations of manifest specifications? [Modget-Minecraft](https://github.com/ReviversMC/modget-minecraft) for example allows users to add custom repositories, though it can't expect that these will always be up-to-date with the latest spec. Hence, we created a compatibility module which you can add this way:
