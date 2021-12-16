@@ -4,13 +4,34 @@ import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public interface LookupTable {
 
+    /**
+	 * Gets the parent manifest repository
+	 */
 	public ManifestRepository getParentRepository();
+    /**
+	 * Sets the parent repository
+	 */
 	public void setParentRepository(ManifestRepository parentRepository);
 
+    /**
+	 * Gets all entries of this lookup table.
+     * Cannot return null.
+	 */
+    @NonNull
 	public List<LookupTableEntry> getEntries();
+    /**
+	 * Gets all entries of this lookup table if downloaded, otherwise downloads them.
+     * Cannot return null.
+	 */
+    @NonNull
 	public List<LookupTableEntry> getOrDownloadEntries() throws Exception;
+    /**
+	 * Overrides the already set lookup table entries.
+	 */
 	public void setEntries(List<LookupTableEntry> lookupTableEntries);
 
 }
