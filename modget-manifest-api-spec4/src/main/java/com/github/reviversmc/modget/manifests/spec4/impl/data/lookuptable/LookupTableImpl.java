@@ -37,7 +37,7 @@ public class LookupTableImpl implements LookupTable {
 	@Override
 	public List<LookupTableEntry> getOrDownloadEntries() throws Exception {
         if (lookupTableEntries.isEmpty()) {
-            LookupTableDownloader.create().downloadLookupTable(parentRepository);
+            setEntries(LookupTableDownloader.create().downloadLookupTable(parentRepository).getEntries());
         }
 		return lookupTableEntries;
 	}

@@ -82,7 +82,7 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	@Override
 	public LookupTable getOrDownloadLookupTable() throws Exception {
 		if (lookupTable == null) {
-            lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
+            setLookupTable(LookupTableDownloader.create().downloadLookupTable(this));
         }
         return lookupTable;
 	}
