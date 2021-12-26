@@ -30,7 +30,11 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 	}
 
 
-	public LookupTable downloadLookupTable(ManifestRepository repo) throws Exception {
+
+    /**
+     * Downloads the lookup table from the specified manifest repository
+     */
+    public LookupTable downloadLookupTable(ManifestRepository repo) throws Exception {
 		final int MAX_AVAILABLE_VERSION = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
 		final int MAX_SHARED_VERSION = findMaxSharedInt(
 			ManifestApiConfig.KNOWN_MANIFEST_SPECS,

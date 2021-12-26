@@ -15,7 +15,13 @@ public class ManifestRepositoryUtils {
 	}
 
 
-	public boolean doesRepoSupportMajorSpecVersion(ManifestRepository repo, int specVersion) throws Exception {
+
+    /**
+     * Checks if the specified repository supports a specific manifest spec version.
+     * This is done by trying to access the repo's lookup table, and if the request times out,
+     * false is returned.
+     */
+    public boolean doesRepoSupportMajorSpecVersion(ManifestRepository repo, int specVersion) throws Exception {
 		String url = String.format("%s/v%s/lookup-table.yaml", repo.getUri(), specVersion);
 
 		HttpURLConnection.setFollowRedirects(false);
@@ -30,7 +36,12 @@ public class ManifestRepositoryUtils {
 	}
 
 
-	public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
+
+    /**
+     * Checks the all manifest specs between the v3 and the currently supported max version
+     * and an additional 10 specs upwards if they are supported
+     */
+    public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
 		final int MAX_VERSIONS_TO_CHECK = 10;
 		final List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
@@ -46,7 +57,12 @@ public class ManifestRepositoryUtils {
 	}
 
 
-	public boolean checkForNewVersion(ManifestRepository repo) {
+
+    /**
+     * Checks if a manifest repository supports newer manifest specs than the currently supported max
+     * by this version of the API
+     */
+    public boolean checkForNewVersion(ManifestRepository repo) {
 		List<Integer> availableManifestSpecMajorVersions = getAvailableManifestSpecMajorVersions(repo);
 		final int MAX_AVAILABLE_VERSION = availableManifestSpecMajorVersions.get(availableManifestSpecMajorVersions.size() - 1);
 
