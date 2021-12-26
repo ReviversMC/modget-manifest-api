@@ -2,9 +2,9 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable;
 
 import java.util.List;
 
-import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
+import javax.annotation.Nonnull;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 
 public interface LookupTable {
 
@@ -21,13 +21,13 @@ public interface LookupTable {
 	 * Gets all entries of this lookup table.
      * Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<LookupTableEntry> getEntries();
     /**
 	 * Gets all entries of this lookup table if downloaded, otherwise downloads them.
      * Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<LookupTableEntry> getOrDownloadEntries() throws Exception;
     /**
 	 * Overrides the already set lookup table entries.

@@ -2,11 +2,11 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.LookupTableEntryImpl;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 @JsonDeserialize(as = LookupTableEntryImpl.class)
 public interface LookupTableEntry {
@@ -26,7 +26,7 @@ public interface LookupTableEntry {
     /**
 	 * Gets all names of this mod that are not equal to the mod's ID. Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<String> getAlternativeNames();
     /**
 	 * Sets all names of this mod that are not equal to the mod's ID.
@@ -37,7 +37,7 @@ public interface LookupTableEntry {
     /**
 	 * Gets all tags associated with the current mod. Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<String> getTags();
     /**
 	 * Sets the mod's tags. You can try to set it to null, but it will instead just clear the current list.
@@ -47,13 +47,13 @@ public interface LookupTableEntry {
     /**
 	 * Gets all available packages for this mod. Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<ModPackage> getPackages();
     /**
 	 * Gets all packages of this lookup table if downloaded, otherwise downloads them.
      * Cannot return null.
 	 */
-    @NonNull
+    @Nonnull
 	public List<ModPackage> getOrDownloadPackages() throws Exception;
     /**
 	 * Sets the mod's available packages.
