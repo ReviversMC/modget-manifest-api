@@ -1,6 +1,7 @@
 package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
@@ -16,11 +17,13 @@ public class ModEnvironmentImpl implements ModEnvironment {
 
 
 	@Override
+    @JsonIgnore
 	public ModVersionVariant getParentModVersionVariant() {
 		return parentModVersionVariant;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentModVersionVariant(ModVersionVariant parentModVersionVariant) {
 		this.parentModVersionVariant = parentModVersionVariant;
 	}

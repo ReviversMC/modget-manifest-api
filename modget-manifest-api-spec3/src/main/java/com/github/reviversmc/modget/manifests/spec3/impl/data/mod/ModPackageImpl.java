@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
@@ -51,11 +52,13 @@ public class ModPackageImpl implements ModPackage {
 
 
 	@Override
+    @JsonIgnore
 	public String getPublisher() {
 		return publisher;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
         if (publisher != null && modId != null) {
@@ -65,11 +68,13 @@ public class ModPackageImpl implements ModPackage {
 
 
 	@Override
+    @JsonIgnore
 	public String getModId() {
 		return modId;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setModId(String modId) {
 		this.modId = modId;
         if (publisher != null && modId != null) {
@@ -90,11 +95,13 @@ public class ModPackageImpl implements ModPackage {
 
 
 	@Override
+    @JsonIgnore
 	public List<ModManifest> getManifests() {
 		return manifests;
 	}
 
 	@Override
+    @JsonIgnore
 	public List<ModManifest> getOrDownloadManifests(List<ManifestRepository> repos) throws Exception {
         if (manifests.isEmpty()) {
             for (ManifestRepository repo : repos) {
@@ -114,11 +121,13 @@ public class ModPackageImpl implements ModPackage {
 	}
 
 	@Override
+    @JsonIgnore
 	public void addManifest(ModManifest manifest) {
 		manifests.add(manifest);
 	}
 
 	@Override
+    @JsonIgnore
 	public void setManifests(List<ModManifest> manifests) {
         if (manifests == null) {
             this.manifests.clear();

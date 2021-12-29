@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModThirdPartyIds;
@@ -40,22 +41,26 @@ public class ModManifestImpl implements ModManifest {
 
 
 	@Override
+    @JsonIgnore
 	public ModPackage getParentPackage() {
 		return parentPackage;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentPackage(ModPackage parentPackage) {
 		this.parentPackage = parentPackage;
 	}
 
 
 	@Override
+    @JsonIgnore
 	public LookupTableEntry getParentLookupTableEntry() {
 		return parentLookupTableEntry;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentLookupTableEntry(LookupTableEntry parentLookupTableEntry) {
 		this.parentLookupTableEntry = parentLookupTableEntry;
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
@@ -24,11 +25,13 @@ public class ModDownloadsImpl implements ModDownloads {
 
 
 	@Override
+    @JsonIgnore
 	public ModVersionVariant getParentModVersionVariant() {
 		return parentModVersionVariant;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentModVersionVariant(ModVersionVariant parentModVersionVariant) {
 		this.parentModVersionVariant = parentModVersionVariant;
 	}

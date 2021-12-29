@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
@@ -27,11 +28,13 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 
 
 	@Override
+    @JsonIgnore
 	public LookupTable getParentLookupTable() {
 		return parentLookupTable;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentLookupTable(LookupTable parentLookupTable) {
 		this.parentLookupTable = parentLookupTable;
 	}

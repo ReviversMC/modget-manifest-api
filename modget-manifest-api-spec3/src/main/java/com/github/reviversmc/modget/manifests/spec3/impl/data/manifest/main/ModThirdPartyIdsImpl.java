@@ -1,6 +1,7 @@
 package com.github.reviversmc.modget.manifests.spec3.impl.data.manifest.main;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModThirdPartyIds;
 
@@ -16,11 +17,13 @@ public class ModThirdPartyIdsImpl implements ModThirdPartyIds {
 
 
 	@Override
+    @JsonIgnore
 	public ModManifest getParentManifest() {
 		return parentManifest;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentManifest(ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}

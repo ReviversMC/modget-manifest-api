@@ -1,6 +1,7 @@
 package com.github.reviversmc.modget.manifests.spec3.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModDownload;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModVersion;
 
@@ -16,11 +17,13 @@ public class ModDownloadImpl implements ModDownload {
 
 
 	@Override
+    @JsonIgnore
 	public ModVersion getParentModVersion() {
 		return parentModVersion;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentModVersion(ModVersion parentModVersion) {
 		this.parentModVersion = parentModVersion;
 	}

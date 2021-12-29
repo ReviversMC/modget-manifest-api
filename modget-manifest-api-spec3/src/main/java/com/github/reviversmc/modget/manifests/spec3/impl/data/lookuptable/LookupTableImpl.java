@@ -3,6 +3,7 @@ package com.github.reviversmc.modget.manifests.spec3.impl.data.lookuptable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec3.api.data.lookuptable.LookupTableEntry;
@@ -19,11 +20,13 @@ public class LookupTableImpl implements LookupTable {
 	}
 
 	@Override
+    @JsonIgnore
 	public ManifestRepository getParentRepository() {
 		return parentRepository;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentRepository(ManifestRepository parentRepository) {
 		this.parentRepository = parentRepository;
 	}

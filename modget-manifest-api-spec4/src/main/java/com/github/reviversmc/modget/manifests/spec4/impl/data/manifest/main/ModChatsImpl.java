@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModChats;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
@@ -23,11 +24,13 @@ public class ModChatsImpl implements ModChats {
 
 
 	@Override
+    @JsonIgnore
 	public ModManifest getParentManifest() {
 		return parentManifest;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentManifest(ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}

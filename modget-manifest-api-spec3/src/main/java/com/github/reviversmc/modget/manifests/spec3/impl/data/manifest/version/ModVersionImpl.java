@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec3.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec3.api.data.manifest.version.ModDownload;
@@ -36,11 +37,13 @@ public class ModVersionImpl implements ModVersion {
 
 
 	@Override
+    @JsonIgnore
 	public ModManifest getParentManifest() {
 		return this.parentManifest;
 	}
 
 	@Override
+    @JsonIgnore
 	public void setParentManifest(ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}
