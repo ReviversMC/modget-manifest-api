@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
-import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
-import com.github.reviversmc.modget.manifests.spec4.util.ManifestRepositoryUtils;
+import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicLookupTableDownloader;
+import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicManifestRepositoryUtils;
 
-public class ManifestRepositoryImpl implements ManifestRepository {
+public class BasicManifestRepository implements ManifestRepository {
 	private int id;
 	private String uri;
 	private List<Integer> availableManifestSpecMajorVersions;
 	private LookupTable lookupTable;
 	private boolean enabled = true;
 
-	public ManifestRepositoryImpl(int id, String uri) {
+	public BasicManifestRepository(int id, String uri) {
 		this.id = id;
 		setUri(uri);
 
@@ -29,8 +29,8 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 
 	@Override
 	public void refresh() throws Exception {
-		setSupportedManifestSpecMajorVersions(ManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
-		lookupTable = LookupTableDownloader.create().downloadLookupTable(this);
+		setSupportedManifestSpecMajorVersions(BasicManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
+		lookupTable = BasicLookupTableDownloader.create().downloadLookupTable(this);
 	}
 
 
@@ -82,7 +82,7 @@ public class ManifestRepositoryImpl implements ManifestRepository {
 	@Override
 	public LookupTable getOrDownloadLookupTable() throws Exception {
         if (lookupTable == null) {
-            setLookupTable(LookupTableDownloader.create().downloadLookupTable(this));
+            setLookupTable(BasicLookupTableDownloader.create().downloadLookupTable(this));
         }
 		return lookupTable;
 	}

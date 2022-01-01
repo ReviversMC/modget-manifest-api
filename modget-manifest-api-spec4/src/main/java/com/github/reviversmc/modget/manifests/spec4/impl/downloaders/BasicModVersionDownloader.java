@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.util;
+package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,22 +12,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
-import com.github.reviversmc.modget.manifests.spec4.api.util.RepoHandlingUtilsBase;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionImpl;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersion;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class ModVersionDownloader extends RepoHandlingUtilsBase {
+public class BasicModVersionDownloader extends RepoHandlingUtilsBase {
 
-	public static ModVersionDownloader create() {
-		return new ModVersionDownloader();
+	public static BasicModVersionDownloader create() {
+		return new BasicModVersionDownloader();
 	}
 
 
@@ -85,7 +84,7 @@ public class ModVersionDownloader extends RepoHandlingUtilsBase {
 			version
 		);
 
-		final ModVersion modVersion = new ModVersionImpl(modManifest);
+		final ModVersion modVersion = new BasicModVersion(modManifest);
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		final InjectableValues.Std injectableValues = new InjectableValues.Std();
         injectableValues.addValue(ModVersion.class, modVersion);

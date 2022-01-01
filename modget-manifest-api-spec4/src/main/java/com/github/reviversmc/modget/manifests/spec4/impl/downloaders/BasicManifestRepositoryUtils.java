@@ -1,17 +1,17 @@
-package com.github.reviversmc.modget.manifests.spec4.util;
+package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
+import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 
-public class ManifestRepositoryUtils {
+public class BasicManifestRepositoryUtils {
 
-	public static ManifestRepositoryUtils create() {
-		return new ManifestRepositoryUtils();
+	public static BasicManifestRepositoryUtils create() {
+		return new BasicManifestRepositoryUtils();
 	}
 
 

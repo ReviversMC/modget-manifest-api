@@ -9,7 +9,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.Nam
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
-public class ModDownloadsImpl implements ModDownloads {
+public class BasicModDownloads implements ModDownloads {
 	private ModVersionVariant parentModVersionVariant;
 	private String modrinth;
 	private String curseforge;
@@ -17,7 +17,7 @@ public class ModDownloadsImpl implements ModDownloads {
 	private List<NameUrlPair> others;
 
 
-	public ModDownloadsImpl(@JacksonInject ModVersionVariant parentModVersionVariant) {
+	public BasicModDownloads(@JacksonInject ModVersionVariant parentModVersionVariant) {
 		this.parentModVersionVariant = parentModVersionVariant;
 
 		this.others = new ArrayList<>(0);

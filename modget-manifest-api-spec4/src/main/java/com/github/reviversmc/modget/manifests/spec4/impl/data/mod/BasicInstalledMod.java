@@ -8,13 +8,13 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupT
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.InstalledMod;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
-public class InstalledModImpl implements InstalledMod {
+public class BasicInstalledMod implements InstalledMod {
 	private String id;
 	private String installedVersion;
 	private List<ModPackage> availablePackages;
 
 
-	public InstalledModImpl(String id) {
+	public BasicInstalledMod(String id) {
 		this.id = id;
 		this.availablePackages = new ArrayList<>(2);
 	}

@@ -2,11 +2,8 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionImpl;
 
-@JsonDeserialize(as = ModVersionImpl.class)
 public interface ModVersion {
 
 	public ModManifest getParentManifest();

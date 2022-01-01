@@ -9,14 +9,14 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.Nam
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModChats;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 
-public class ModChatsImpl implements ModChats {
+public class BasicModChats implements ModChats {
 	private ModManifest parentManifest;
 	private String discord;
 	private String irc;
 	private List<NameUrlPair> others;
 
 
-	public ModChatsImpl(@JacksonInject ModManifest parentManifest) {
+	public BasicModChats(@JacksonInject ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 
 		this.others = new ArrayList<>(0);

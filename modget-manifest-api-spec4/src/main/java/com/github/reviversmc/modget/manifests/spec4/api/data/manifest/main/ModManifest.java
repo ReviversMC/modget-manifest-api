@@ -2,13 +2,10 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModManifestImpl;
 
-@JsonDeserialize(as = ModManifestImpl.class)
 public interface ModManifest {
 
 	public ModPackage getParentPackage();

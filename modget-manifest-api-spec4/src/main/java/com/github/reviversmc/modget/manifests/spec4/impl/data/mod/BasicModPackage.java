@@ -10,9 +10,9 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
-import com.github.reviversmc.modget.manifests.spec4.util.ModManifestDownloader;
+import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModManifestDownloader;
 
-public class ModPackageImpl implements ModPackage {
+public class BasicModPackage implements ModPackage {
 	private String packageId;
 	private String publisher;
 	private String modId;
@@ -22,7 +22,7 @@ public class ModPackageImpl implements ModPackage {
 
 
     @JsonCreator
-	public ModPackageImpl(@JsonProperty("packageId") String packageId) {
+	public BasicModPackage(@JsonProperty("packageId") String packageId) {
 		setPackageId(packageId);
 
 		loaders = new ArrayList<>(1);
@@ -30,7 +30,7 @@ public class ModPackageImpl implements ModPackage {
 	}
 
     @JsonIgnore
-	public ModPackageImpl(String publisher, String modId) {
+	public BasicModPackage(String publisher, String modId) {
 		this.publisher = publisher;
 		setModId(modId);
 
@@ -129,7 +129,7 @@ public class ModPackageImpl implements ModPackage {
                 for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
                     if (entry.getId().equals(this.modId)) {
                         for (ModPackage modPackage : entry.getOrDownloadPackages()) {
-                            this.addManifest(ModManifestDownloader.create().downloadModManifest(entry, this));
+                            this.addManifest(BasicModManifestDownloader.create().downloadModManifest(entry, this));
                         }
                         break;
                     }

@@ -2,11 +2,8 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.mod;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.mod.InstalledModImpl;
 
-@JsonDeserialize(as = InstalledModImpl.class)
 public interface InstalledMod {
 
 	public String getId();

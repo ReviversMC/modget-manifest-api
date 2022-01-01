@@ -4,11 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.LookupTableEntryImpl;
 
-@JsonDeserialize(as = LookupTableEntryImpl.class)
 public interface LookupTableEntry {
 
 	public LookupTable getParentLookupTable();

@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.util;
+package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
@@ -20,15 +21,13 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModMa
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
-import com.github.reviversmc.modget.manifests.spec4.api.util.RepoHandlingUtilsBase;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class ModManifestDownloader extends RepoHandlingUtilsBase {
+public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
 
-	public static ModManifestDownloader create() {
-		return new ModManifestDownloader();
+	public static BasicModManifestDownloader create() {
+		return new BasicModManifestDownloader();
 	}
 
 

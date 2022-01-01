@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 
-public class ModAuthorImpl implements ModAuthor {
+public class BasicModAuthor implements ModAuthor {
 	private ModManifest parentManifest;
 	private String name;
 
 
-	public ModAuthorImpl(@JacksonInject ModManifest parentManifest) {
+	public BasicModAuthor(@JacksonInject ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 	}
 

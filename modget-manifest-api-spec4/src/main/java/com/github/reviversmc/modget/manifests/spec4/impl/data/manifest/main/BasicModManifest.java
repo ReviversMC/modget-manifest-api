@@ -11,9 +11,9 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModCh
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
-import com.github.reviversmc.modget.manifests.spec4.util.ModVersionDownloader;
+import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModVersionDownloader;
 
-public class ModManifestImpl implements ModManifest {
+public class BasicModManifest implements ModManifest {
 	private ModPackage parentPackage;
 	private LookupTableEntry parentLookupTableEntry;
 	private String manifestSpecVersion;
@@ -33,7 +33,7 @@ public class ModManifestImpl implements ModManifest {
 	private List<ModVersion> versions;
 
 
-	public ModManifestImpl(@JacksonInject ModPackage parentPackage, @JacksonInject LookupTableEntry parentLookupTableEntry) {
+	public BasicModManifest(@JacksonInject ModPackage parentPackage, @JacksonInject LookupTableEntry parentLookupTableEntry) {
 		this.parentPackage = parentPackage;
 		this.parentLookupTableEntry = parentLookupTableEntry;
 
@@ -247,7 +247,7 @@ public class ModManifestImpl implements ModManifest {
             List<ModVersion> versionsNew = new ArrayList<>(15);
             for (ModVersion version : versions) {
                 if (version.getVariants().isEmpty()) {
-                    versionsNew.add(ModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
+                    versionsNew.add(BasicModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
                 } else {
                     versionsNew.add(version);
                 }

@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
-import com.github.reviversmc.modget.manifests.spec4.util.LookupTableDownloader;
+import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicLookupTableDownloader;
 
-public class LookupTableEntryImpl implements LookupTableEntry {
+public class BasicLookupTableEntry implements LookupTableEntry {
 	private LookupTable parentLookupTable;
 	private String id;
 	private List<String> alternativeNames;
@@ -18,7 +18,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	private List<ModPackage> packages;
 
 
-	public LookupTableEntryImpl(@JacksonInject LookupTable parentLookupTable) {
+	public BasicLookupTableEntry(@JacksonInject LookupTable parentLookupTable) {
 		this.parentLookupTable = parentLookupTable;
 
 		this.alternativeNames = new ArrayList<>(4);
@@ -74,7 +74,7 @@ public class LookupTableEntryImpl implements LookupTableEntry {
 	@Override
 	public List<ModPackage> getOrDownloadPackages() throws Exception {
         if (packages.isEmpty()) {
-            for (LookupTableEntry entry : LookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
+            for (LookupTableEntry entry : BasicLookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
                 if (entry.getId().equals(this.getId())) {
                     setPackages(entry.getPackages());
                     break;

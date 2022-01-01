@@ -2,16 +2,16 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
-public class ModEnvironmentImpl implements ModEnvironment {
+public class BasicModThirdPartyIds implements ModThirdPartyIds {
 	private ModVersionVariant parentModVersionVariant;
-	private String server;
-	private String client;
+	private String modrinth;
+	private String curseforge;
 
 
-	public ModEnvironmentImpl(@JacksonInject ModVersionVariant parentModVersionVariant) {
+	public BasicModThirdPartyIds(@JacksonInject ModVersionVariant parentModVersionVariant) {
 		this.parentModVersionVariant = parentModVersionVariant;
 	}
 
@@ -30,25 +30,24 @@ public class ModEnvironmentImpl implements ModEnvironment {
 
 
 	@Override
-	public String getServer() {
-		return server;
+	public String getModrinth() {
+		return modrinth;
 	}
 
 	@Override
-	public void setServer(String server) {
-		this.server = server;
+	public void setModrinth(String modrinth) {
+		this.modrinth = modrinth;
 	}
 
 
 	@Override
-	public String getClient() {
-		return client;
+	public String getCurseforge() {
+		return curseforge;
 	}
 
 	@Override
-	public void setClient(String client) {
-		this.client = client;
+	public void setCurseforge(String curseforge) {
+		this.curseforge = curseforge;
 	}
-
 
 }

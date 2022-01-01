@@ -9,13 +9,13 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModMa
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
-public class ModVersionImpl implements ModVersion {
+public class BasicModVersion implements ModVersion {
 	private ModManifest parentManifest;
 	private List<ModVersionVariant> variants;
 	private String version;
 
 
-	public ModVersionImpl(@JacksonInject ModManifest parentManifest) {
+	public BasicModVersion(@JacksonInject ModManifest parentManifest) {
 		this.parentManifest = parentManifest;
 
 		this.variants = new ArrayList<>(2);

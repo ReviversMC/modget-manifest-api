@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.util;
+package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -13,20 +13,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
-import com.github.reviversmc.modget.manifests.spec4.api.util.RepoHandlingUtilsBase;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.LookupTableImpl;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.BasicLookupTable;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class LookupTableDownloader extends RepoHandlingUtilsBase {
+public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
 
-	public static LookupTableDownloader create() {
-		return new LookupTableDownloader();
+	public static BasicLookupTableDownloader create() {
+		return new BasicLookupTableDownloader();
 	}
 
 
@@ -94,7 +93,7 @@ public class LookupTableDownloader extends RepoHandlingUtilsBase {
 		}
 
 
-		final LookupTable lookupTable = new LookupTableImpl(repo);
+		final LookupTable lookupTable = new BasicLookupTable(repo);
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		final InjectableValues.Std injectableValues = new InjectableValues.Std();
         injectableValues.addValue(LookupTable.class, lookupTable);

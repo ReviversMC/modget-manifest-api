@@ -12,7 +12,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
-public class ModVersionVariantImpl implements ModVersionVariant {
+public class BasicModVersionVariant implements ModVersionVariant {
 	private ModVersion parentVersion;
 	private List<String> loaders;
 	private List<String> minecraftVersions;
@@ -31,7 +31,7 @@ public class ModVersionVariantImpl implements ModVersionVariant {
 	private ModDownloads fileUrls;
 
 
-	public ModVersionVariantImpl(@JacksonInject ModVersion parentVersion) {
+	public BasicModVersionVariant(@JacksonInject ModVersion parentVersion) {
 		this.parentVersion = parentVersion;
 
 		this.loaders = new ArrayList<>(1);

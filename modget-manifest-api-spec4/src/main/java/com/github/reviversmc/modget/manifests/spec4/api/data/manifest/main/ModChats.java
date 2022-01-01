@@ -2,11 +2,8 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModChatsImpl;
 
-@JsonDeserialize(as = ModChatsImpl.class)
 public interface ModChats {
 
 	public ModManifest getParentManifest();

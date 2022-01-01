@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.api.util;
+package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
 import java.util.List;
 

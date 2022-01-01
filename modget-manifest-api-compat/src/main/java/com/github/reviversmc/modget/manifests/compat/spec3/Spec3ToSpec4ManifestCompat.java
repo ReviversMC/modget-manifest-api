@@ -16,12 +16,12 @@ import com.github.reviversmc.modget.manifests.spec3.impl.data.mod.ModPackageImpl
 import com.github.reviversmc.modget.manifests.spec3.util.ModManifestDownloader;
 import com.github.reviversmc.modget.manifests.spec3.util.ManifestRepositoryUtils;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.NameUrlPairImpl;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionVariantImpl;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.BasicNameUrlPair;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersionVariant;
 
 public class Spec3ToSpec4ManifestCompat {
 	com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest v4Manifest
-		= new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModManifestImpl(null, null);
+		= new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModManifest(null, null);
 	ModPackage v3Package = null;
 
 	public static Spec3ToSpec4ManifestCompat create() {
@@ -82,14 +82,14 @@ public class Spec3ToSpec4ManifestCompat {
 
 		// Copy chats
 		if (v3Manifest.getChat() != null) {
-			v4Manifest.setChats(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.ModChatsImpl(v4Manifest) {{
+			v4Manifest.setChats(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModChats(v4Manifest) {{
 				if (v3Manifest.getChat().toLowerCase().contains("discord")) {
 					setDiscord(v3Manifest.getChat());
 				} else if (v3Manifest.getChat().toLowerCase().contains("irc")) {
 					setIrc(v3Manifest.getChat());
 				} else {
 					setOthers(new ArrayList<NameUrlPair>() {{
-						add(new NameUrlPairImpl(null, v3Manifest.getChat()));
+						add(new BasicNameUrlPair(null, v3Manifest.getChat()));
 					}});
 				}
 			}});
@@ -112,14 +112,14 @@ public class Spec3ToSpec4ManifestCompat {
 		ModVersion v3Version
 	)
 	{
-		return new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModVersionImpl(v4Manifest) {{
+		return new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersion(v4Manifest) {{
 			ModManifest v3Manifest = v3Version.getParentManifest();
 
 			// Copy version metadata
 			setVersion(v3Version.getVersion());
 
 			// Copy version variant
-			ModVersionVariantImpl variant = new ModVersionVariantImpl(this) {{
+			BasicModVersionVariant variant = new BasicModVersionVariant(this) {{
 				setLoaders(v3Version.getLoaders());
 				setMinecraftVersions(v3Version.getMinecraftVersions());
 				setChannel(null);
@@ -130,7 +130,7 @@ public class Spec3ToSpec4ManifestCompat {
 				setMd5(v3Version.getMd5());
 
 				// Copy environment
-				setEnvironment(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModEnvironmentImpl(this) {{
+				setEnvironment(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModEnvironment(this) {{
 					switch (v3Manifest.getSide()) {
 						case "client":
 							setClient("required");
@@ -147,34 +147,34 @@ public class Spec3ToSpec4ManifestCompat {
 
 				setDepends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
 					for (ModPackage v3DependentPackage : v3Version.getDepends()) {
-						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3DependentPackage.getPackageId()) {{
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage(v3DependentPackage.getPackageId()) {{
 							setVersion(v3DependentPackage.getVersion());
 						}});
 					}
 				}});
 				setBreaks(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
 					for (ModPackage v3BreakingPackage : v3Version.getBreaks()) {
-						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3BreakingPackage.getPackageId()) {{
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage(v3BreakingPackage.getPackageId()) {{
 							setVersion(v3BreakingPackage.getVersion());
 						}});
 					}
 				}});
 				setRecommends(new ArrayList<com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage>() {{
 					for (ModPackage v3RecommendedPackage : v3Version.getRecommends()) {
-						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.ModPackageImpl(v3RecommendedPackage.getPackageId()) {{
+						add(new com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage(v3RecommendedPackage.getPackageId()) {{
 							setVersion(v3RecommendedPackage.getVersion());
 						}});
 					}
 				}});
 
 				// Copy third party ids
-				setThirdPartyIds(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModThirdPartyIdsImpl(this) {{
+				setThirdPartyIds(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModThirdPartyIds(this) {{
 					setCurseforge(v3Manifest.getThirdPartyIds().getCurseforge());
 					setModrinth(v3Manifest.getThirdPartyIds().getModrinth());
 				}});
 
 				// Copy version download page urls
-				setDownloadPageUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
+				setDownloadPageUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModDownloads(this) {{
 					for (ModDownload v3Download : v3Version.getDownloadPageUrls()) {
 						String url = v3Download.getUrl();
 						switch (v3Download.getName().toLowerCase()) {
@@ -190,14 +190,14 @@ public class Spec3ToSpec4ManifestCompat {
 								setSourceControl(url);
 								break;
 							default:
-								addOther(new NameUrlPairImpl(v3Download.getName(), url));
+								addOther(new BasicNameUrlPair(v3Download.getName(), url));
 								break;
 						}
 					}
 				}});
 
 				// Copy version file urls
-				setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.ModDownloadsImpl(this) {{
+				setFileUrls(new com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModDownloads(this) {{
 					for (ModDownload v3Download : v3Version.getFileUrls()) {
 						String url = v3Download.getUrl();
 						switch (v3Download.getName().toLowerCase()) {
@@ -213,7 +213,7 @@ public class Spec3ToSpec4ManifestCompat {
 								setSourceControl(url);
 								break;
 							default:
-								addOther(new NameUrlPairImpl(v3Download.getName(), url));
+								addOther(new BasicNameUrlPair(v3Download.getName(), url));
 								break;
 						}
 					}
