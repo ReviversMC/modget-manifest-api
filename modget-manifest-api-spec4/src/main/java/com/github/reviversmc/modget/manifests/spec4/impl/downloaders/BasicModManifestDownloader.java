@@ -10,17 +10,25 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModChats;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.BasicLookupTableEntry;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModAuthor;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModChats;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModManifest;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersion;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -117,21 +125,30 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
 		);
 
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		final InjectableValues.Std injectableValues = new InjectableValues.Std();
-        injectableValues.addValue(ModPackage.class, modPackage);
-        injectableValues.addValue(LookupTableEntry.class, entry);
-        injectableValues.addValue(ModManifest.class, null);
-        injectableValues.addValue(ModVersion.class, null);
-        injectableValues.addValue(String.class, null);
-        mapper.setInjectableValues(injectableValues);
+        // Mapper default config
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+        // Deserialize interfaces with correct implementations
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
+        simpleModule.addAbstractTypeMapping(ModAuthor.class, BasicModAuthor.class);
+        simpleModule.addAbstractTypeMapping(ModChats.class, BasicModChats.class);
+        simpleModule.addAbstractTypeMapping(ModVersion.class, BasicModVersion.class);
+        mapper.registerModule(simpleModule);
+        // Inject correct parent objects
+		final InjectableValues.Std injectableValues = new InjectableValues.Std();
+        injectableValues.addValue(BasicModPackage.class, modPackage);
+        injectableValues.addValue(BasicLookupTableEntry.class, entry);
+        injectableValues.addValue(BasicModManifest.class, null);
+        injectableValues.addValue(BasicModVersion.class, null);
+        injectableValues.addValue(String.class, null);
+        mapper.setInjectableValues(injectableValues);
 
 		ModManifest modManifest;
 
 		try {
-			modManifest = mapper.readValue(new URL(uri), ModManifest.class);
+			modManifest = mapper.readValue(new URL(uri), BasicModManifest.class);
 		} catch (Exception e) {
 			if (e instanceof UnknownHostException) {
 				ManifestApiLogger.logWarn(String.format("An error occurred while fetching the %s manifest. Please check your Internet connection!", packageIdWithRepo), ExceptionUtils.getStackTrace(e));

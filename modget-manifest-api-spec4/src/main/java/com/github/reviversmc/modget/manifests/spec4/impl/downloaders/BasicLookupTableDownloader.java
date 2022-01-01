@@ -10,15 +10,19 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
+import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.BasicLookupTable;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.BasicLookupTableEntry;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -66,7 +70,7 @@ public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
 				try {
 					Class<?> Spec3ToSpec4LookupTableCompat = Class.forName(backCompatClassPath);
 					Method method = Spec3ToSpec4LookupTableCompat.getMethod(convertMethodName, formalParameters);
-					Object newInstance = Spec3ToSpec4LookupTableCompat.newInstance();
+					Object newInstance = Spec3ToSpec4LookupTableCompat.getDeclaredConstructor().newInstance();
 					Object value = method.invoke(newInstance, effectiveParameters);
 
 					return (LookupTable)value;
@@ -93,17 +97,23 @@ public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
 		}
 
 
-		final LookupTable lookupTable = new BasicLookupTable(repo);
-		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		final InjectableValues.Std injectableValues = new InjectableValues.Std();
-        injectableValues.addValue(LookupTable.class, lookupTable);
-        mapper.setInjectableValues(injectableValues);
+		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        // Mapper default config
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+        // Deserialize interfaces with correct implementations
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
+        mapper.registerModule(simpleModule);
+        // Inject correct parent objects
+		InjectableValues.Std injectableValues = new InjectableValues.Std();
+		LookupTable lookupTable = new BasicLookupTable(repo);
+        injectableValues.addValue(BasicLookupTable.class, lookupTable);
+        mapper.setInjectableValues(injectableValues);
 
 		try {
-			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), LookupTableEntry[].class));
+			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), BasicLookupTableEntry[].class));
 
 			lookupTable.setEntries(entries);
 

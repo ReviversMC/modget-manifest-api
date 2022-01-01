@@ -9,17 +9,26 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
-import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
+import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModDownloads;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModEnvironment;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersion;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModVersionVariant;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.mod.BasicModPackage;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -84,21 +93,30 @@ public class BasicModVersionDownloader extends RepoHandlingUtilsBase {
 			version
 		);
 
-		final ModVersion modVersion = new BasicModVersion(modManifest);
 		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		final InjectableValues.Std injectableValues = new InjectableValues.Std();
-        injectableValues.addValue(ModVersion.class, modVersion);
-        injectableValues.addValue(ModVersionVariant.class, null);
-        injectableValues.addValue(String.class, null);
-        mapper.setInjectableValues(injectableValues);
+        // Mapper default config
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+        // Deserialize interfaces with correct implementations
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addAbstractTypeMapping(ModEnvironment.class, BasicModEnvironment.class);
+        simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
+        simpleModule.addAbstractTypeMapping(ModThirdPartyIds.class, BasicModThirdPartyIds.class);
+        simpleModule.addAbstractTypeMapping(ModDownloads.class, BasicModDownloads.class);
+        mapper.registerModule(simpleModule);
+        // Inject correct parent objects
+		final InjectableValues.Std injectableValues = new InjectableValues.Std();
+		final ModVersion modVersion = new BasicModVersion(modManifest);
+        injectableValues.addValue(BasicModVersion.class, modVersion);
+        injectableValues.addValue(BasicModVersionVariant.class, null);
+        injectableValues.addValue(String.class, null);
+        mapper.setInjectableValues(injectableValues);
 
 		modVersion.setVersion(version);
 
 		try {
-			List<ModVersionVariant> modVersionVariants = Arrays.asList(mapper.readValue(new URL(uri), ModVersionVariant[].class));
+			List<ModVersionVariant> modVersionVariants = Arrays.asList(mapper.readValue(new URL(uri), BasicModVersionVariant[].class));
 
 			modVersion.setVariants(modVersionVariants);
 
