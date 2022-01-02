@@ -3,11 +3,9 @@ package com.github.reviversmc.modget.manifests.compat.spec3;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.github.reviversmc.modget.manifests.TestConfig;
+import com.github.reviversmc.modget.manifests.compat.TestConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.BasicManifestRepository;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Test;
 
 public class Spec3ToSpec4LookupTableCompatTest {
@@ -23,7 +21,7 @@ public class Spec3ToSpec4LookupTableCompatTest {
 		try {
 			assertTrue(repo.getOrDownloadLookupTable().getEntries().get(0).getId() != "");
 		} catch (Exception e) {
-			fail(ExceptionUtils.getStackTrace(e));
+			fail(e);
 		}
 	}
 }

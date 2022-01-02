@@ -3,7 +3,6 @@ package com.github.reviversmc.modget.manifests.spec4;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.github.reviversmc.modget.manifests.TestConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
@@ -15,7 +14,6 @@ import com.github.reviversmc.modget.manifests.spec4.impl.data.BasicManifestRepos
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModManifestDownloader;
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModVersionDownloader;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.Test;
 
 public class Main {
@@ -53,7 +51,7 @@ public class Main {
 		try {
 			assertTrue(repo.getOrDownloadLookupTable().getEntries().get(0).getId() != "");
 		} catch (Exception e) {
-			fail(ExceptionUtils.getStackTrace(e));
+			fail(e);
 		}
 	}
 }

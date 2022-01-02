@@ -3,7 +3,7 @@ package com.github.reviversmc.modget.manifests.spec3.util;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.reviversmc.modget.manifests.TestConfig;
+import com.github.reviversmc.modget.manifests.spec3.TestConfig;
 import com.github.reviversmc.modget.manifests.spec3.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec3.impl.data.ManifestRepositoryImpl;
 
