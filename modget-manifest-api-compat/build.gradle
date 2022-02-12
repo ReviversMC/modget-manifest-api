@@ -1,4 +1,0 @@
-dependencies {
-	implementation project(':modget-manifest-api-spec3')
-	implementation project(':modget-manifest-api-spec4')
-}

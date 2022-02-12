@@ -9,6 +9,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupT
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModChats;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModStatus;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModVersionDownloader;
@@ -19,7 +20,7 @@ public class BasicModManifest implements ModManifest {
 	private String manifestSpecVersion;
 	private String publisher;
 	private List<String> iconUrls;
-	private String status;
+	private ModStatus status;
 	private List<ModPackage> updatedAlternatives;
 	private String name;
 	private String description;
@@ -108,12 +109,12 @@ public class BasicModManifest implements ModManifest {
 
 
 	@Override
-	public String getStatus() {
+	public ModStatus getStatus() {
 		return status;
 	}
 
 	@Override
-	public void setStatus(String status) {
+	public void setStatus(ModStatus status) {
 		this.status = status;
 	}
 

@@ -10,8 +10,8 @@ public interface ModVersionVariant {
 	public void setParentVersion(ModVersion parentVersion);
 
 
-	public List<String> getLoaders();
-	public void setLoaders(List<String> loaders);
+	public List<ModLoader> getLoaders();
+	public void setLoaders(List<ModLoader> loaders);
 
 	public List<String> getMinecraftVersions() ;
 	public void setMinecraftVersions(List<String> minecraftVersions);
@@ -19,8 +19,8 @@ public interface ModVersionVariant {
 	public ModEnvironment getEnvironment();
 	public void setEnvironment(ModEnvironment environment);
 
-	public String getChannel();
-	public void setChannel(String channel);
+	public ReleaseChannel getChannel();
+	public void setChannel(ReleaseChannel channel);
 
 	public List<ModPackage> getDepends();
 	public void setDepends(List<ModPackage> modPackages);
@@ -43,8 +43,8 @@ public interface ModVersionVariant {
 	public String getLicense();
 	public void setLicense(String license);
 
-	public String getFileType();
-	public void setFileType(String fileType);
+	public ModFileType getFileType();
+	public void setFileType(ModFileType fileType);
 
 	public String getMd5();
 	public void setMd5(String md5);

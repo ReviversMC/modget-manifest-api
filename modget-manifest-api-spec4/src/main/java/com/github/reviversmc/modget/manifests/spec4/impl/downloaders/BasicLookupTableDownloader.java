@@ -1,6 +1,5 @@
 package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
 
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -44,51 +43,17 @@ public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
-		final String backCompatClassPath = "com.github.reviversmc.modget.manifests.compat.spec3.Spec3ToSpec4LookupTableCompat";
-		boolean backCompatModuleAvailable;
-		try {
-			Class.forName(backCompatClassPath);
-			backCompatModuleAvailable = true;
-		} catch(ClassNotFoundException e) {
-			backCompatModuleAvailable = false;
-		}
-
 
 		boolean notSupported = false;
 		if (MAX_SHARED_VERSION == -1) {
 			notSupported = true;
 		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
-			if (backCompatModuleAvailable == false) {
-				notSupported = true;
-			} else {
-				ManifestApiLogger.logInfo("Utilizing back-compat module...");
-
-				String convertMethodName = "downloadAndConvertLookupTable";
-				Class<?>[] formalParameters = { ManifestRepository.class };
-				Object[] effectiveParameters = new Object[] { repo };
-
-				try {
-					Class<?> Spec3ToSpec4LookupTableCompat = Class.forName(backCompatClassPath);
-					Method method = Spec3ToSpec4LookupTableCompat.getMethod(convertMethodName, formalParameters);
-					Object newInstance = Spec3ToSpec4LookupTableCompat.getDeclaredConstructor().newInstance();
-					Object value = method.invoke(newInstance, effectiveParameters);
-
-					return (LookupTable)value;
-
-				} catch (Exception e) {
-					ManifestApiLogger.logWarn("Back-compat module has failed!", ExceptionUtils.getStackTrace(e));
-					notSupported = true;
-				}
-			}
+            notSupported = true;
 		}
 
 		if (notSupported) {
 			List<String> versions;
-			if (backCompatModuleAvailable == true) {
-				versions = ManifestApiConfig.KNOWN_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList());
-			} else {
-				versions = Arrays.asList(Integer.toString(ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC));
-			}
+            versions = ManifestApiConfig.KNOWN_MANIFEST_SPECS.stream().map(Object::toString).collect(Collectors.toList());
 			throw new VersionNotSupportedException(String.format(
 				"This version of the Manifest API doesn't support any of the manifest specifications provided by Repo%s!",
 				repo.getId()

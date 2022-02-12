@@ -24,8 +24,8 @@ public interface ModManifest {
 	public List<String> getIconUrls();
 	public void setIconUrls(List<String> iconUrls);
 
-	public String getStatus();
-	public void setStatus(String status);
+	public ModStatus getStatus();
+	public void setStatus(ModStatus status);
 
 	public List<ModPackage> getUpdatedAlternatives();
 	public void setUpdatedAlternatives(List<ModPackage> updatedAlternatives);

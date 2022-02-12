@@ -2,13 +2,14 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.EnvironmentStatus;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
 
 public class BasicModEnvironment implements ModEnvironment {
 	private ModVersionVariant parentModVersionVariant;
-	private String server;
-	private String client;
+	private EnvironmentStatus server;
+	private EnvironmentStatus client;
 
 
 	public BasicModEnvironment(@JacksonInject ModVersionVariant parentModVersionVariant) {
@@ -30,23 +31,23 @@ public class BasicModEnvironment implements ModEnvironment {
 
 
 	@Override
-	public String getServer() {
+	public EnvironmentStatus getServer() {
 		return server;
 	}
 
 	@Override
-	public void setServer(String server) {
+	public void setServer(EnvironmentStatus server) {
 		this.server = server;
 	}
 
 
 	@Override
-	public String getClient() {
+	public EnvironmentStatus getClient() {
 		return client;
 	}
 
 	@Override
-	public void setClient(String client) {
+	public void setClient(EnvironmentStatus client) {
 		this.client = client;
 	}
 

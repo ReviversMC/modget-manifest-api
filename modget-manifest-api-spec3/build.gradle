@@ -1,7 +1,0 @@
-dependencies {
-	// jackson for reading YAML
-	implementation "com.fasterxml.jackson.core:jackson-core:${project.jackson_version}"
-	implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${project.jackson_version}"
-	implementation "com.fasterxml.jackson.core:jackson-databind:${project.jackson_version}"
-	implementation "com.fasterxml.jackson.core:jackson-annotations:${project.jackson_version}"
-}

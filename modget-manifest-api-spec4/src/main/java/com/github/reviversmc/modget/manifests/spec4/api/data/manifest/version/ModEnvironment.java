@@ -6,10 +6,10 @@ public interface ModEnvironment {
 	public void setParentModVersionVariant(ModVersionVariant parentVersion);
 
 
-	public String getServer();
-	public void setServer(String supportStatus);
+	public EnvironmentStatus getServer();
+	public void setServer(EnvironmentStatus supportStatus);
 
-	public String getClient();
-	public void setClient(String supportStatus);
+	public EnvironmentStatus getClient();
+	public void setClient(EnvironmentStatus supportStatus);
 
 }

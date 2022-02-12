@@ -7,17 +7,20 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModFileType;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModLoader;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModThirdPartyIds;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersion;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModVersionVariant;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ReleaseChannel;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
 public class BasicModVersionVariant implements ModVersionVariant {
 	private ModVersion parentVersion;
-	private List<String> loaders;
+	private List<ModLoader> loaders;
 	private List<String> minecraftVersions;
 	private ModEnvironment environment;
-	private String channel;
+	private ReleaseChannel channel;
 	private List<ModPackage> depends;
 	private List<ModPackage> bundles;
 	private List<ModPackage> breaks;
@@ -25,7 +28,7 @@ public class BasicModVersionVariant implements ModVersionVariant {
 	private List<ModPackage> recommends;
 	private ModThirdPartyIds thirdPartyIds;
 	private String license;
-	private String fileType;
+	private ModFileType fileType;
 	private String md5;
 	private ModDownloads downloadPageUrls;
 	private ModDownloads fileUrls;
@@ -58,12 +61,12 @@ public class BasicModVersionVariant implements ModVersionVariant {
 
 
 	@Override
-	public List<String> getLoaders() {
+	public List<ModLoader> getLoaders() {
 		return loaders;
 	}
 
 	@Override
-	public void setLoaders(List<String> loaders) {
+	public void setLoaders(List<ModLoader> loaders) {
         if (loaders == null) {
             this.loaders.clear();
             return;
@@ -99,12 +102,12 @@ public class BasicModVersionVariant implements ModVersionVariant {
 
 
 	@Override
-	public String getChannel() {
+	public ReleaseChannel getChannel() {
 		return channel;
 	}
 
 	@Override
-	public void setChannel(String channel) {
+	public void setChannel(ReleaseChannel channel) {
 		this.channel = channel;
 	}
 
@@ -207,12 +210,12 @@ public class BasicModVersionVariant implements ModVersionVariant {
 
 
 	@Override
-	public String getFileType() {
+	public ModFileType getFileType() {
 		return fileType;
 	}
 
 	@Override
-	public void setFileType(String fileType) {
+	public void setFileType(ModFileType fileType) {
 		this.fileType = fileType;
 	}
 
