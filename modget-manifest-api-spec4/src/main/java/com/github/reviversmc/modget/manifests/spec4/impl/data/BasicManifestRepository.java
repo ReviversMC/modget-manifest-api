@@ -13,7 +13,6 @@ public class BasicManifestRepository implements ManifestRepository {
 	private String uri;
 	private List<Integer> availableManifestSpecMajorVersions;
 	private LookupTable lookupTable;
-	private boolean enabled = true;
 
 	public BasicManifestRepository(int id, String uri) {
 		this.id = id;
@@ -90,17 +89,6 @@ public class BasicManifestRepository implements ManifestRepository {
 	@Override
 	public void setLookupTable(LookupTable lookupTable) {
 		this.lookupTable = lookupTable;
-	}
-
-
-	@Override
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 }

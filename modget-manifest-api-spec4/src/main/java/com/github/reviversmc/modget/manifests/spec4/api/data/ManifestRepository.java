@@ -22,7 +22,4 @@ public interface ManifestRepository {
 	public LookupTable getOrDownloadLookupTable() throws Exception;
 	public void setLookupTable(LookupTable lookupTable);
 
-	public boolean isEnabled();
-	public void setEnabled(boolean enabled);
-
 }
