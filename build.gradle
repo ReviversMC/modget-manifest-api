@@ -7,18 +7,7 @@ plugins {
 
 
 def getProjectVersion(project) {
-	// Get the version from the gradle.properties file
-	def version = project.properties["${project.name}-version"]
-
-    if (project.name.equals("modget-manifest-api")) {
-        version = project.properties.version
-    }
-
-	if (!version) {
-		throw new NullPointerException("Could not find version for " + project.name)
-	}
-
-    return version
+    return project.properties.version
 }
 
 def getProjectShortName(project) {
