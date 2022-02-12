@@ -42,7 +42,7 @@ public class BasicManifestRepositoryUtils {
      * and an additional 10 specs upwards if they are supported
      */
     public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
-		final int MAX_VERSIONS_TO_CHECK = 10;
+		final int MAX_VERSIONS_TO_CHECK = 2;
 		final List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
 		for (int version = 3; version < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC + MAX_VERSIONS_TO_CHECK; version++) {
