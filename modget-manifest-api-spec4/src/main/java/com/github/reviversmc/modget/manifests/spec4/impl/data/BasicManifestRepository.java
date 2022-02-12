@@ -29,7 +29,6 @@ public class BasicManifestRepository implements ManifestRepository {
 	@Override
 	public void refresh() throws Exception {
 		setSupportedManifestSpecMajorVersions(BasicManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
-		lookupTable = BasicLookupTableDownloader.create().downloadLookupTable(this);
 	}
 
 
