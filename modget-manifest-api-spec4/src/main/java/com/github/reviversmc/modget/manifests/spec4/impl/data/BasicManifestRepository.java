@@ -6,7 +6,7 @@ import java.util.List;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicLookupTableDownloader;
-import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicManifestRepositoryUtils;
+import com.github.reviversmc.modget.manifests.spec4.impl.util.BasicManifestRepositoryUtils;
 
 public class BasicManifestRepository implements ManifestRepository {
 	private int id;

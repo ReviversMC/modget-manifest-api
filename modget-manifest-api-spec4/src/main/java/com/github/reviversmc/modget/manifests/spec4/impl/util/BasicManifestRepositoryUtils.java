@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.impl.downloaders;
+package com.github.reviversmc.modget.manifests.spec4.impl.util;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
