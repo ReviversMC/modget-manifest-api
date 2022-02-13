@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
@@ -50,19 +50,19 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
 	}
 
 
-	public ModManifest downloadModManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
+	public BasicModManifest downloadModManifest(LookupTableEntry entry, ModPackage modPackage) throws Exception {
 		ManifestRepository repo = entry.getParentLookupTable().getParentRepository();
-		final int MAX_AVAILABLE_VERSION = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
-		final int MAX_SHARED_VERSION = findMaxSharedInt(
+		int maxAvailableVersion = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
+		int maxSharedVersion = findMaxSharedInt(
 			ManifestApiConfig.KNOWN_MANIFEST_SPECS,
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
 
 		boolean notSupported = false;
-		if (MAX_SHARED_VERSION == -1) {
+		if (maxSharedVersion == -1) {
 			notSupported = true;
-		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
+		} else if (maxAvailableVersion < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
             notSupported = true;
 		}
 
@@ -77,18 +77,19 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
 		}
 
 
-		final String packageIdWithRepo = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
-		final String uri = assembleUri(
+		String packageIdWithRepo = String.format("Repo%s.%s", repo.getId(), modPackage.getPackageId());
+		String uri = assembleUri(
 			repo.getUri(),
-			MAX_SHARED_VERSION,
+			maxSharedVersion,
 			modPackage
 		);
 
-		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        // Mapper default config
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+		YAMLMapper mapper = new YAMLMapper().builder()
+			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+			.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
+			.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
+			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+			.build();
         // Deserialize interfaces with correct implementations
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
@@ -97,15 +98,15 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
         simpleModule.addAbstractTypeMapping(ModVersion.class, BasicModVersion.class);
         mapper.registerModule(simpleModule);
         // Inject correct parent objects
-		final InjectableValues.Std injectableValues = new InjectableValues.Std();
-        injectableValues.addValue(BasicModPackage.class, modPackage);
-        injectableValues.addValue(BasicLookupTableEntry.class, entry);
-        injectableValues.addValue(BasicModManifest.class, null);
-        injectableValues.addValue(BasicModVersion.class, null);
+		InjectableValues.Std injectableValues = new InjectableValues.Std();
+        injectableValues.addValue(ModPackage.class, modPackage);
+        injectableValues.addValue(LookupTableEntry.class, entry);
+        injectableValues.addValue(ModManifest.class, null);
+        injectableValues.addValue(ModVersion.class, null);
         injectableValues.addValue(String.class, null);
         mapper.setInjectableValues(injectableValues);
 
-		ModManifest modManifest;
+		BasicModManifest modManifest;
 
 		try {
 			modManifest = mapper.readValue(new URL(uri), BasicModManifest.class);
@@ -125,7 +126,7 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
 	}
 
 
-	private void setMissingReferences(ModManifest modManifest) {
+	private void setMissingReferences(BasicModManifest modManifest) {
 		// Authors
 		for (ModAuthor author : modManifest.getAuthors()) {
 			author.setParentManifest(modManifest);

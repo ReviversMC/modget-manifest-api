@@ -39,13 +39,12 @@ public class BasicManifestRepositoryUtils {
 
     /**
      * Checks the all manifest specs between the v3 and the currently supported max version
-     * and an additional 10 specs upwards if they are supported
+     * and a additional X specs upwards if they are supported
      */
-    public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo) {
-		final int MAX_VERSIONS_TO_CHECK = 2;
-		final List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
+    public List<Integer> getAvailableManifestSpecMajorVersions(ManifestRepository repo, int maxVersionsToCheck) {
+		List<Integer> availableManifestSpecMajorVersions = new ArrayList<>();
 
-		for (int version = 3; version < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC + MAX_VERSIONS_TO_CHECK; version++) {
+		for (int version = 3; version < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC + maxVersionsToCheck; version++) {
 			try {
 				if (doesRepoSupportMajorSpecVersion(repo, version) == true) {
 					availableManifestSpecMajorVersions.add(version);
@@ -62,11 +61,11 @@ public class BasicManifestRepositoryUtils {
      * Checks if a manifest repository supports newer manifest specs than the currently supported max
      * by this version of the API
      */
-    public boolean checkForNewVersion(ManifestRepository repo) {
-		List<Integer> availableManifestSpecMajorVersions = getAvailableManifestSpecMajorVersions(repo);
-		final int MAX_AVAILABLE_VERSION = availableManifestSpecMajorVersions.get(availableManifestSpecMajorVersions.size() - 1);
+    public boolean checkForNewVersion(ManifestRepository repo, int maxVersionsToCheck) {
+		List<Integer> availableManifestSpecMajorVersions = getAvailableManifestSpecMajorVersions(repo, maxVersionsToCheck);
+		int maxAvailableVersion = availableManifestSpecMajorVersions.get(availableManifestSpecMajorVersions.size() - 1);
 
-		if (MAX_AVAILABLE_VERSION > ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
+		if (maxAvailableVersion > ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
 			return true;
 		}
 		return false;

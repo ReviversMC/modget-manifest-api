@@ -28,7 +28,7 @@ public class BasicManifestRepository implements ManifestRepository {
 
 	@Override
 	public void refresh() throws Exception {
-		setSupportedManifestSpecMajorVersions(BasicManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this));
+		setSupportedManifestSpecMajorVersions(BasicManifestRepositoryUtils.create().getAvailableManifestSpecMajorVersions(this, 2));
 	}
 
 

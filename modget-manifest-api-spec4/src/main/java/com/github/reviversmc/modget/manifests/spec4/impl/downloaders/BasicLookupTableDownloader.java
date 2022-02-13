@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
@@ -36,18 +36,18 @@ public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
     /**
      * Downloads the lookup table from the specified manifest repository
      */
-    public LookupTable downloadLookupTable(ManifestRepository repo) throws Exception {
-		final int MAX_AVAILABLE_VERSION = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
-		final int MAX_SHARED_VERSION = findMaxSharedInt(
+    public BasicLookupTable downloadLookupTable(ManifestRepository repo) throws Exception {
+		int maxAvailableVersion = repo.getAvailableManifestSpecMajorVersions().get(repo.getAvailableManifestSpecMajorVersions().size() - 1);
+		int maxSharedVersion = findMaxSharedInt(
 			ManifestApiConfig.KNOWN_MANIFEST_SPECS,
 			repo.getAvailableManifestSpecMajorVersions()
 		);
 
 
 		boolean notSupported = false;
-		if (MAX_SHARED_VERSION == -1) {
+		if (maxSharedVersion == -1) {
 			notSupported = true;
-		} else if (MAX_AVAILABLE_VERSION < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
+		} else if (maxAvailableVersion < ManifestApiSpec4Config.SUPPORTED_MANIFEST_SPEC) {
             notSupported = true;
 		}
 
@@ -62,23 +62,24 @@ public class BasicLookupTableDownloader extends RepoHandlingUtilsBase {
 		}
 
 
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        // Mapper default config
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-		mapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+		YAMLMapper mapper = new YAMLMapper().builder()
+			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+			.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
+			.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
+			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+			.build();
         // Deserialize interfaces with correct implementations
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
         mapper.registerModule(simpleModule);
         // Inject correct parent objects
 		InjectableValues.Std injectableValues = new InjectableValues.Std();
-		LookupTable lookupTable = new BasicLookupTable(repo);
-        injectableValues.addValue(BasicLookupTable.class, lookupTable);
+		BasicLookupTable lookupTable = new BasicLookupTable(repo);
+        injectableValues.addValue(LookupTable.class, lookupTable);
         mapper.setInjectableValues(injectableValues);
 
 		try {
-			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), MAX_SHARED_VERSION)), BasicLookupTableEntry[].class));
+			List<LookupTableEntry> entries = Arrays.asList(mapper.readValue(new URL(String.format("%s/v%s/lookup-table.yaml", repo.getUri(), maxSharedVersion)), BasicLookupTableEntry[].class));
 
 			lookupTable.setEntries(entries);
 
