@@ -20,6 +20,7 @@ public interface ModPackage {
 	public void setLoaders(List<String> modLoaders);
 
 	public List<ModManifest> getManifests();
+	public List<ModManifest> downloadManifests(List<ManifestRepository> repos) throws Exception;
 	public List<ModManifest> getOrDownloadManifests(List<ManifestRepository> repos) throws Exception;
 	public void addManifest(ModManifest manifest);
 	public void setManifests(List<ModManifest> manifests);

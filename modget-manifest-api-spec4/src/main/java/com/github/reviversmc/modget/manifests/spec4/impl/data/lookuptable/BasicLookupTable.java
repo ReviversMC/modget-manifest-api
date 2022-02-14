@@ -38,9 +38,17 @@ public class BasicLookupTable implements LookupTable {
 	}
 
 	@Override
+    @JsonIgnore
+	public List<LookupTableEntry> downloadEntries() throws Exception {
+		setEntries(BasicLookupTableDownloader.create().downloadLookupTable(parentRepository).getEntries());
+        return lookupTableEntries;
+	}
+
+	@Override
+    @JsonIgnore
 	public List<LookupTableEntry> getOrDownloadEntries() throws Exception {
         if (lookupTableEntries.isEmpty()) {
-            setEntries(BasicLookupTableDownloader.create().downloadLookupTable(parentRepository).getEntries());
+            downloadEntries();
         }
 		return lookupTableEntries;
 	}

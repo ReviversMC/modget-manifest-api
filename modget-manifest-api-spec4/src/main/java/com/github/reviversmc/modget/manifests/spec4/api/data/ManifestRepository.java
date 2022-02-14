@@ -19,6 +19,7 @@ public interface ManifestRepository {
 	public void setSupportedManifestSpecMajorVersions(List<Integer> availableManifestSpecMajorVersions);
 
 	public LookupTable getLookupTable();
+	public LookupTable downloadLookupTable() throws Exception;
 	public LookupTable getOrDownloadLookupTable() throws Exception;
 	public void setLookupTable(LookupTable lookupTable);
 

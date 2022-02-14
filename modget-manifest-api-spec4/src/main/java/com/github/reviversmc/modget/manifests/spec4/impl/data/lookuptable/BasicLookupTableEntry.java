@@ -71,15 +71,23 @@ public class BasicLookupTableEntry implements LookupTableEntry {
 		return packages;
 	}
 
+    @Override
+    @JsonIgnore
+    public List<ModPackage> downloadPackages() throws Exception {
+        for (LookupTableEntry entry : BasicLookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
+            if (entry.getId().equals(this.getId())) {
+                setPackages(entry.getPackages());
+                break;
+            }
+        }
+        return packages;
+    }
+
 	@Override
+    @JsonIgnore
 	public List<ModPackage> getOrDownloadPackages() throws Exception {
         if (packages.isEmpty()) {
-            for (LookupTableEntry entry : BasicLookupTableDownloader.create().downloadLookupTable(parentLookupTable.getParentRepository()).getEntries()) {
-                if (entry.getId().equals(this.getId())) {
-                    setPackages(entry.getPackages());
-                    break;
-                }
-            }
+            downloadPackages();
         }
 		return packages;
 	}

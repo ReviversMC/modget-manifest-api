@@ -3,6 +3,7 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTable;
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicLookupTableDownloader;
@@ -77,10 +78,18 @@ public class BasicManifestRepository implements ManifestRepository {
 		return lookupTable;
 	}
 
+    @Override
+    @JsonIgnore
+    public LookupTable downloadLookupTable() throws Exception {
+        setLookupTable(BasicLookupTableDownloader.create().downloadLookupTable(this));
+        return lookupTable;
+    }
+
 	@Override
+    @JsonIgnore
 	public LookupTable getOrDownloadLookupTable() throws Exception {
         if (lookupTable == null) {
-            setLookupTable(BasicLookupTableDownloader.create().downloadLookupTable(this));
+            downloadLookupTable();
         }
 		return lookupTable;
 	}

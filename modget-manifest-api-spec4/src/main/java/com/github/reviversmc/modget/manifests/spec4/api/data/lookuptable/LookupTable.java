@@ -9,29 +9,37 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 public interface LookupTable {
 
     /**
-	 * Gets the parent manifest repository
-	 */
-	public ManifestRepository getParentRepository();
-    /**
-	 * Sets the parent repository
-	 */
-	public void setParentRepository(ManifestRepository parentRepository);
+     * Gets the parent manifest repository
+     */
+
+    public ManifestRepository getParentRepository();
 
     /**
-	 * Gets all entries of this lookup table.
-     * Cannot return null.
-	 */
-    @Nonnull
-	public List<LookupTableEntry> getEntries();
+     * Sets the parent repository
+     */
+    public void setParentRepository(ManifestRepository parentRepository);
+
     /**
-	 * Gets all entries of this lookup table if downloaded, otherwise downloads them.
-     * Cannot return null.
-	 */
+     * Gets all entries of this lookup table
+     */
     @Nonnull
-	public List<LookupTableEntry> getOrDownloadEntries() throws Exception;
+    public List<LookupTableEntry> getEntries();
+
     /**
-	 * Overrides the already set lookup table entries.
-	 */
-	public void setEntries(List<LookupTableEntry> lookupTableEntries);
+     * Downloads all entries of this lookup table
+     */
+    @Nonnull
+    public List<LookupTableEntry> downloadEntries() throws Exception;
+
+    /**
+     * Gets all entries of this lookup table if downloaded, otherwise downloads them
+     */
+    @Nonnull
+    public List<LookupTableEntry> getOrDownloadEntries() throws Exception;
+
+    /**
+     * Overrides the already set lookup table entries
+     */
+    public void setEntries(List<LookupTableEntry> lookupTableEntries);
 
 }

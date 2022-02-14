@@ -119,22 +119,30 @@ public class BasicModPackage implements ModPackage {
 		return manifests;
 	}
 
+    @Override
+    @JsonIgnore
+    public List<ModManifest> downloadManifests(List<ManifestRepository> repos) throws Exception {
+        manifests.clear();
+        for (ManifestRepository repo : repos) {
+            if (repo.getOrDownloadLookupTable() == null) continue;
+
+            for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
+                if (entry.getId().equals(this.modId)) {
+                    for (ModPackage modPackage : entry.getOrDownloadPackages()) {
+                        this.addManifest(BasicModManifestDownloader.create().downloadModManifest(entry, this));
+                    }
+                    break;
+                }
+            }
+        }
+        return manifests;
+    }
+
 	@Override
     @JsonIgnore
 	public List<ModManifest> getOrDownloadManifests(List<ManifestRepository> repos) throws Exception {
         if (manifests.isEmpty()) {
-            for (ManifestRepository repo : repos) {
-                if (repo.getOrDownloadLookupTable() == null) continue;
-
-                for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
-                    if (entry.getId().equals(this.modId)) {
-                        for (ModPackage modPackage : entry.getOrDownloadPackages()) {
-                            this.addManifest(BasicModManifestDownloader.create().downloadModManifest(entry, this));
-                        }
-                        break;
-                    }
-                }
-            }
+            downloadManifests(repos);
         }
 		return manifests;
 	}

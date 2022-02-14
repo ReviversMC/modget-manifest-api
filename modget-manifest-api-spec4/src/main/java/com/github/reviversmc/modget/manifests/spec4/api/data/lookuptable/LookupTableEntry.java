@@ -8,54 +8,69 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 
 public interface LookupTableEntry {
 
-	public LookupTable getParentLookupTable();
-	public void setParentLookupTable(LookupTable parentLookupTable);
+    public LookupTable getParentLookupTable();
+
+    public void setParentLookupTable(LookupTable parentLookupTable);
 
     /**
-	 * Gets the mod ID of the current entry
-	 */
-	public String getId();
-    /**
-	 * Sets the mod ID of the current entry
-	 */
-	public void setId(String id);
+     * Gets the mod ID of the current entry
+     */
+    public String getId();
 
     /**
-	 * Gets all names of this mod that are not equal to the mod's ID. Cannot return null.
-	 */
-    @Nonnull
-	public List<String> getAlternativeNames();
-    /**
-	 * Sets all names of this mod that are not equal to the mod's ID.
-     * You can try to set it to null, but it will instead just clear the current list.
-	 */
-	public void setAlternativeNames(List<String> names);
+     * Sets the mod ID of the current entry
+     */
+    public void setId(String id);
 
     /**
-	 * Gets all tags associated with the current mod. Cannot return null.
-	 */
+     * Gets all names of this mod that are not equal to the mod's ID
+     */
     @Nonnull
-	public List<String> getTags();
-    /**
-	 * Sets the mod's tags. You can try to set it to null, but it will instead just clear the current list.
-	 */
-	public void setTags(List<String> tags);
+    public List<String> getAlternativeNames();
 
     /**
-	 * Gets all available packages for this mod. Cannot return null.
-	 */
-    @Nonnull
-	public List<ModPackage> getPackages();
+     * Sets all names of this mod that are not equal to the mod's ID.
+     * You can try to set it to null, but it will instead just clear the current
+     * list.
+     */
+    public void setAlternativeNames(List<String> names);
+
     /**
-	 * Gets all packages of this lookup table if downloaded, otherwise downloads them.
-     * Cannot return null.
-	 */
+     * Gets all tags associated with the current mod
+     */
     @Nonnull
-	public List<ModPackage> getOrDownloadPackages() throws Exception;
+    public List<String> getTags();
+
     /**
-	 * Sets the mod's available packages.
-     * You can try to set it to null, but it will instead just clear the current list.
-	 */
-	public void setPackages(List<ModPackage> packages);
+     * Sets the mod's tags. You can try to set it to null, but it will instead just
+     * clear the current list.
+     */
+    public void setTags(List<String> tags);
+
+    /**
+     * Gets all available packages for this mod
+     */
+    @Nonnull
+    public List<ModPackage> getPackages();
+
+    /**
+     * Downloads all available packages for this mod
+     */
+    @Nonnull
+    public List<ModPackage> downloadPackages() throws Exception;
+
+    /**
+     * Gets all packages of this lookup table if downloaded, otherwise downloads
+     * them
+     */
+    @Nonnull
+    public List<ModPackage> getOrDownloadPackages() throws Exception;
+
+    /**
+     * Sets the mod's available packages.
+     * You can try to set it to null, but it will instead just clear the current
+     * list.
+     */
+    public void setPackages(List<ModPackage> packages);
 
 }

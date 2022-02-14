@@ -58,6 +58,7 @@ public interface ModManifest {
 	public void setChats(ModChats chats);
 
 	public List<ModVersion> getVersions();
+	public List<ModVersion> downloadVersions() throws Exception;
 	public List<ModVersion> getOrDownloadVersions() throws Exception;
 	public void setVersions(List<ModVersion> versions);
 }

@@ -3,6 +3,7 @@ package com.github.reviversmc.modget.manifests.spec4.impl.data.mod;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.InstalledMod;
@@ -47,21 +48,29 @@ public class BasicInstalledMod implements InstalledMod {
 		return availablePackages;
 	}
 
-	@Override
-	public List<ModPackage> getOrDownloadAvailablePackages(List<ManifestRepository> repos) throws Exception {
-        if (availablePackages.isEmpty()) {
-            for (ManifestRepository repo : repos) {
-                if (repo.getOrDownloadLookupTable() == null) continue;
+    @Override
+    @JsonIgnore
+    public List<ModPackage> downloadAvailablePackages(List<ManifestRepository> repos) throws Exception {
+        for (ManifestRepository repo : repos) {
+            if (repo.getOrDownloadLookupTable() == null) continue;
 
-                for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
-                    if (entry.getId().equals(this.id)) {
-                        for (ModPackage modPackage : entry.getOrDownloadPackages()) {
-                            this.addAvailablePackage(modPackage);
-                        }
-                        break;
+            for (LookupTableEntry entry : repo.getLookupTable().getOrDownloadEntries()) {
+                if (entry.getId().equals(this.id)) {
+                    for (ModPackage modPackage : entry.getOrDownloadPackages()) {
+                        this.addAvailablePackage(modPackage);
                     }
+                    break;
                 }
             }
+        }
+        return availablePackages;
+    }
+
+	@Override
+    @JsonIgnore
+	public List<ModPackage> getOrDownloadAvailablePackages(List<ManifestRepository> repos) throws Exception {
+        if (availablePackages.isEmpty()) {
+            downloadAvailablePackages(repos);
         }
 		return availablePackages;
 	}

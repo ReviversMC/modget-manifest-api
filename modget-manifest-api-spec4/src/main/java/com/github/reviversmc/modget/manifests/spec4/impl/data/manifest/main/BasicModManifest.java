@@ -242,18 +242,26 @@ public class BasicModManifest implements ModManifest {
 		return versions;
 	}
 
+    @Override
+    @JsonIgnore
+    public List<ModVersion> downloadVersions() throws Exception {
+        List<ModVersion> versionsNew = new ArrayList<>(15);
+        for (ModVersion version : versions) {
+            if (version.getVariants().isEmpty()) {
+                versionsNew.add(BasicModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
+            } else {
+                versionsNew.add(version);
+            }
+        }
+        setVersions(versionsNew);
+        return versionsNew;
+    }
+
 	@Override
+    @JsonIgnore
 	public List<ModVersion> getOrDownloadVersions() throws Exception {
         if (versions != null || versions.size() != 0) {
-            List<ModVersion> versionsNew = new ArrayList<>(15);
-            for (ModVersion version : versions) {
-                if (version.getVariants().isEmpty()) {
-                    versionsNew.add(BasicModVersionDownloader.create().downloadModVersion(this, version.getVersion()));
-                } else {
-                    versionsNew.add(version);
-                }
-            }
-            setVersions(versionsNew);
+            downloadVersions();
         }
 		return versions;
 	}
