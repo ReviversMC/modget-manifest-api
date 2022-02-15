@@ -2,7 +2,7 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version;
 
 import java.util.List;
 
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.NameUrlPair;
+import com.github.reviversmc.modget.manifests.spec4.api.data.common.NameUrlPair;
 
 public interface ModDownloads {
 

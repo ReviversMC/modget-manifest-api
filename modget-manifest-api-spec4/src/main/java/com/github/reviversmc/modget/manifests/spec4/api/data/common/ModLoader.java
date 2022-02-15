@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common;
+package com.github.reviversmc.modget.manifests.spec4.api.data.common;
 
 /*
  * An enum of all (working) Minecraft mod loaders (sorted by launch date)

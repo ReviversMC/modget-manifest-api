@@ -3,7 +3,7 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.mod;
 import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
-import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.ModLoader;
+import com.github.reviversmc.modget.manifests.spec4.api.data.common.ModLoader;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 
 public interface ModPackage {

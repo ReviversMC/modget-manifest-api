@@ -1,4 +1,4 @@
-package com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common;
+package com.github.reviversmc.modget.manifests.spec4.api.data.common;
 
 public interface NameUrlPair {
 
