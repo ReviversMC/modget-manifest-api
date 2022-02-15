@@ -22,7 +22,6 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
 import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
-import com.github.reviversmc.modget.manifests.spec4.impl.data.lookuptable.BasicLookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModChats;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModManifest;

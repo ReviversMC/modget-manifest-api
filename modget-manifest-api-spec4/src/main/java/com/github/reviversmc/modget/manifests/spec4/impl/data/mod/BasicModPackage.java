@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.ModLoader;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.impl.downloaders.BasicModManifestDownloader;
@@ -16,7 +17,7 @@ public class BasicModPackage implements ModPackage {
 	private String packageId;
 	private String publisher;
 	private String modId;
-	private List<String> loaders;
+	private List<ModLoader> loaders;
 	private String version;
 	private List<ModManifest> manifests;
 
@@ -88,12 +89,12 @@ public class BasicModPackage implements ModPackage {
 
 
 	@Override
-	public List<String> getLoaders() {
+	public List<ModLoader> getLoaders() {
 		return loaders;
 	}
 
 	@Override
-	public void setLoaders(List<String> loaders) {
+	public void setLoaders(List<ModLoader> loaders) {
         if (loaders == null) {
             this.loaders.clear();
             return;

@@ -1,16 +1,21 @@
 {
 	"cSpell.enabled": true,
 	"cSpell.words": [
-		"Compat",
-		"curseforge",
-		"Deserialization",
-		"Gitea",
-		"gradlew",
-		"jitpack",
-		"Minecraft",
-		"Modget",
-		"modrinth"
-	],
+        "blazeloader",
+        "Compat",
+        "curseforge",
+        "Deserialization",
+        "Gitea",
+        "gradlew",
+        "jitpack",
+        "liteloader",
+        "minecraft",
+        "Minecraft",
+        "modders",
+        "Modget",
+        "modrinth",
+        "risugami"
+    ],
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"editor.bracketPairColorization.enabled": true
 }

@@ -3,6 +3,7 @@ package com.github.reviversmc.modget.manifests.spec4.api.data.mod;
 import java.util.List;
 
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
+import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.common.ModLoader;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 
 public interface ModPackage {
@@ -16,8 +17,8 @@ public interface ModPackage {
 	public String getModId();
 	public void setModId(String modId);
 
-	public List<String> getLoaders();
-	public void setLoaders(List<String> modLoaders);
+	public List<ModLoader> getLoaders();
+	public void setLoaders(List<ModLoader> modLoaders);
 
 	public List<ModManifest> getManifests();
 	public List<ModManifest> downloadManifests(List<ManifestRepository> repos) throws Exception;
