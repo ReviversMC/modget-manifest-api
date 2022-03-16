@@ -14,6 +14,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
+import com.github.reviversmc.modget.manifests.spec4.api.data.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModManifest;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModDownloads;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.ModEnvironment;
@@ -23,6 +24,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
 import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.BasicNameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModDownloads;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModEnvironment;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.version.BasicModThirdPartyIds;
@@ -104,6 +106,7 @@ public class BasicModVersionDownloader extends RepoHandlingUtilsBase {
         simpleModule.addAbstractTypeMapping(ModEnvironment.class, BasicModEnvironment.class);
         simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
         simpleModule.addAbstractTypeMapping(ModThirdPartyIds.class, BasicModThirdPartyIds.class);
+        simpleModule.addAbstractTypeMapping(NameUrlPair.class, BasicNameUrlPair.class);
         simpleModule.addAbstractTypeMapping(ModDownloads.class, BasicModDownloads.class);
         mapper.registerModule(simpleModule);
         // Inject correct parent objects

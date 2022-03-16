@@ -14,6 +14,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.github.reviversmc.modget.manifests.ManifestApiLogger;
 import com.github.reviversmc.modget.manifests.config.ManifestApiConfig;
 import com.github.reviversmc.modget.manifests.spec4.api.data.ManifestRepository;
+import com.github.reviversmc.modget.manifests.spec4.api.data.common.NameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.api.data.lookuptable.LookupTableEntry;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.main.ModChats;
@@ -22,6 +23,7 @@ import com.github.reviversmc.modget.manifests.spec4.api.data.manifest.version.Mo
 import com.github.reviversmc.modget.manifests.spec4.api.data.mod.ModPackage;
 import com.github.reviversmc.modget.manifests.spec4.api.exception.VersionNotSupportedException;
 import com.github.reviversmc.modget.manifests.spec4.config.ManifestApiSpec4Config;
+import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.common.BasicNameUrlPair;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModAuthor;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModChats;
 import com.github.reviversmc.modget.manifests.spec4.impl.data.manifest.main.BasicModManifest;
@@ -94,6 +96,7 @@ public class BasicModManifestDownloader extends RepoHandlingUtilsBase {
         simpleModule.addAbstractTypeMapping(ModPackage.class, BasicModPackage.class);
         simpleModule.addAbstractTypeMapping(ModAuthor.class, BasicModAuthor.class);
         simpleModule.addAbstractTypeMapping(ModChats.class, BasicModChats.class);
+        simpleModule.addAbstractTypeMapping(NameUrlPair.class, BasicNameUrlPair.class);
         simpleModule.addAbstractTypeMapping(ModVersion.class, BasicModVersion.class);
         mapper.registerModule(simpleModule);
         // Inject correct parent objects
